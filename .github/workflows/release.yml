@@ -1,0 +1,60 @@
+name: Publish to npm
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+
+jobs:
+  release:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org/
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Determine version bump
+        id: version
+        run: |
+          if [[ "${{ github.event.pull_request.title }}" == *"major"* ]]; then
+            echo "BUMP_TYPE=major" >> $GITHUB_ENV
+          elif [[ "${{ github.event.pull_request.title }}" == *"minor"* ]]; then
+            echo "BUMP_TYPE=minor" >> $GITHUB_ENV
+          else
+            echo "BUMP_TYPE=patch" >> $GITHUB_ENV
+          fi
+
+      - name: Bump version and push tag
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
+          npm version $BUMP_TYPE --no-git-tag-version
+          git commit -am "chore(release): 🔥 v$(node -p "require('./package.json').version")"
+          git tag v$(node -p "require('./package.json').version")
+          git push origin main --tags
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build package
+        run: npm run build
+
+      - name: Publish to npm
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -1,0 +1,60 @@
+{
+  "name": "@todovue/tv-article",
+  "private": false,
+  "author": "Cristhian Daza",
+  "description": "A Vue 3 component to show articles easily in your projects.",
+  "license": "MIT",
+  "version": "0.0.0",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TODOvue/tv-article.git"
+  },
+  "bugs": {
+    "url": "https://github.com/TODOvue/tv-article/issues"
+  },
+  "keywords": [
+    "todovue",
+    "front-end",
+    "web",
+    "vue",
+    "vuejs",
+    "vue-js",
+    "article",
+    "show-article",
+    "vue-article",
+    "vue-article-component"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/tv-article.es.js",
+      "require": "./dist/tv-article.cjs.js"
+    }
+  },
+  "main": "dist/tv-article.cjs.js",
+  "module": "dist/tv-article.es.js",
+  "types": "dist/tv-article.d.ts",
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:demo": "cp README.md public/ && VITE_BUILD_TARGET=demo vite build"
+  },
+  "peerDependencies": {
+    "vue": "^3.0.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.0",
+    "sass": "^1.0.0",
+    "vite": "^7.0.0",
+    "vite-plugin-css-injected-by-js": "^3.0.0",
+    "vite-plugin-dts": "^4.0.0"
+  }
+}
