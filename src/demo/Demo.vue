@@ -9,6 +9,7 @@ const TvArticle = defineAsyncComponent(/* webpackChunkName: "TvArticle" */() => 
 
 <template>
   <tv-demo
+    hide-background
     :component="TvArticle"
     :variants="demos"
     nameComponent="TvArticle"
