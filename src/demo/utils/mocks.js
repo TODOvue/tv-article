@@ -1,4 +1,3 @@
-import Default from './demos/default.vue?raw';
 import ArticleBasic from './demos/article-basic.vue?raw';
 import ArticleWithCover from './demos/article-with-cover.vue?raw';
 import ArticleCustomUI from './demos/article-custom-ui.vue?raw';
@@ -9,12 +8,12 @@ export const demos = [
     id: 1,
     title: "TvArticle - Basic",
     propsData: {
-      lang: "en",
+      lang: "es",
       content: {
         title: "Introduction to Vue 3 and Composition API",
         description: "Learn the fundamental concepts of Vue 3 and how to use the Composition API to create more maintainable applications.",
         date: "2025-10-15",
-        readingTime: 8,
+        readingTime: 1,
         tags: [
           { tag: "Vue", color: "#4FC08D" },
           { tag: "JavaScript", color: "#F7DF1E" },
@@ -22,7 +21,7 @@ export const demos = [
         ],
         body: `
           <h2 id="what-is-vue-3">What is Vue 3?</h2>
-          <p>Vue 3 is the latest version of the popular progressive JavaScript framework. It brings significant performance improvements, better TypeScript support, and the new <strong>Composition API</strong>.</p>
+          <p>Vue 3 is the latest version of the popular progressive JavaScript framework. It brings significant performance improvements, better TypeScript support, and the new <strong>Composition API</strong>. Visit the <a href="https://vuejs.org/guide/introduction.html">official Vue guide</a> for more details.</p>
           
           <h3 id="key-features">Key Features</h3>
           <ul>
@@ -136,11 +135,16 @@ tags: [nuxt, content]
             <p>Frontmatter is automatically parsed and available in the document object.</p>
           </blockquote>
 
-          <hr>
-
           <h2 id="conclusions">Conclusions</h2>
-          <p>Nuxt Content is the perfect solution for creating blogs, documentation, and content-based sites with Nuxt 3.</p>
+          <p>Nuxt Content is the perfect solution for creating blogs, documentation, and content-based sites with Nuxt 3. Learn more at the <a href="https://content.nuxt.com/">Nuxt Content docs</a>.</p>
         `
+      },
+      ui: {
+        coverAspect: '16 / 9',
+        coverLoading: 'lazy',
+        coverDecoding: 'async',
+        coverFetchPriority: 'high',
+        center: true
       }
     },
     html: ArticleWithCover,
@@ -148,8 +152,8 @@ tags: [nuxt, content]
   {
     title: "TvArticle - Custom UI + Footer",
     propsData: {
+      lang: 'fr',
       content: {
-        lang: "en",
         title: "Typography and Prose Styles",
         description: "Example of all typography elements supported in TvArticle.",
         date: "2025-10-21",
@@ -220,4 +224,3 @@ tags: [nuxt, content]
     html: ArticleMinimal,
   },
 ];
-

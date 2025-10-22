@@ -6,7 +6,11 @@ export function useArticle(content, ui = {}, lang = 'en', emit) {
     showMeta: true,
     showCover: true,
     center: true,
-    proseSize: 'full'
+    proseSize: 'full',
+    coverLoading: 'lazy',
+    coverDecoding: 'async',
+    coverFetchPriority: 'auto',
+    coverAspect: null
   };
 
   const uiOptions = computed(() => ({
@@ -32,18 +36,52 @@ export function useArticle(content, ui = {}, lang = 'en', emit) {
     return Math.max(1, Math.ceil(words / 200));
   });
 
+  const normalizeLang = (l) => (l || 'en').slice(0, 2).toLowerCase();
+
   const formatReadingTime = computed(() => {
     const minutes = content.readingTime ? Math.ceil(content.readingTime) : estimatedMinutes.value;
     if (!minutes) return null;
-    const i18n = {
-      en: (m) => `${m} min read`,
-      es: (m) => `${m} min de lectura`,
-      fr: (m) => `${m} min de lecture`,
-      pt: (m) => `${m} min de leitura`
-    };
-    const normalize = (lang || 'en').slice(0, 2).toLowerCase();
-    return (i18n[normalize] || i18n.en)(minutes);
+    const langTo = normalizeLang(lang);
+    switch (langTo) {
+      case 'es':
+        return `${minutes} min${minutes === 1 ? '' : 's'} de lectura`;
+      case 'fr':
+        return `${minutes} min${minutes === 1 ? '' : 's'} de lecture`;
+      case 'pt':
+        return `${minutes} min${minutes === 1 ? '' : 's'} de leitura`;
+      default:
+        return `${minutes} min${minutes === 1 ? '' : 's'} read`;
+    }
   });
+
+  function tAnchor(key) {
+    const n = normalizeLang(lang);
+    switch (key) {
+      case 'copied':
+        switch (n) {
+          case 'es':
+            return 'Enlace copiado';
+          case 'fr':
+            return 'Lien copié';
+          case 'pt':
+            return 'Link copiado';
+          default:
+            return 'Link copied';
+        }
+      case 'copy':
+      default:
+        switch (n) {
+          case 'es':
+            return 'Copiar enlace';
+          case 'fr':
+            return 'Copier le lien';
+          case 'pt':
+            return 'Copiar link';
+          default:
+            return 'Copy link';
+        }
+    }
+  }
 
   // Clases calculadas para el contenedor y la prosa
   const proseClass = computed(() => {
@@ -57,11 +95,17 @@ export function useArticle(content, ui = {}, lang = 'en', emit) {
     };
   });
 
+  const titleId = computed(() => {
+    const base = content?.title ? slugify(content.title) : 'tv-article-title';
+    return `${base}`;
+  });
+
   const bodyEl = ref(null);
 
   function enhanceAnchors() {
     const root = bodyEl.value;
     if (!root) return;
+    ensureSafeLinks(root);
 
     const headings = root.querySelectorAll('h2[id], h3[id], h4[id]');
     headings.forEach((heading) => {
@@ -78,8 +122,8 @@ export function useArticle(content, ui = {}, lang = 'en', emit) {
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'tv-anchor';
-    btn.setAttribute('aria-label', 'Copy link');
-    btn.title = 'Copy link';
+    btn.setAttribute('aria-label', tAnchor('copy'));
+    btn.title = tAnchor('copy');
     btn.textContent = '#';
     btn.addEventListener('click', (e) => handleAnchorClick(e, id));
     return btn;
@@ -91,6 +135,19 @@ export function useArticle(content, ui = {}, lang = 'en', emit) {
 
     try {
       await copyToClipboard(url);
+      const el = e.currentTarget;
+      if (el) {
+        const prevTitle = el.getAttribute('title');
+        const prevAria = el.getAttribute('aria-label');
+        el.classList.add('is-copied');
+        el.setAttribute('title', tAnchor('copied'));
+        el.setAttribute('aria-label', tAnchor('copied'));
+        setTimeout(() => {
+          el.classList.remove('is-copied');
+          if (prevTitle) el.setAttribute('title', prevTitle);
+          if (prevAria) el.setAttribute('aria-label', prevAria);
+        }, 1500);
+      }
       if (typeof emit === 'function') emit('anchor-copied', id);
     } catch (error) {
       console.warn('Error copying to clipboard', error);
@@ -101,6 +158,24 @@ export function useArticle(content, ui = {}, lang = 'en', emit) {
     const u = new URL(window.location.href);
     u.hash = id;
     return u.toString();
+  }
+
+  function ensureSafeLinks(root) {
+    try {
+      const anchors = root.querySelectorAll('a[href]');
+      anchors.forEach((a) => {
+        const href = a.getAttribute('href') || '';
+        if (/^https?:\/\//i.test(href)) {
+          const linkUrl = new URL(href, window.location.href);
+          if (linkUrl.origin !== window.location.origin) {
+            a.setAttribute('rel', 'noopener noreferrer');
+            a.setAttribute('target', '_blank');
+          }
+        }
+      });
+    } catch (_) {
+      // noop
+    }
   }
 
   async function copyToClipboard(text) {
@@ -119,6 +194,17 @@ export function useArticle(content, ui = {}, lang = 'en', emit) {
     ta.select();
     document.execCommand('copy');
     document.body.removeChild(ta);
+  }
+
+  function slugify(str) {
+    return String(str)
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, '')
+      .trim()
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-');
   }
 
   onMounted(async () => {
@@ -140,6 +226,7 @@ export function useArticle(content, ui = {}, lang = 'en', emit) {
     formatReadingTime,
     proseClass,
     containerClass,
-    bodyEl
+    bodyEl,
+    titleId
   };
 }

@@ -32,15 +32,16 @@ const {
   hasMeta,
   proseClass,
   containerClass,
-  bodyEl
+  bodyEl,
+  titleId
 } = useArticle(props.content, props.ui, props.lang, emit);
 </script>
 
 <template>
-  <article :class="containerClass">
+  <article :class="containerClass" :aria-labelledby="content.title ? titleId : undefined">
     <slot name="header">
       <header v-if="uiOptions.showTitle || uiOptions.showMeta || (uiOptions.showCover && content.cover)" class="tv-article__header">
-        <h1 v-if="uiOptions.showTitle && content.title" class="tv-article__title">
+        <h1 v-if="uiOptions.showTitle && content.title" class="tv-article__title" :id="titleId">
           {{ content.title }}
         </h1>
 
@@ -68,13 +69,14 @@ const {
           </div>
         </div>
 
-        <figure v-if="uiOptions.showCover && content.cover" class="tv-article__cover">
+        <figure v-if="uiOptions.showCover && content.cover" class="tv-article__cover" :style="uiOptions.coverAspect ? { aspectRatio: uiOptions.coverAspect } : null">
           <img
             :src="content.cover"
             :alt="content.coverAlt || content.title || 'Imagen de portada'"
             class="tv-article__cover-image"
-            decoding="async"
-            loading="lazy"
+            :decoding="uiOptions.coverDecoding"
+            :loading="uiOptions.coverLoading"
+            :fetchpriority="uiOptions.coverFetchPriority"
           />
           <figcaption v-if="content.coverCaption" class="tv-article__cover-caption">
             {{ content.coverCaption }}
