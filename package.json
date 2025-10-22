@@ -4,7 +4,7 @@
   "author": "Cristhian Daza",
   "description": "A Vue 3 component to show articles easily in your projects.",
   "license": "MIT",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "type": "module",
   "repository": {
     "type": "git",
