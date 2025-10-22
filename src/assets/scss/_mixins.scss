@@ -1,0 +1,26 @@
+@use 'variables';
+
+@mixin tv-article-heading {
+  color: variables.$tv-article-text;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-top: variables.$tv-article-spacing-2xl;
+  margin-bottom: variables.$tv-article-spacing-lg;
+
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+@mixin tv-article-text {
+  color: variables.$tv-article-text;
+  line-height: 1.75;
+  margin-bottom: variables.$tv-article-spacing-lg;
+}
+
+@mixin tv-article-focus-ring {
+  outline: 2px solid variables.$tv-article-primary;
+  outline-offset: 2px;
+  border-radius: variables.$tv-article-radius-sm;
+}
+
