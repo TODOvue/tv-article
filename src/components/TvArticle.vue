@@ -1,7 +1,7 @@
 <script setup>
 import { TvLabel } from '@todovue/tv-label';
 import { TvRelativeTime } from '@todovue/tv-relative-time';
-import { computed } from 'vue';
+import { computed, onMounted, nextTick, watch, ref } from 'vue';
 import { useArticle } from '../composables/useArticle.js';
 
 const props = defineProps({
@@ -25,13 +25,13 @@ const props = defineProps({
   }
 });
 
-defineEmits(['anchor-copied']);
+const emit = defineEmits(['anchor-copied']);
 
 const {
   formatReadingTime,
   uiOptions,
   hasMeta,
-} = useArticle(props.content, props.ui);
+} = useArticle(props.content, props.ui, props.lang);
 
 const proseClass = computed(() => {
   return `tv-prose tv-prose--${uiOptions.value.proseSize}`;
@@ -42,6 +42,89 @@ const containerClass = computed(() => {
     'tv-article': true,
     'tv-article--centered': uiOptions.value.center
   };
+});
+
+const bodyEl = ref(null);
+
+function enhanceAnchors() {
+  const root = bodyEl.value;
+  if (!root) return;
+
+  const headings = root.querySelectorAll('h2[id], h3[id], h4[id]');
+  headings.forEach((heading) => {
+    if (heading.querySelector('.tv-anchor')) return;
+
+    const id = heading.getAttribute('id');
+    if (!id) return;
+
+    ensureRelativePosition(heading);
+    heading.appendChild(createAnchorButton(id));
+  });
+}
+
+function ensureRelativePosition(el) {
+  const computed = window.getComputedStyle(el).position;
+  if (computed === 'static') el.style.position = 'relative';
+}
+
+function createAnchorButton(id) {
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'tv-anchor';
+  btn.setAttribute('aria-label', 'Copy link');
+  btn.title = 'Copy link';
+  btn.textContent = '#';
+  btn.addEventListener('click', (e) => handleAnchorClick(e, id));
+  return btn;
+}
+
+async function handleAnchorClick(e, id) {
+  e.stopPropagation();
+  const url = buildAnchorUrl(id);
+
+  try {
+    await copyToClipboard(url);
+    emit('anchor-copied', id);
+  } catch (error) {
+    console.warn('Error copying to clipboard', error);
+  }
+}
+
+function buildAnchorUrl(id) {
+  const u = new URL(window.location.href);
+  u.hash = id;
+  return u.toString();
+}
+
+async function copyToClipboard(text) {
+  if (navigator.clipboard?.writeText) {
+    await navigator.clipboard.writeText(text);
+    return;
+  }
+
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.setAttribute('readonly', '');
+  ta.style.position = 'fixed';
+  ta.style.top = '-9999px';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  document.execCommand('copy');
+  document.body.removeChild(ta);
+}
+
+onMounted(async () => {
+  await nextTick();
+  enhanceAnchors();
+});
+
+watch(() => props.content?.body, async () => {
+  await nextTick();
+  if (bodyEl.value) {
+    bodyEl.value.querySelectorAll('.tv-anchor').forEach(el => el.remove());
+  }
+  enhanceAnchors();
 });
 </script>
 
@@ -69,7 +152,7 @@ const containerClass = computed(() => {
           <div v-if="content.tags && content.tags.length" class="tv-article__tags">
             <tv-label
               v-for="tag in content.tags"
-              :key="tag"
+              :key="typeof tag === 'object' ? tag.tag : tag"
               :color="typeof tag === 'object' ? tag.color : '#4FC08D'"
             >
               {{ typeof tag === 'object' ? tag.tag : tag }}
@@ -95,7 +178,7 @@ const containerClass = computed(() => {
     <slot name="before" />
 
     <div :class="proseClass">
-      <div v-if="content.body" v-html="content.body" class="tv-article__body"></div>
+      <div v-if="content.body" v-html="content.body" ref="bodyEl" class="tv-article__body"></div>
       <slot v-else />
     </div>
 

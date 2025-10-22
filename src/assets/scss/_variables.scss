@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 /* 🌙 Dark Theme */
 $dark-body-bg: #7A7D7D;
 $dark-button-bg: #EF233C;
@@ -20,10 +22,10 @@ $warning-bg: #d3b042;
 
 $tv-article-primary: $light-button-bg;
 $tv-article-text: $light-text;
-$tv-article-text-secondary: darken($light-body-bg, 30%);
-$tv-article-border: darken($light-body-bg, 10%);
+$tv-article-text-secondary: color.adjust($light-body-bg, $lightness: -30%);
+$tv-article-border: color.adjust($light-body-bg, $lightness: -10%);
 $tv-article-bg-code: $light-card-bg;
-$tv-article-bg-blockquote: lighten($light-card-bg, 10%);
+$tv-article-bg-blockquote: color.adjust($light-card-bg, $lightness: 10%);
 
 $tv-article-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 $tv-article-font-family-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, monospace;

@@ -1,9 +1,10 @@
 @use 'variables';
-@import 'mixins';
+@use 'mixins';
 
 .tv-article {
   font-family: variables.$tv-article-font-family;
   color: variables.$tv-article-text;
+  padding: variables.$tv-article-spacing-2xl variables.$tv-article-spacing-xl;
 
   &--centered {
     max-width: 100%;
@@ -48,7 +49,7 @@
   align-items: center;
 
   &:not(:last-child)::after {
-    content: '•';
+    content: '\2022';
     margin-left: variables.$tv-article-spacing-md;
     color: variables.$tv-article-border;
   }
@@ -85,6 +86,7 @@
 
 .tv-prose {
   max-width: variables.$tv-article-max-width-prose-md;
+  margin: 0 auto;
 
   &--sm {
     max-width: variables.$tv-article-max-width-prose-sm;
@@ -104,8 +106,14 @@
 }
 
 .tv-article__body {
+  :deep(h2),
+  :deep(h3),
+  :deep(h4) {
+    position: relative;
+  }
+
   :deep(h2) {
-    @include tv-article-heading;
+    @include mixins.tv-article-heading;
     font-size: 1.875rem;
     padding-top: variables.$tv-article-spacing-md;
     border-top: 1px solid variables.$tv-article-border;
@@ -116,7 +124,7 @@
   }
 
   :deep(h3) {
-    @include tv-article-heading;
+    @include mixins.tv-article-heading;
     font-size: 1.5rem;
     margin-top: variables.$tv-article-spacing-xl;
 
@@ -126,13 +134,40 @@
   }
 
   :deep(h4) {
-    @include tv-article-heading;
+    @include mixins.tv-article-heading;
     font-size: 1.25rem;
     margin-top: variables.$tv-article-spacing-lg;
   }
 
+  :deep(.tv-anchor) {
+    position: absolute;
+    left: -1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.25rem;
+    height: 1.25rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid variables.$tv-article-border;
+    border-radius: variables.$tv-article-radius-sm;
+    background: variables.$tv-article-bg-code;
+    color: variables.$tv-article-primary;
+    font-size: 0.75rem;
+    cursor: pointer;
+    opacity: 0;
+    transition: variables.$tv-article-transition;
+  }
+
+  :deep(h2:hover .tv-anchor),
+  :deep(h3:hover .tv-anchor),
+  :deep(h4:hover .tv-anchor),
+  :deep(.tv-anchor:focus-visible) {
+    opacity: 1;
+  }
+
   :deep(p) {
-    @include tv-article-text;
+    @include mixins.tv-article-text;
     font-size: 1.125rem;
 
     @media (max-width: 768px) {
@@ -152,7 +187,7 @@
     }
 
     &:focus-visible {
-      @include tv-article-focus-ring;
+      @include mixins.tv-article-focus-ring;
       text-decoration: none;
     }
   }
@@ -305,4 +340,3 @@
     margin: variables.$tv-article-spacing-xl 0;
   }
 }
-
