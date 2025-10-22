@@ -83,7 +83,6 @@ export function useArticle(content, ui = {}, lang = 'en', emit) {
     }
   }
 
-  // Clases calculadas para el contenedor y la prosa
   const proseClass = computed(() => {
     return `tv-prose tv-prose--${uiOptions.value.proseSize}`;
   });
@@ -173,8 +172,8 @@ export function useArticle(content, ui = {}, lang = 'en', emit) {
           }
         }
       });
-    } catch (_) {
-      // noop
+    } catch (error) {
+      console.warn('Error ensuring safe links', error);
     }
   }
 
