@@ -9,12 +9,17 @@ export const demos = [
     id: 1,
     title: "TvArticle - Basic",
     propsData: {
+      lang: "en",
       content: {
         title: "Introduction to Vue 3 and Composition API",
         description: "Learn the fundamental concepts of Vue 3 and how to use the Composition API to create more maintainable applications.",
         date: "2025-10-15",
         readingTime: 8,
-        tags: ["Vue", "JavaScript", "Tutorial"],
+        tags: [
+          { tag: "Vue", color: "#4FC08D" },
+          { tag: "JavaScript", color: "#F7DF1E" },
+          { tag: "Tutorial", color: "#FF5733" }
+        ],
         body: `
           <h2 id="what-is-vue-3">What is Vue 3?</h2>
           <p>Vue 3 is the latest version of the popular progressive JavaScript framework. It brings significant performance improvements, better TypeScript support, and the new <strong>Composition API</strong>.</p>
@@ -69,12 +74,16 @@ export default {
     id: 2,
     title: "TvArticle - With Cover",
     propsData: {
+      lang: "en",
       content: {
-        title: "Complete Guide to Nuxt Content",
+        tags: [
+          { tag: "Nuxt", color: "#00C58E" },
+          { tag: "Content", color: "#FF5733" },
+          { tag: "Markdown", color: "#F39C12" }
+        ],
         description: "Everything you need to know about Nuxt Content to create amazing blogs and documentation.",
         date: "2025-10-20",
         readingTime: 12,
-        tags: ["Nuxt", "Content", "Markdown"],
         cover: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1200&h=675&fit=crop",
         coverAlt: "Laptop with code on screen",
         coverCaption: "Nuxt Content makes creating content simple and powerful",
@@ -137,15 +146,19 @@ tags: [nuxt, content]
     html: ArticleWithCover,
   },
   {
-    id: 3,
     title: "TvArticle - Custom UI + Footer",
     propsData: {
       content: {
+        lang: "en",
         title: "Typography and Prose Styles",
         description: "Example of all typography elements supported in TvArticle.",
         date: "2025-10-21",
         readingTime: 5,
-        tags: ["Typography", "CSS", "Design"],
+        tags: [
+          { tag: "Typography", color: "#8E44AD" },
+          { tag: "CSS", color: "#2980B9" },
+          { tag: "Design", color: "#27AE60" }
+        ],
         body: `
           <h2 id="headings">Headings</h2>
           <p>Headings create visual hierarchy in your content.</p>
@@ -185,6 +198,7 @@ tags: [nuxt, content]
     id: 4,
     title: "TvArticle - Minimalist",
     propsData: {
+      lang: "en",
       content: {
         title: "Minimalist Article",
         body: `

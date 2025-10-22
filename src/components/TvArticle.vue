@@ -1,4 +1,6 @@
 <script setup>
+import { TvLabel } from '@todovue/tv-label';
+import { TvRelativeTime } from '@todovue/tv-relative-time';
 import { computed } from 'vue';
 import { useArticle } from '../composables/useArticle.js';
 
@@ -16,6 +18,10 @@ const props = defineProps({
   ui: {
     type: Object,
     default: () => ({})
+  },
+  lang: {
+    type: String,
+    default: 'en'
   }
 });
 
@@ -23,14 +29,9 @@ defineEmits(['anchor-copied']);
 
 const {
   formatReadingTime,
-  formatDate,
   uiOptions,
   hasMeta,
 } = useArticle(props.content, props.ui);
-
-// TODO: Funcionalidad de copiar anclas para h2/h3
-// const { copiedAnchor, generateSlug, copyAnchorLink } = useArticle(props.content, props.ui);
-// const handleAnchorCopy = (id) => copyAnchorLink(id, emit);
 
 const proseClass = computed(() => {
   return `tv-prose tv-prose--${uiOptions.value.proseSize}`;
@@ -58,9 +59,7 @@ const containerClass = computed(() => {
 
         <div v-if="uiOptions.showMeta && hasMeta" class="tv-article__meta">
           <div v-if="content.date" class="tv-article__meta-item">
-            <!-- TODO: integrar tv-relative-time cuando esté disponible -->
-            <!-- <tv-relative-time :date="content.date" /> -->
-            <time :datetime="content.date">{{ formatDate(content.date) }}</time>
+            <tv-relative-time :lang="lang" show-full-date :date="content.date"/>
           </div>
 
           <div v-if="formatReadingTime" class="tv-article__meta-item">
@@ -68,14 +67,13 @@ const containerClass = computed(() => {
           </div>
 
           <div v-if="content.tags && content.tags.length" class="tv-article__tags">
-            <!-- TODO: integrar tv-label cuando esté disponible -->
-            <span
+            <tv-label
               v-for="tag in content.tags"
               :key="tag"
-              class="tv-article__tag"
+              :color="typeof tag === 'object' ? tag.color : '#4FC08D'"
             >
-              {{ tag }}
-            </span>
+              {{ typeof tag === 'object' ? tag.tag : tag }}
+            </tv-label>
           </div>
         </div>
 

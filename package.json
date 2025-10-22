@@ -57,5 +57,9 @@
     "vite": "^7.0.0",
     "vite-plugin-css-injected-by-js": "^3.0.0",
     "vite-plugin-dts": "^4.0.0"
+  },
+  "dependencies": {
+    "@todovue/tv-label": "^1.0.0",
+    "@todovue/tv-relative-time": "^1.0.0"
   }
 }

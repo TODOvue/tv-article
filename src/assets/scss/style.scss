@@ -30,7 +30,6 @@
 
 .tv-article__description {
   font-size: 1.25rem;
-  color: variables.$tv-article-text-secondary;
   line-height: 1.6;
   margin: 0 0 variables.$tv-article-spacing-xl;
 }
@@ -42,7 +41,6 @@
   gap: variables.$tv-article-spacing-md;
   margin-bottom: variables.$tv-article-spacing-xl;
   font-size: 0.875rem;
-  color: variables.$tv-article-text-secondary;
 }
 
 .tv-article__meta-item {
@@ -60,22 +58,6 @@
   display: flex;
   flex-wrap: wrap;
   gap: variables.$tv-article-spacing-sm;
-}
-
-.tv-article__tag {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.25rem 0.75rem;
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: variables.$tv-article-primary;
-  background-color: rgba(variables.$tv-article-primary, 0.1);
-  border-radius: 9999px;
-  transition: variables.$tv-article-transition;
-
-  &:hover {
-    background-color: rgba(variables.$tv-article-primary, 0.15);
-  }
 }
 
 .tv-article__cover {

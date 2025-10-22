@@ -17,16 +17,7 @@ export function useArticle(content, ui = {}) {
   const hasMeta = computed(() => {
     return !!(content.date || content.readingTime || (content.tags && content.tags.length));
   });
-
-  const formatDate = (date) => {
-    if (!date) return '';
-    const d = new Date(date);
-    return new Intl.DateTimeFormat('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    }).format(d);
-  };
+  
 
   const formatReadingTime = computed(() => {
     if (!content.readingTime) return null;
@@ -37,7 +28,6 @@ export function useArticle(content, ui = {}) {
   return {
     uiOptions,
     hasMeta,
-    formatDate,
     formatReadingTime
   };
 }
