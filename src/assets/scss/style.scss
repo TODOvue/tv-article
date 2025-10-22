@@ -103,6 +103,13 @@
   &--lg {
     max-width: variables.$tv-article-max-width-prose-lg;
   }
+
+  &--full {
+    max-width: none;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
 }
 
 .tv-article__body {
