@@ -2,6 +2,7 @@
 import { TvLabel } from '@todovue/tv-label';
 import { TvRelativeTime } from '@todovue/tv-relative-time';
 import { useArticle } from '../composables/useArticle.js';
+import { toRefs } from 'vue';
 
 const props = defineProps({
   content: {
@@ -26,6 +27,8 @@ const props = defineProps({
 
 const emit = defineEmits(['anchor-copied']);
 
+const { content, ui, lang } = toRefs(props);
+
 const {
   formatReadingTime,
   uiOptions,
@@ -34,7 +37,7 @@ const {
   containerClass,
   bodyEl,
   titleId
-} = useArticle(props.content, props.ui, props.lang, emit);
+} = useArticle(content, ui, lang, emit);
 </script>
 
 <template>
