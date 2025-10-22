@@ -282,11 +282,12 @@
     background-color: variables.$tv-article-bg-blockquote;
     border-left: 4px solid variables.$tv-article-primary;
     border-radius: 0 variables.$tv-article-radius-md variables.$tv-article-radius-md 0;
+    color: variables.$tv-article-text;
 
     p {
       margin: 0;
       font-style: italic;
-      color: variables.$tv-article-text-secondary;
+      color: variables.$tv-article-text;
       font-size: 1.125rem;
 
       &:not(:last-child) {
@@ -303,10 +304,12 @@
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
     border-radius: variables.$tv-article-radius-md;
     overflow: hidden;
+    background-color: variables.$tv-article-bg-table;
+    border: 1px solid variables.$tv-article-border;
   }
 
   :deep(thead) {
-    background-color: variables.$tv-article-bg-code;
+    background-color: variables.$tv-article-bg-table-alt;
   }
 
   :deep(th) {
@@ -320,13 +323,21 @@
   :deep(td) {
     padding: variables.$tv-article-spacing-md variables.$tv-article-spacing-lg;
     border-bottom: 1px solid variables.$tv-article-border;
+    color: variables.$tv-article-text;
   }
 
   :deep(tbody tr) {
     transition: variables.$tv-article-transition;
 
+    &:nth-child(odd) {
+      background-color: variables.$tv-article-bg-table;
+    }
+    &:nth-child(even) {
+      background-color: variables.$tv-article-bg-table-alt;
+    }
+
     &:hover {
-      background-color: rgba(variables.$tv-article-primary, 0.02);
+      filter: brightness(0.98);
     }
 
     &:last-child td {
@@ -345,5 +356,49 @@
     height: auto;
     border-radius: variables.$tv-article-radius-md;
     margin: variables.$tv-article-spacing-xl 0;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :deep(blockquote) {
+      background-color: variables.$tv-article-bg-blockquote-dark;
+      border-left-color: variables.$tv-article-primary;
+      color: variables.$dark-text;
+
+      p {
+        color: variables.$dark-text;
+      }
+    }
+
+    :deep(table) {
+      background-color: variables.$tv-article-bg-table-dark;
+      border-color: variables.$tv-article-border-dark;
+    }
+
+    :deep(thead) {
+      background-color: variables.$tv-article-bg-table-alt-dark;
+    }
+
+    :deep(th) {
+      color: variables.$dark-text;
+      border-bottom-color: variables.$tv-article-border-dark;
+    }
+
+    :deep(td) {
+      color: variables.$dark-text;
+      border-bottom-color: variables.$tv-article-border-dark;
+    }
+
+    :deep(tbody tr) {
+      &:nth-child(odd) {
+        background-color: variables.$tv-article-bg-table-dark;
+      }
+      &:nth-child(even) {
+        background-color: variables.$tv-article-bg-table-alt-dark;
+      }
+
+      &:hover {
+        filter: brightness(1.02);
+      }
+    }
   }
 }

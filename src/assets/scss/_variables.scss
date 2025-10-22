@@ -27,6 +27,15 @@ $tv-article-border: color.adjust($light-body-bg, $lightness: -10%);
 $tv-article-bg-code: $light-card-bg;
 $tv-article-bg-blockquote: color.adjust($light-card-bg, $lightness: 10%);
 
+$tv-article-bg-table: color.adjust($light-card-bg, $lightness: 5%);
+$tv-article-bg-table-alt: color.adjust($tv-article-bg-table, $lightness: 6%);
+
+$tv-article-text-secondary-dark: color.adjust($dark-body-bg, $lightness: 35%);
+$tv-article-border-dark: color.adjust($dark-body-bg, $lightness: 25%);
+$tv-article-bg-blockquote-dark: color.adjust($dark-card-bg, $lightness: 6%);
+$tv-article-bg-table-dark: color.adjust($dark-card-bg, $lightness: 8%);
+$tv-article-bg-table-alt-dark: color.adjust($tv-article-bg-table-dark, $lightness: 6%);
+
 $tv-article-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 $tv-article-font-family-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, monospace;
 
