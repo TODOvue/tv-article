@@ -2,18 +2,16 @@
 import { TvLabel } from '@todovue/tv-label';
 import { TvRelativeTime } from '@todovue/tv-relative-time';
 import { useArticle } from '../composables/useArticle.js';
-import { toRefs } from 'vue';
+import { toRefs, ref } from 'vue';
 
 const props = defineProps({
   content: {
     type: Object,
     default: () => ({
       title: '',
-      body: ''
+      body: '',
     }),
-    validator: (value) => {
-      return value && typeof value === 'object';
-    }
+    validator: (value) => value && typeof value === 'object'
   },
   ui: {
     type: Object,
@@ -25,64 +23,98 @@ const props = defineProps({
   }
 });
 
-const emit = defineEmits(['anchor-copied']);
-
+const emit = defineEmits(['copy']);
 const { content, ui, lang } = toRefs(props);
 
 const {
-  formatReadingTime,
+  contentState: contentComputed,
   uiOptions,
   hasMeta,
+  hasTags,
+  formatReadingTime,
   proseClass,
   containerClass,
   bodyEl,
-  titleId
-} = useArticle(content, ui, lang, emit);
+  titleId,
+  copyTitleLink
+} = useArticle(content, ui, lang, emit)
+
+const contentProxy = contentComputed
+const copyMsg = ref('')
+const onCopy = (e) => {
+  copyMsg.value = e?.ok ? 'Link copiado' : 'No se pudo copiar'
+  setTimeout(() => { copyMsg.value = '' }, 1500)
+}
 </script>
 
 <template>
-  <article :class="containerClass" :aria-labelledby="content.title ? titleId : undefined">
+  <article
+    :class="containerClass"
+    :aria-labelledby="contentProxy.title ? titleId : undefined"
+    @copy="onCopy"
+  >
     <slot name="header">
-      <header v-if="uiOptions.showTitle || uiOptions.showMeta || (uiOptions.showCover && content.cover)" class="tv-article__header">
-        <h1 v-if="uiOptions.showTitle && content.title" class="tv-article__title" :id="titleId">
-          {{ content.title }}
-        </h1>
+      <header
+        v-if="(uiOptions.showTitle || uiOptions.showMeta || (uiOptions.showCover && contentProxy.cover))"
+        class="tv-article__header"
+      >
+        <div class="tv-article__header-top">
+          <h1
+            v-if="uiOptions.showTitle && contentProxy.title"
+            class="tv-article__title"
+            :id="titleId"
+          >
+            {{ contentProxy.title }}
+          </h1>
 
-        <p v-if="content.description" class="tv-article__description">
-          {{ content.description }}
-        </p>
+          <button
+            v-if="uiOptions.showCopy && contentProxy.title"
+            class="tv-article__copy"
+            type="button"
+            :aria-label="`Copiar enlace a ${contentProxy.title}`"
+            @click="copyTitleLink"
+          >
+            <span aria-hidden="true">#</span>
+          </button>
 
-        <div v-if="uiOptions.showMeta && hasMeta" class="tv-article__meta">
-          <div v-if="content.date" class="tv-article__meta-item">
-            <tv-relative-time :lang="lang" show-full-date :date="content.date"/>
-          </div>
-
-          <div v-if="formatReadingTime" class="tv-article__meta-item">
-            <span>{{ formatReadingTime }}</span>
-          </div>
-
-          <div v-if="content.tags && content.tags.length" class="tv-article__tags">
-            <tv-label
-              v-for="tag in content.tags"
-              :key="typeof tag === 'object' ? tag.tag : tag"
-              :color="typeof tag === 'object' ? tag.color : '#4FC08D'"
-            >
-              {{ typeof tag === 'object' ? tag.tag : tag }}
-            </tv-label>
-          </div>
+          <span class="sr-only" aria-live="polite">{{ copyMsg }}</span>
         </div>
 
-        <figure v-if="uiOptions.showCover && content.cover" class="tv-article__cover" :style="uiOptions.coverAspect ? { aspectRatio: uiOptions.coverAspect } : null">
+        <p v-if="uiOptions.showMeta && hasMeta" class="tv-article__meta">
+          <template v-if="contentProxy.date">
+            <TvRelativeTime :date="contentProxy.date" :lang="lang" class="tv-article__date" />
+            <span v-if="formatReadingTime"> • </span>
+          </template>
+          <span v-if="formatReadingTime" class="tv-article__reading-time">
+            {{ formatReadingTime }}
+          </span>
+        </p>
+
+        <div v-if="uiOptions.showMeta && hasTags" class="tv-article__tags">
+          <TvLabel
+            v-for="tag in contentProxy.tags"
+            :key="typeof tag === 'object' ? tag.tag : tag"
+            :color="typeof tag === 'object' ? tag.color : '#4FC08D'"
+          >
+            {{ typeof tag === 'object' ? tag.tag : tag }}
+          </TvLabel>
+        </div>
+
+        <figure
+          v-if="uiOptions.showCover && contentProxy.cover"
+          class="tv-article__cover"
+          :style="uiOptions.coverAspect ? { aspectRatio: uiOptions.coverAspect } : null"
+        >
           <img
-            :src="content.cover"
-            :alt="content.coverAlt || content.title || 'Imagen de portada'"
+            :src="contentProxy.cover"
+            :alt="contentProxy.coverAlt || contentProxy.title || 'Imagen de portada'"
             class="tv-article__cover-image"
-            :decoding="uiOptions.coverDecoding"
             :loading="uiOptions.coverLoading"
+            :decoding="uiOptions.coverDecoding"
             :fetchpriority="uiOptions.coverFetchPriority"
           />
-          <figcaption v-if="content.coverCaption" class="tv-article__cover-caption">
-            {{ content.coverCaption }}
+          <figcaption v-if="contentProxy.coverCaption" class="tv-article__cover-caption">
+            {{ contentProxy.coverCaption }}
           </figcaption>
         </figure>
       </header>
@@ -91,12 +123,16 @@ const {
     <slot name="before" />
 
     <div :class="proseClass">
-      <div v-if="content.body" v-html="content.body" ref="bodyEl" class="tv-article__body"></div>
+      <div
+        v-if="contentProxy.body"
+        v-html="contentProxy.body"
+        ref="bodyEl"
+        class="tv-article__body"
+      />
       <slot v-else />
     </div>
 
     <slot name="after" />
-
     <slot name="footer" />
   </article>
 </template>
