@@ -5,6 +5,41 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+# [1.0.1] – 2025-10-30
+
+## ✨ Added
+
+* Copy link button (`ui.showCopy`, enabled by default) next to the article title, with accessible feedback (`aria-live`) and full styling through `.tv-article__copy`.
+* Automatic link enhancement in the article body:
+    * External links: `target="_blank"`, `rel="noopener noreferrer"`, and a visual indicator `↗`.
+    * Internal anchors (`#id`): smooth scrolling and URL hash updates.
+* New cover configuration options (`coverLoading`, `coverDecoding`, `coverFetchPriority`, `coverAspect`).
+* Responsive prose width variants: `.tv-prose--sm`, `.tv-prose--md`, `.tv-prose--lg`, `.tv-prose--full`.
+* Copy button now includes `aria-label` and uses `aria-live="polite"` feedback for copy success/failure.
+* Decorative icons marked with `aria-hidden="true"`.
+* External links clearly differentiated visually.
+* Complete styling for `.tv-article__copy`: focus ring, tooltip feedback, hover states, and dark-mode adjustments.
+* Better spacing and color hierarchy for meta info and tags.
+* External link indicator styling using `:deep(a[data-external="true"])`.
+* Updated `tv-prose` sizing and responsive behavior for different prose widths.
+
+## 🛠️ Changed
+
+* Reading time logic now prioritizes a numeric `readingTime` prop; otherwise, it auto-calculates by real word count (≈200 wpm).
+* Localized reading time format:
+    * `es`: `X min de lectura`
+    * `en`: `X min read`
+    * `fr`, `pt` supported as well.
+* Improved slug generation (`slugify`) for titles with accents or emojis — produces stable IDs.
+* Header structure updated: new wrapper `.tv-article__header-top` to align the title and copy button horizontally.
+
+## 🐛 Fixed
+
+* Server-side rendering safety for all DOM-dependent logic (guards for `window`, `document`, `navigator`).
+* Clipboard fallback: when `navigator.clipboard` is unavailable, uses `execCommand('copy')`.
+* Re-applies anchor enhancements when the article body content changes.
+
+
 ## [1.0.0] - 2025-10-21
 ### ✨ Added
 - Initial stable release of `@todovue/tv-article`.
@@ -24,4 +59,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Build artifacts: ESM/CJS bundles and type definitions in `dist/`.
 - Integrations: `@todovue/tv-label` for tags and `@todovue/tv-relative-time` for dates.
 
+[1.0.1]: https://github.com/TODOvue/tv-article/pull/3/files
 [1.0.0]: https://github.com/TODOvue/tv-article/pull/1/files

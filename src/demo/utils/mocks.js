@@ -10,133 +10,67 @@ export const demos = [
     propsData: {
       lang: "es",
       content: {
-        title: "Introduction to Vue 3 and Composition API",
-        description: "Learn the fundamental concepts of Vue 3 and how to use the Composition API to create more maintainable applications.",
+        title: "Introducción a Vue 3 y Composition API",
+        description: "Conceptos fundamentales de Vue 3 y cómo la Composition API mejora la reutilización de lógica.",
         date: "2025-10-15",
-        readingTime: 1,
+        readingTime: 4,
         tags: [
-          { tag: "Vue", color: "#4FC08D" },
-          { tag: "JavaScript", color: "#F7DF1E" },
-          { tag: "Tutorial", color: "#FF5733" }
+          { tag: "Vue", color: "#42b883" },
+          { tag: "Composition API", color: "#35495e" },
+          "Frontend"
         ],
         body: `
-          <h2 id="what-is-vue-3">What is Vue 3?</h2>
-          <p>Vue 3 is the latest version of the popular progressive JavaScript framework. It brings significant performance improvements, better TypeScript support, and the new <strong>Composition API</strong>. Visit the <a href="https://vuejs.org/guide/introduction.html">official Vue guide</a> for more details.</p>
-          
-          <h3 id="key-features">Key Features</h3>
-          <ul>
-            <li>Better performance and smaller bundle size</li>
-            <li>Composition API for improved code organization</li>
-            <li>Fragments, Teleport, and Suspense</li>
-            <li>Enhanced TypeScript support</li>
-          </ul>
+          <h2 id="que-es">¿Qué es la Composition API?</h2>
+          <p>Una forma más flexible de organizar lógica de componentes con mejores opciones para reutilizar código.</p>
 
-          <h2 id="composition-api">Composition API</h2>
-          <p>The Composition API is an alternative way to write components that offers better logic reusability and code organization.</p>
-
-          <h3 id="basic-example">Basic Example</h3>
+          <h3 id="ejemplo-basico">Ejemplo básico</h3>
           <pre><code>import { ref, computed } from 'vue';
 
 export default {
   setup() {
     const count = ref(0);
     const doubled = computed(() => count.value * 2);
-    
-    const increment = () => {
-      count.value++;
-    };
-    
+    const increment = () => { count.value++; };
     return { count, doubled, increment };
   }
 }</code></pre>
 
-          <blockquote>
-            <p>The Composition API doesn't replace the Options API, both can coexist in the same project.</p>
-          </blockquote>
-
-          <h2 id="advantages">Advantages of Vue 3</h2>
-          <ol>
-            <li><strong>Performance:</strong> Vue 3 is up to 2x faster than Vue 2</li>
-            <li><strong>Size:</strong> Smaller bundle thanks to tree-shaking</li>
-            <li><strong>TypeScript:</strong> Native and improved support</li>
-            <li><strong>Maintainability:</strong> Better code organization with Composition API</li>
-          </ol>
-
-          <h2 id="conclusion">Conclusion</h2>
-          <p>Vue 3 represents a major leap forward for the Vue ecosystem, offering better performance and an improved developer experience.</p>
+          <p>Más detalles en la <a href="https://vuejs.org/guide/introduction.html">documentación oficial</a>.</p>
+          <p>Ir a <a href="#que-es">¿Qué es la Composition API?</a></p>
         `
+      },
+      ui: {
+        center: true,
+        proseSize: 'md',
+        showCopy: true
       }
     },
     html: ArticleBasic,
   },
+  
   {
     id: 2,
     title: "TvArticle - With Cover",
     propsData: {
       lang: "en",
       content: {
+        title: "Nuxt Content Essentials",
+        description: "Everything you need to know about Nuxt Content to create amazing blogs and docs.",
+        date: "2025-10-20",
+        readingTime: 12,
         tags: [
           { tag: "Nuxt", color: "#00C58E" },
           { tag: "Content", color: "#FF5733" },
           { tag: "Markdown", color: "#F39C12" }
         ],
-        description: "Everything you need to know about Nuxt Content to create amazing blogs and documentation.",
-        date: "2025-10-20",
-        readingTime: 12,
         cover: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1200&h=675&fit=crop",
         coverAlt: "Laptop with code on screen",
         coverCaption: "Nuxt Content makes creating content simple and powerful",
         body: `
-          <h2 id="introduction">Introduction</h2>
-          <p>Nuxt Content is a file-based module that allows you to create rich content websites using Markdown, YAML, CSV, and JSON.</p>
-
-          <h3 id="installation">Installation</h3>
-          <pre><code>npm install @nuxt/content</code></pre>
-
-          <h2 id="features">Featured Characteristics</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Feature</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Markdown</td>
-                <td>Full Markdown support with extensions</td>
-              </tr>
-              <tr>
-                <td>Syntax Highlighting</td>
-                <td>Automatic code highlighting</td>
-              </tr>
-              <tr>
-                <td>Search</td>
-                <td>Built-in full-text search</td>
-              </tr>
-              <tr>
-                <td>Hot Reload</td>
-                <td>Real-time updates during development</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <h2 id="frontmatter">Using Frontmatter</h2>
-          <p>Frontmatter allows you to add metadata to your documents:</p>
-          <pre><code>---
-title: My article
-description: A description
-tags: [nuxt, content]
----
-
-# Article content here</code></pre>
-
-          <blockquote>
-            <p>Frontmatter is automatically parsed and available in the document object.</p>
-          </blockquote>
-
-          <h2 id="conclusions">Conclusions</h2>
-          <p>Nuxt Content is the perfect solution for creating blogs, documentation, and content-based sites with Nuxt 3. Learn more at the <a href="https://content.nuxt.com/">Nuxt Content docs</a>.</p>
+          <h2 id="overview">Overview</h2>
+          <p>Nuxt Content provides a powerful Markdown engine with Vue components.</p>
+          <p>External link to <a href="https://content.nuxt.com">Nuxt Content</a>.</p>
+          <p>Jump to <a href="#overview">Overview</a>.</p>
         `
       },
       ui: {
@@ -144,60 +78,43 @@ tags: [nuxt, content]
         coverLoading: 'lazy',
         coverDecoding: 'async',
         coverFetchPriority: 'high',
-        center: true
+        center: true,
+        proseSize: 'lg',
+        showCopy: true
       }
     },
     html: ArticleWithCover,
   },
+  
   {
-    title: "TvArticle - Custom UI + Footer",
+    id: 3,
+    title: "TvArticle - Custom UI",
     propsData: {
-      lang: 'fr',
+      lang: "es",
       content: {
-        title: "Typography and Prose Styles",
-        description: "Example of all typography elements supported in TvArticle.",
+        title: "UI Personalizada",
         date: "2025-10-21",
-        readingTime: 5,
         tags: [
-          { tag: "Typography", color: "#8E44AD" },
-          { tag: "CSS", color: "#2980B9" },
-          { tag: "Design", color: "#27AE60" }
+          { tag: "UI", color: "#9b59b6" },
+          "Accesibilidad"
         ],
         body: `
-          <h2 id="headings">Headings</h2>
-          <p>Headings create visual hierarchy in your content.</p>
-
-          <h3 id="h3-example">This is an H3</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-
-          <h2 id="text-format">Text Formatting</h2>
-          <p>You can use <strong>bold</strong>, <em>italic</em>, and <code>inline code</code> in your paragraphs.</p>
-
-          <h2 id="lists">Lists</h2>
-          <ul>
-            <li>First item</li>
-            <li>Second item</li>
-            <li>Third item</li>
-          </ul>
-
-          <h2 id="quotes">Quotes</h2>
-          <blockquote>
-            <p>This is a featured quote that uses a colored border and italic style.</p>
-          </blockquote>
-
-          <h2 id="code">Code Blocks</h2>
-          <pre><code>function example() {
-  return "Hello world";
-}</code></pre>
+          <h2 id="diseno">Diseño</h2>
+          <p>Ejemplo con opciones de UI personalizadas y énfasis en accesibilidad.</p>
+          <p>Más info en <a href="https://a11yproject.com/">The A11Y Project</a>.</p>
         `
       },
       ui: {
-        proseSize: 'lg',
-        center: true
+        center: false,
+        proseSize: 'md',
+        showMeta: true,
+        showCover: false,
+        showCopy: true
       }
     },
     html: ArticleCustomUI,
   },
+  
   {
     id: 4,
     title: "TvArticle - Minimalist",
@@ -208,19 +125,145 @@ tags: [nuxt, content]
         body: `
           <h2 id="simple">Simple and Clean</h2>
           <p>This article shows the component with minimal configuration.</p>
-
           <h3 id="content">Only Content Matters</h3>
           <p>Perfect for technical documentation.</p>
-
           <pre><code>const simple = true;</code></pre>
         `
       },
       ui: {
         showMeta: false,
         showCover: false,
-        proseSize: 'base'
+        proseSize: 'md',
+        showCopy: true
       }
     },
     html: ArticleMinimal,
+  },
+  
+  {
+    id: 5,
+    title: "TvArticle - Anchors & External Links",
+    propsData: {
+      lang: "es",
+      content: {
+        title: "Vinculación y navegación",
+        date: "2025-10-22",
+        tags: ["UX", "Accesibilidad", { tag: "Links", color: "#2ECC71" }],
+        body: `
+          <h2 id="intro">Introducción</h2>
+          <p>Este artículo prueba enlaces internos y externos.</p>
+          <p>Enlace externo a <a href="https://vuejs.org/">Vue.js</a> y a <a href="https://nuxt.com">Nuxt</a>.</p>
+          <p>Ir a la sección <a href="#detalles">detalles</a> con scroll suave.</p>
+          <h2 id="detalles">Detalles</h2>
+          <p>Más contenido para validar el desplazamiento interno.</p>
+        `
+      },
+      ui: { showCopy: false, proseSize: 'md', center: true }
+    },
+    html: ArticleBasic,
+  },
+  
+  {
+    id: 6,
+    title: "TvArticle - Auto Reading Time",
+    propsData: {
+      lang: "en",
+      content: {
+        title: "Auto-estimated Reading",
+        date: "2025-10-23",
+        tags: ["Performance", "DX"],
+        body: `
+          <p>${'Lorem ipsum '.repeat(250)}</p>
+        `
+      },
+      ui: { showCopy: true, proseSize: 'lg', center: false }
+    },
+    html: ArticleMinimal,
+  },
+  
+  {
+    id: 7,
+    title: "TvArticle - PT + Slugify",
+    propsData: {
+      lang: "pt",
+      content: {
+        title: "Guia rápido de tipografia ✨",
+        date: "2025-10-24",
+        tags: [{ tag: "Tipografia", color: "#8E44AD" }, "Estilo"],
+        body: `
+          <h2 id="visao">Visão geral</h2>
+          <p>Texto com acentuação e títulos com emoji para validar slugs estáveis.</p>
+        `
+      },
+      ui: { showCopy: true, proseSize: 'md', center: true }
+    },
+    html: ArticleCustomUI,
+  },
+  
+  {
+    id: 8,
+    title: "TvArticle - RTL Arabic",
+    propsData: {
+      lang: "ar",
+      content: {
+        title: "مقالة عربية",
+        date: "2025-10-25",
+        tags: ["RTL", { tag: "تصميم", color: "#3498DB" }],
+        body: `
+          <h2 id="rtl">لغة من اليمين إلى اليسار</h2>
+          <p>هذا نص لاختبار الاتجاه من اليمين إلى اليسار وعناصر العناوين والروابط.</p>
+          <p><a href="#rtl">الانتقال إلى الأعلى</a></p>
+        `
+      },
+      ui: { showCopy: true, proseSize: 'md', center: true }
+    },
+    html: ArticleBasic,
+  },
+  
+  {
+    id: 9,
+    title: "TvArticle - Portrait Cover",
+    propsData: {
+      lang: "en",
+      content: {
+        title: "Portrait Image Cover",
+        date: "2025-10-26",
+        cover: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=900&h=1200&fit=crop",
+        coverAlt: "Portrait sample",
+        coverCaption: "Testing portrait cover and aspect ratio",
+        body: `
+          <h2 id="cover">Cover Behavior</h2>
+          <p>Validates aspect ratio and lazy/decoding priorities.</p>
+        `
+      },
+      ui: {
+        coverAspect: '3 / 4',
+        coverLoading: 'lazy',
+        coverDecoding: 'async',
+        coverFetchPriority: 'auto',
+        showCopy: true,
+        center: true,
+        proseSize: 'md'
+      }
+    },
+    html: ArticleWithCover,
+  },
+  
+  {
+    id: 10,
+    title: "TvArticle - Custom Header Slot",
+    propsData: {
+      lang: "es",
+      content: {
+        title: "Encabezado personalizado",
+        date: "2025-10-27",
+        body: `
+          <h2 id="slot">Contenido</h2>
+          <p>Este demo valida que si se sobrescribe el header, también debe incluir el botón de copiar.</p>
+        `
+      },
+      ui: { showCopy: true, proseSize: 'md', center: true }
+    },
+    html: ArticleCustomUI,
   },
 ];
