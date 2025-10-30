@@ -118,7 +118,7 @@ export function useArticle (articleContent, ui = {}, language = 'en', emit) {
             a.setAttribute('rel', 'noopener noreferrer')
             a.dataset.external = 'true'
           }
-        } catch { /* ignore */ }
+        } catch {}
       }
       
       if (isHash) {
@@ -142,7 +142,7 @@ export function useArticle (articleContent, ui = {}, language = 'en', emit) {
     const hash = `#${titleId.value}`
     if (!isBrowser()) {
       if (emit) emit('copy', { id: titleId.value, ok: false })
-      return
+      return false
     }
     try {
       if (navigator?.clipboard?.writeText) {
@@ -159,9 +159,10 @@ export function useArticle (articleContent, ui = {}, language = 'en', emit) {
         document.body.removeChild(ta)
       }
       if (emit) emit('copy', { id: titleId.value, ok: true })
+      return true
     } catch (error) {
-      console.error('Error copying title link:', error)
       if (emit) emit('copy', { id: titleId.value, ok: false, error })
+      return false
     }
   }
   

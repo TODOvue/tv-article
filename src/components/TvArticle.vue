@@ -41,8 +41,9 @@ const {
 
 const contentProxy = contentComputed
 const copyMsg = ref('')
-const onCopy = (e) => {
-  copyMsg.value = e?.ok ? 'Link copiado' : 'No se pudo copiar'
+const handleCopyClick = async () => {
+  const ok = await copyTitleLink()
+  copyMsg.value = ok ? 'Link copiado' : 'No se pudo copiar'
   setTimeout(() => { copyMsg.value = '' }, 1500)
 }
 </script>
@@ -51,7 +52,6 @@ const onCopy = (e) => {
   <article
     :class="containerClass"
     :aria-labelledby="contentProxy.title ? titleId : undefined"
-    @copy="onCopy"
   >
     <slot name="header">
       <header
@@ -72,7 +72,7 @@ const onCopy = (e) => {
             class="tv-article__copy"
             type="button"
             :aria-label="`Copiar enlace a ${contentProxy.title}`"
-            @click="copyTitleLink"
+            @click="handleCopyClick"
           >
             <span aria-hidden="true">#</span>
           </button>
