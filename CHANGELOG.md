@@ -59,4 +59,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Build artifacts: ESM/CJS bundles and type definitions in `dist/`.
 - Integrations: `@todovue/tv-label` for tags and `@todovue/tv-relative-time` for dates.
 
+[1.0.1]: https://github.com/TODOvue/tv-article/pull/3/files
 [1.0.0]: https://github.com/TODOvue/tv-article/pull/1/files
