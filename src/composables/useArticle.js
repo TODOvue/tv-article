@@ -31,32 +31,30 @@ export function useArticle (articleContent, ui = {}, language = 'en', emit) {
     coverAspect: null
   }
   
-  const uiOptions = computed(() => ({
-    ...defaultUiOptions,
-    ...uiState.value
-  }))
-  
-  const hasTags = computed(() =>
-    Array.isArray(contentState.value.tags) && contentState.value.tags.length > 0
-  )
+  const uiOptions = computed(() => {
+    const merged = { ...defaultUiOptions, ...uiState.value }
+    const allowedProse = new Set(['sm','md','lg','xl','full'])
+    if (!allowedProse.has(merged.proseSize)) merged.proseSize = 'full'
+    return merged
+  })
   
   const hasMeta = computed(() => {
     const { date, readingTime } = contentState.value
-    return Boolean(date || readingTime || hasTags.value)
+    return Boolean(date || readingTime)
+  })
+  
+  const hasTags = computed(() => {
+    const tags = contentState.value.tags
+    return Array.isArray(tags) && tags.length > 0
   })
   
   const wordsCountFromHtml = (html) => {
     if (!html || typeof html !== 'string') return 0
-    const withoutScripts = html.replace(/<script[\s\S]*?<\/script>/gi, '')
-    const withoutStyles  = withoutScripts.replace(/<style[\s\S]*?<\/style>/gi, '')
-    const text = withoutStyles
-      .replace(/<[^>]+>/g, ' ')
-      .replace(/&[a-z#0-9]+;/gi, ' ')
-      .replace(/\s+/g, ' ')
-      .trim()
-    if (!text) return 0
-    const matches = text.match(/\b[\wÀ-ÿ'-]+\b/g)
-    return matches ? matches.length : 0
+    const tmp = document.createElement('div')
+    tmp.innerHTML = html
+    const text = tmp.textContent || tmp.innerText || ''
+    const words = text.trim().split(/\s+/).filter(Boolean)
+    return words.length
   }
   
   const estimatedMinutes = computed(() => {
@@ -103,6 +101,76 @@ export function useArticle (articleContent, ui = {}, language = 'en', emit) {
     if (!isBrowser()) return
     const el = bodyEl.value
     if (!el) return
+    
+  const headingSelector = 'h1, h2, h3, h4, h5, h6'
+    const headings = el.querySelectorAll(headingSelector)
+    headings.forEach((h) => {
+      if (h.classList.contains('tv-heading-anchor')) return
+      const text = (h.textContent || '').trim()
+      if (!text) return
+      if (!h.id) h.id = slugify(text)
+      h.classList.add('tv-heading-anchor')
+      const btn = document.createElement('button')
+      btn.type = 'button'
+      btn.className = 'tv-anchor-btn'
+      btn.setAttribute('aria-label', `Copy link to ${text}`)
+      btn.innerHTML = '<span aria-hidden="true">#</span>'
+      btn.addEventListener('click', (ev) => {
+        ev.stopPropagation()
+        const hash = `#${h.id}`
+        const full = (typeof window !== 'undefined') ? (window.location.origin + window.location.pathname + hash) : hash
+        try {
+          if (navigator?.clipboard?.writeText) {
+            navigator.clipboard.writeText(full)
+          } else {
+            const ta = document.createElement('textarea')
+            ta.value = full
+            ta.style.position = 'fixed'
+            ta.style.left = '-9999px'
+            document.body.appendChild(ta)
+            ta.focus(); ta.select()
+            document.execCommand('copy')
+            document.body.removeChild(ta)
+          }
+        } catch {}
+        btn.classList.add('is-copied')
+        setTimeout(() => btn.classList.remove('is-copied'), 1200)
+      })
+      h.appendChild(btn)
+    })
+    
+    const pres = el.querySelectorAll('pre')
+    pres.forEach((pre) => {
+      if (pre.classList.contains('tv-codeblock')) return
+      pre.classList.add('tv-codeblock')
+      const btn = document.createElement('button')
+      btn.type = 'button'
+      btn.className = 'tv-code-copy'
+      btn.setAttribute('aria-label', 'Copy code')
+      btn.innerHTML = '<span aria-hidden="true">⧉</span>'
+      btn.addEventListener('click', (ev) => {
+        ev.stopPropagation()
+        const code = pre.querySelector('code')
+        const text = code ? code.innerText : pre.innerText
+        try {
+          if (navigator?.clipboard?.writeText) {
+            navigator.clipboard.writeText(text)
+          } else {
+            const ta = document.createElement('textarea')
+            ta.value = text
+            ta.style.position = 'fixed'
+            ta.style.left = '-9999px'
+            document.body.appendChild(ta)
+            ta.focus(); ta.select()
+            document.execCommand('copy')
+            document.body.removeChild(ta)
+          }
+        } catch {}
+        btn.classList.add('is-copied')
+        setTimeout(() => btn.classList.remove('is-copied'), 1200)
+      })
+      pre.appendChild(btn)
+    })
     
     const anchors = el.querySelectorAll('a[href]')
     anchors.forEach(a => {
@@ -160,8 +228,8 @@ export function useArticle (articleContent, ui = {}, language = 'en', emit) {
       }
       if (emit) emit('copy', { id: titleId.value, ok: true })
       return true
-    } catch (error) {
-      if (emit) emit('copy', { id: titleId.value, ok: false, error })
+    } catch (e) {
+      if (emit) emit('copy', { id: titleId.value, ok: false, error: e })
       return false
     }
   }
