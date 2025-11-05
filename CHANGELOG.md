@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+# [1.0.2] - 2025-11-04
+## 🛠️ Changed
+* Improved accessibility for the copy link button with better focus styles and screen reader support.
+* Enhanced external link indicator styling for better visibility and user experience.
+
 # [1.0.1] – 2025-10-30
 
 ## ✨ Added
@@ -59,5 +64,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Build artifacts: ESM/CJS bundles and type definitions in `dist/`.
 - Integrations: `@todovue/tv-label` for tags and `@todovue/tv-relative-time` for dates.
 
+[1.0.2]: https://github.com/TODOvue/tv-article/pull/4/files
 [1.0.1]: https://github.com/TODOvue/tv-article/pull/3/files
 [1.0.0]: https://github.com/TODOvue/tv-article/pull/1/files
