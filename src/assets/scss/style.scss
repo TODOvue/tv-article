@@ -36,7 +36,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: variables.$tv-article-spacing-sm;
-  color: variables.$tv-article-text-secondary;
+  color: variables.$tv-article-text;
   font-size: 0.95rem;
 }
 
@@ -296,7 +296,7 @@
   opacity: 0.8;
 }
 
-@media (prefers-color-scheme: dark) {
+.dark-mode {
   .tv-article__copy {
     border-color: variables.$tv-article-border-dark;
     background: variables.$tv-article-bg-blockquote-dark;
@@ -306,7 +306,7 @@
   .tv-article__meta,
   .tv-article__date,
   .tv-article__reading-time {
-    color: variables.$tv-article-text-secondary-dark;
+    color: variables.$tv-article-text;
   }
 }
 

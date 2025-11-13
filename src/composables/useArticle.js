@@ -1,4 +1,5 @@
 import { computed, ref, onMounted, nextTick, watch, unref } from 'vue'
+import MarkdownIt from 'markdown-it'
 
 function slugify (str = '') {
   return (
@@ -10,12 +11,100 @@ function slugify (str = '') {
   )
 }
 
+function renderMinimarkNode(node) {
+  if (typeof node === 'string') {
+    return node;
+  }
+
+  if (!Array.isArray(node) || node.length === 0) {
+    return '';
+  }
+
+  const [tag, attrs, ...children] = node;
+  const voidElements = new Set(['hr', 'br', 'img', 'input', 'meta', 'link']);
+  
+  if (tag === 'style') {
+    const renderedChildren = children.map(renderMinimarkNode).join('');
+    return `<${tag}>${renderedChildren}</${tag}>`;
+  }
+
+  if (tag === 'pre') {
+    const attributes = Object.entries(attrs || {})
+      .map(([key, value]) => {
+        if (key === '__ignoreMap' || key === 'code' || key === 'language' || key === 'meta' || key === 'style') return '';
+        const attrKey = key === 'className' ? 'class' : key;
+        return `${attrKey}="${String(value)}"`;
+      })
+      .filter(Boolean)
+      .join(' ');
+    
+    const renderedChildren = children.map(renderMinimarkNode).join('');
+    return `<${tag}${attributes ? ' ' + attributes : ''}>${renderedChildren}</${tag}>`;
+  }
+
+  const attributes = Object.entries(attrs || {})
+    .map(([key, value]) => {
+      if (tag === 'code' && key === '__ignoreMap') {
+        return '__ignoreMap=""';
+      }
+      if (tag === 'span' && key === 'emptyLinePlaceholder') {
+        return 'emptyLinePlaceholder="true"';
+      }
+      if (key === '__ignoreMap' || key === 'code' || key === 'language' || key === 'meta' || key === 'style') return '';
+      
+      const attrKey = key === 'className' ? 'class' : key;
+      if (Array.isArray(value)) {
+        return `${attrKey}="${value.join(' ')}"`;
+      }
+      return `${attrKey}="${String(value)}"`;
+    })
+    .filter(Boolean)
+    .join(' ');
+
+  if (voidElements.has(tag)) {
+    return `<${tag}${attributes ? ' ' + attributes : ''}>`;
+  }
+
+  const renderedChildren = children.map(renderMinimarkNode).join('');
+
+  return `<${tag}${attributes ? ' ' + attributes : ''}>${renderedChildren}</${tag}>`;
+}
+
 export function useArticle (articleContent, ui = {}, language = 'en', emit) {
-  const contentState = computed(() => unref(articleContent) || {})
+  const md = new MarkdownIt()
+  const contentState = computed(() => {
+    const raw = unref(articleContent) || {}
+    return {
+      ...raw,
+      cover: raw.cover || raw.meta?.cover,
+      coverAlt: raw.coverAlt || raw.meta?.coverAlt,
+      coverCaption: raw.coverCaption || raw.meta?.coverCaption,
+      readingTime: raw.readingTime || raw.meta?.readingTime
+    }
+  })
   const uiState      = computed(() => unref(ui) || {})
   const langState    = computed(() => {
     const raw = unref(language)
     return typeof raw === 'string' ? raw : 'en'
+  })
+
+  const renderedBody = computed(() => {
+    const body = contentState.value.body || ''
+    if (typeof body === 'object' && body !== null) {
+      if (body.type === 'minimark' && Array.isArray(body.value)) {
+        return body.value.map(renderMinimarkNode).join('');
+      }
+      console.warn('TvArticle: body es un objeto no reconocido:', body);
+      return ''
+    }
+    if (typeof body === 'string' && !/<\/?[a-z][\s\S]*>/i.test(body)) {
+      return md.render(body)
+    }
+    if (typeof body === 'string') {
+      return body
+    }
+    
+    return ''
   })
   
   const defaultUiOptions = {
@@ -58,11 +147,11 @@ export function useArticle (articleContent, ui = {}, language = 'en', emit) {
   }
   
   const estimatedMinutes = computed(() => {
-    const { readingTime, body } = contentState.value
+    const { readingTime } = contentState.value
     if (readingTime != null && !Number.isNaN(Number(readingTime))) {
       return Math.max(1, Math.ceil(Number(readingTime)))
     }
-    const wc = wordsCountFromHtml(body)
+    const wc = wordsCountFromHtml(renderedBody.value)
     if (!wc) return null
     return Math.max(1, Math.ceil(wc / 200))
   })
@@ -102,7 +191,7 @@ export function useArticle (articleContent, ui = {}, language = 'en', emit) {
     const el = bodyEl.value
     if (!el) return
     
-  const headingSelector = 'h1, h2, h3, h4, h5, h6'
+    const headingSelector = 'h1, h2, h3, h4, h5, h6'
     const headings = el.querySelectorAll(headingSelector)
     headings.forEach((h) => {
       if (h.classList.contains('tv-heading-anchor')) return
@@ -202,10 +291,7 @@ export function useArticle (articleContent, ui = {}, language = 'en', emit) {
       }
     })
   }
-  
-  onMounted(() => nextTick(enhanceAnchors))
-  watch(() => contentState.value.body, () => nextTick(enhanceAnchors))
-  
+
   const copyTitleLink = async () => {
     const hash = `#${titleId.value}`
     if (!isBrowser()) {
@@ -213,41 +299,36 @@ export function useArticle (articleContent, ui = {}, language = 'en', emit) {
       return false
     }
     try {
-      if (navigator?.clipboard?.writeText) {
-        await navigator.clipboard.writeText(hash)
-      } else {
-        const ta = document.createElement('textarea')
-        ta.value = hash
-        ta.style.position = 'fixed'
-        ta.style.left = '-9999px'
-        document.body.appendChild(ta)
-        ta.focus()
-        ta.select()
-        document.execCommand('copy')
-        document.body.removeChild(ta)
-      }
+      const fullUrl = window.location.origin + window.location.pathname + hash
+      await navigator.clipboard.writeText(fullUrl)
       if (emit) emit('copy', { id: titleId.value, ok: true })
       return true
-    } catch (e) {
-      if (emit) emit('copy', { id: titleId.value, ok: false, error: e })
+    } catch (err) {
+      console.error('Failed to copy title link:', err)
+      if (emit) emit('copy', { id: titleId.value, ok: false })
       return false
     }
   }
-  
+
+  onMounted(() => {
+    watch([bodyEl, renderedBody], ([newEl]) => {
+      if (newEl) {
+        nextTick(enhanceAnchors)
+      }
+    }, { immediate: true })
+  })
+
   return {
     contentState,
     uiOptions,
-    
     hasMeta,
     hasTags,
-    estimatedMinutes,
     formatReadingTime,
-    
     proseClass,
     containerClass,
     bodyEl,
     titleId,
-    
-    copyTitleLink
+    copyTitleLink,
+    renderedBody
   }
 }

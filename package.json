@@ -60,6 +60,7 @@
   },
   "dependencies": {
     "@todovue/tv-label": "^1.0.0",
-    "@todovue/tv-relative-time": "^1.0.0"
+    "@todovue/tv-relative-time": "^1.0.0",
+    "markdown-it": "^13.0.0"
   }
 }

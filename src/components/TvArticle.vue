@@ -36,7 +36,8 @@ const {
   containerClass,
   bodyEl,
   titleId,
-  copyTitleLink
+  copyTitleLink,
+  renderedBody
 } = useArticle(content, ui, lang, emit)
 
 const contentProxy = contentComputed
@@ -100,40 +101,37 @@ const handleCopyClick = async () => {
           </TvLabel>
         </div>
 
-        <figure
-          v-if="uiOptions.showCover && contentProxy.cover"
-          class="tv-article__cover"
-          :style="uiOptions.coverAspect ? { aspectRatio: uiOptions.coverAspect } : null"
+        <slot
+          name="cover"
+          :cover="contentProxy.cover"
+          :cover-alt="contentProxy.coverAlt"
+          :ui="uiOptions"
         >
-          <img
-            :src="contentProxy.cover"
-            :alt="contentProxy.coverAlt || contentProxy.title || 'Imagen de portada'"
-            class="tv-article__cover-image"
-            :loading="uiOptions.coverLoading"
-            :decoding="uiOptions.coverDecoding"
-            :fetchpriority="uiOptions.coverFetchPriority"
-          />
-          <figcaption v-if="contentProxy.coverCaption" class="tv-article__cover-caption">
-            {{ contentProxy.coverCaption }}
-          </figcaption>
-        </figure>
+          <figure
+            v-if="uiOptions.showCover && contentProxy.cover"
+            class="tv-article__cover"
+            :style="uiOptions.coverAspect ? { aspectRatio: uiOptions.coverAspect } : {}"
+          >
+            <img
+              :src="contentProxy.cover"
+              :alt="contentProxy.coverAlt || ''"
+              :loading="uiOptions.coverLoading"
+              :decoding="uiOptions.coverDecoding"
+              :fetchpriority="uiOptions.coverFetchPriority"
+            >
+            <figcaption v-if="contentProxy.coverCaption" class="tv-article__cover-caption">
+              {{ contentProxy.coverCaption }}
+            </figcaption>
+          </figure>
+        </slot>
       </header>
     </slot>
 
-    <slot name="before" />
-
-    <div :class="proseClass">
-      <div
-        v-if="contentProxy.body"
-        v-html="contentProxy.body"
-        ref="bodyEl"
-        class="tv-article__body"
-      />
-      <slot v-else />
-    </div>
-
-    <slot name="after" />
-    <slot name="footer" />
+    <div
+      ref="bodyEl"
+      :class="proseClass"
+      v-html="renderedBody"
+    />
   </article>
 </template>
 
