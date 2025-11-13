@@ -311,7 +311,7 @@ export function useArticle (articleContent, ui = {}, language = 'en', emit) {
   }
 
   onMounted(() => {
-    watch(bodyEl, (newEl) => {
+    watch([bodyEl, renderedBody], ([newEl]) => {
       if (newEl) {
         nextTick(enhanceAnchors)
       }
