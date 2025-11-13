@@ -16,7 +16,7 @@ const TvArticle = defineAsyncComponent(/* webpackChunkName: "TvArticle" */() => 
     npmInstall="@todovue/tv-article"
     sourceLink="https://github.com/TODOvue/tv-article"
     urlClone="https://github.com/TODOvue/tv-article.git"
-    version="1.0.1"
+    version="1.1.0"
   ></tv-demo>
 </template>
 

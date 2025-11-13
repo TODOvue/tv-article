@@ -19,25 +19,1044 @@ export const demos = [
           { tag: "Composition API", color: "#35495e" },
           "Frontend"
         ],
-        body: `
-          <h2 id="que-es">¿Qué es la Composition API?</h2>
-          <p>Una forma más flexible de organizar lógica de componentes con mejores opciones para reutilizar código.</p>
-
-          <h3 id="ejemplo-basico">Ejemplo básico</h3>
-          <pre><code>import { ref, computed } from 'vue';
-
-export default {
-  setup() {
-    const count = ref(0);
-    const doubled = computed(() => count.value * 2);
-    const increment = () => { count.value++; };
-    return { count, doubled, increment };
-  }
-}</code></pre>
-
-          <p>Más detalles en la <a href="https://vuejs.org/guide/introduction.html">documentación oficial</a>.</p>
-          <p>Ir a <a href="#que-es">¿Qué es la Composition API?</a></p>
-        `
+        body: {
+          "type": "minimark",
+          "value": [
+            [
+              "p",
+              {},
+              "Welcome to the first official blog post of ",
+              [
+                "strong",
+                {},
+                "TODOvue"
+              ],
+              "! This is the beginning of an exciting journey where we will document the creation of a complete Vue 3 component library."
+            ],
+            [
+              "h2",
+              {
+                "id": "what-is-todovue"
+              },
+              "What is TODOvue?"
+            ],
+            [
+              "p",
+              {},
+              "TODOvue is a collection of Vue 3 components designed with best practices in mind:"
+            ],
+            [
+              "ul",
+              {},
+              [
+                "li",
+                {},
+                [
+                  "strong",
+                  {},
+                  "Modern"
+                ],
+                ": Composition API, TypeScript, and the latest Vue 3 features"
+              ],
+              [
+                "li",
+                {},
+                [
+                  "strong",
+                  {},
+                  "Accessible"
+                ],
+                ": Following ARIA standards and accessibility best practices"
+              ],
+              [
+                "li",
+                {},
+                [
+                  "strong",
+                  {},
+                  "SSR-Ready"
+                ],
+                ": Compatible with Nuxt 3 and server-side rendering"
+              ],
+              [
+                "li",
+                {},
+                [
+                  "strong",
+                  {},
+                  "Tree-shakeable"
+                ],
+                ": Import only what you need"
+              ],
+              [
+                "li",
+                {},
+                [
+                  "strong",
+                  {},
+                  "Well-documented"
+                ],
+                ": Each component comes with complete documentation and examples"
+              ]
+            ],
+            [
+              "h2",
+              {
+                "id": "the-first-component-tvarticle"
+              },
+              "The First Component: TvArticle"
+            ],
+            [
+              "p",
+              {},
+              "Our first released component is ",
+              [
+                "code",
+                {},
+                "TvArticle"
+              ],
+              ", a specialized component for rendering article content with polished typography and advanced features."
+            ],
+            [
+              "h3",
+              {
+                "id": "key-features"
+              },
+              "Key Features"
+            ],
+            [
+              "p",
+              {},
+              "The ",
+              [
+                "code",
+                {},
+                "TvArticle"
+              ],
+              " component includes:"
+            ],
+            [
+              "ol",
+              {},
+              [
+                "li",
+                {},
+                [
+                  "strong",
+                  {},
+                  "Prose typography"
+                ],
+                " for long content (paragraphs, lists, tables, blockquotes, code, images)"
+              ],
+              [
+                "li",
+                {},
+                [
+                  "strong",
+                  {},
+                  "Copyable anchors"
+                ],
+                " on H2-H4 headings with localized feedback"
+              ],
+              [
+                "li",
+                {},
+                [
+                  "strong",
+                  {},
+                  "Optional metadata"
+                ],
+                ": date (with a relative-time component), reading time, and colored tags"
+              ],
+              [
+                "li",
+                {},
+                [
+                  "strong",
+                  {},
+                  "Cover image"
+                ],
+                " with control over ",
+                [
+                  "code",
+                  {},
+                  "loading"
+                ],
+                ", ",
+                [
+                  "code",
+                  {},
+                  "decoding"
+                ],
+                ", ",
+                [
+                  "code",
+                  {},
+                  "fetchpriority"
+                ],
+                ", and aspect ratio"
+              ],
+              [
+                "li",
+                {},
+                [
+                  "strong",
+                  {},
+                  "Configurable layout"
+                ],
+                ": centered container and prose width control"
+              ]
+            ],
+            [
+              "h3",
+              {
+                "id": "usage-example"
+              },
+              "Usage Example"
+            ],
+            [
+              "pre",
+              {
+                "className": "language-vue shiki shiki-themes github-light github-dark",
+                "code": "<script setup>\nimport { TvArticle } from '@todovue/tv-article'\n\nconst article = {\n  title: 'My First Article',\n  description: 'An introduction to the TODOvue ecosystem',\n  date: '2025-11-12',\n  readingTime: 5,\n  tags: ['Vue', { tag: 'JavaScript', color: '#F7DF1E' }],\n  body: `\n    <h2 id=\"introduction\">Introduction</h2>\n    <p>Article content...</p>\n  `\n}\n</script>\n\n<template>\n  <TvArticle :content=\"article\" lang=\"en\" />\n</template>\n",
+                "language": "vue",
+                "meta": "",
+                "style": ""
+              },
+              [
+                "code",
+                {
+                  "__ignoreMap": ""
+                },
+                [
+                  "span",
+                  {
+                    "class": "line",
+                    "line": 1
+                  },
+                  [
+                    "span",
+                    {
+                      "class": "sVt8B"
+                    },
+                    "<"
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "s9eBZ"
+                    },
+                    "script"
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "sScJk"
+                    },
+                    " setup"
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "sVt8B"
+                    },
+                    ">\n"
+                  ]
+                ],
+                [
+                  "span",
+                  {
+                    "class": "line",
+                    "line": 2
+                  },
+                  [
+                    "span",
+                    {
+                      "class": "szBVR"
+                    },
+                    "import"
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "sVt8B"
+                    },
+                    " { TvArticle } "
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "szBVR"
+                    },
+                    "from"
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "sZZnC"
+                    },
+                    " '@todovue/tv-article'\n"
+                  ]
+                ],
+                [
+                  "span",
+                  {
+                    "class": "line",
+                    "line": 3
+                  },
+                  [
+                    "span",
+                    {
+                      "emptyLinePlaceholder": true
+                    },
+                    "\n"
+                  ]
+                ],
+                [
+                  "span",
+                  {
+                    "class": "line",
+                    "line": 4
+                  },
+                  [
+                    "span",
+                    {
+                      "class": "szBVR"
+                    },
+                    "const"
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "sj4cs"
+                    },
+                    " article"
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "szBVR"
+                    },
+                    " ="
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "sVt8B"
+                    },
+                    " {\n"
+                  ]
+                ],
+                [
+                  "span",
+                  {
+                    "class": "line",
+                    "line": 5
+                  },
+                  [
+                    "span",
+                    {
+                      "class": "sVt8B"
+                    },
+                    "  title: "
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "sZZnC"
+                    },
+                    "'My First Article'"
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "sVt8B"
+                    },
+                    ",\n"
+                  ]
+                ],
+                [
+                  "span",
+                  {
+                    "class": "line",
+                    "line": 6
+                  },
+                  [
+                    "span",
+                    {
+                      "class": "sVt8B"
+                    },
+                    "  description: "
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "sZZnC"
+                    },
+                    "'An introduction to the TODOvue ecosystem'"
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "sVt8B"
+                    },
+                    ",\n"
+                  ]
+                ],
+                [
+                  "span",
+                  {
+                    "class": "line",
+                    "line": 7
+                  },
+                  [
+                    "span",
+                    {
+                      "class": "sVt8B"
+                    },
+                    "  date: "
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "sZZnC"
+                    },
+                    "'2025-11-12'"
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "sVt8B"
+                    },
+                    ",\n"
+                  ]
+                ],
+                [
+                  "span",
+                  {
+                    "class": "line",
+                    "line": 8
+                  },
+                  [
+                    "span",
+                    {
+                      "class": "sVt8B"
+                    },
+                    "  readingTime: "
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "sj4cs"
+                    },
+                    "5"
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "sVt8B"
+                    },
+                    ",\n"
+                  ]
+                ],
+                [
+                  "span",
+                  {
+                    "class": "line",
+                    "line": 9
+                  },
+                  [
+                    "span",
+                    {
+                      "class": "sVt8B"
+                    },
+                    "  tags: ["
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "sZZnC"
+                    },
+                    "'Vue'"
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "sVt8B"
+                    },
+                    ", { tag: "
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "sZZnC"
+                    },
+                    "'JavaScript'"
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "sVt8B"
+                    },
+                    ", color: "
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "sZZnC"
+                    },
+                    "'#F7DF1E'"
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "sVt8B"
+                    },
+                    " }],\n"
+                  ]
+                ],
+                [
+                  "span",
+                  {
+                    "class": "line",
+                    "line": 10
+                  },
+                  [
+                    "span",
+                    {
+                      "class": "sVt8B"
+                    },
+                    "  body: "
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "sZZnC"
+                    },
+                    "`\n"
+                  ]
+                ],
+                [
+                  "span",
+                  {
+                    "class": "line",
+                    "line": 11
+                  },
+                  [
+                    "span",
+                    {
+                      "class": "sZZnC"
+                    },
+                    "    <h2 id=\"introduction\">Introduction</h2>\n"
+                  ]
+                ],
+                [
+                  "span",
+                  {
+                    "class": "line",
+                    "line": 12
+                  },
+                  [
+                    "span",
+                    {
+                      "class": "sZZnC"
+                    },
+                    "    <p>Article content...</p>\n"
+                  ]
+                ],
+                [
+                  "span",
+                  {
+                    "class": "line",
+                    "line": 13
+                  },
+                  [
+                    "span",
+                    {
+                      "class": "sZZnC"
+                    },
+                    "  `\n"
+                  ]
+                ],
+                [
+                  "span",
+                  {
+                    "class": "line",
+                    "line": 14
+                  },
+                  [
+                    "span",
+                    {
+                      "class": "sVt8B"
+                    },
+                    "}\n"
+                  ]
+                ],
+                [
+                  "span",
+                  {
+                    "class": "line",
+                    "line": 15
+                  },
+                  [
+                    "span",
+                    {
+                      "class": "sVt8B"
+                    },
+                    "</"
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "s9eBZ"
+                    },
+                    "script"
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "sVt8B"
+                    },
+                    ">\n"
+                  ]
+                ],
+                [
+                  "span",
+                  {
+                    "class": "line",
+                    "line": 16
+                  },
+                  [
+                    "span",
+                    {
+                      "emptyLinePlaceholder": true
+                    },
+                    "\n"
+                  ]
+                ],
+                [
+                  "span",
+                  {
+                    "class": "line",
+                    "line": 17
+                  },
+                  [
+                    "span",
+                    {
+                      "class": "sVt8B"
+                    },
+                    "<"
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "s9eBZ"
+                    },
+                    "template"
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "sVt8B"
+                    },
+                    ">\n"
+                  ]
+                ],
+                [
+                  "span",
+                  {
+                    "class": "line",
+                    "line": 18
+                  },
+                  [
+                    "span",
+                    {
+                      "class": "sVt8B"
+                    },
+                    "  <"
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "s9eBZ"
+                    },
+                    "TvArticle"
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "sVt8B"
+                    },
+                    " :"
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "sScJk"
+                    },
+                    "content"
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "sVt8B"
+                    },
+                    "="
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "sZZnC"
+                    },
+                    "\""
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "sVt8B"
+                    },
+                    "article"
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "sZZnC"
+                    },
+                    "\""
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "sScJk"
+                    },
+                    " lang"
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "sVt8B"
+                    },
+                    "="
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "sZZnC"
+                    },
+                    "\"en\""
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "sVt8B"
+                    },
+                    " />\n"
+                  ]
+                ],
+                [
+                  "span",
+                  {
+                    "class": "line",
+                    "line": 19
+                  },
+                  [
+                    "span",
+                    {
+                      "class": "sVt8B"
+                    },
+                    "</"
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "s9eBZ"
+                    },
+                    "template"
+                  ],
+                  [
+                    "span",
+                    {
+                      "class": "sVt8B"
+                    },
+                    ">\n"
+                  ]
+                ]
+              ]
+            ],
+            [
+              "h2",
+              {
+                "id": "why-another-component-library"
+              },
+              "Why Another Component Library?"
+            ],
+            [
+              "p",
+              {},
+              "There are many excellent libraries like Vuetify, PrimeVue, or Element Plus. So, why TODOvue?"
+            ],
+            [
+              "h3",
+              {
+                "id": "different-philosophy"
+              },
+              "Different Philosophy"
+            ],
+            [
+              "p",
+              {},
+              "TODOvue is born with a specific philosophy:"
+            ],
+            [
+              "ul",
+              {},
+              [
+                "li",
+                {},
+                [
+                  "strong",
+                  {},
+                  "Specialized components"
+                ],
+                ": We don't try to be everything to everyone. Each component solves one specific problem very well."
+              ],
+              [
+                "li",
+                {},
+                [
+                  "strong",
+                  {},
+                  "Zero unnecessary dependencies"
+                ],
+                ": Only strictly necessary dependencies."
+              ],
+              [
+                "li",
+                {},
+                [
+                  "strong",
+                  {},
+                  "Injected styles"
+                ],
+                ": CSS automatically injected via JavaScript, with no manual configuration."
+              ],
+              [
+                "li",
+                {},
+                [
+                  "strong",
+                  {},
+                  "TypeScript first"
+                ],
+                ": First-class types, not an afterthought."
+              ]
+            ],
+            [
+              "h2",
+              {
+                "id": "the-road-ahead"
+              },
+              "The Road Ahead"
+            ],
+            [
+              "p",
+              {},
+              "This blog will document the complete development process:"
+            ],
+            [
+              "ul",
+              {},
+              [
+                "li",
+                {},
+                "Architecture decisions and why we made them"
+              ],
+              [
+                "li",
+                {},
+                "Technical challenges and how we solve them"
+              ],
+              [
+                "li",
+                {},
+                "New components and their use cases"
+              ],
+              [
+                "li",
+                {},
+                "Performance improvements and optimizations"
+              ],
+              [
+                "li",
+                {},
+                "Community feedback and iterations"
+              ]
+            ],
+            [
+              "h2",
+              {
+                "id": "join-the-journey"
+              },
+              "Join the Journey"
+            ],
+            [
+              "p",
+              {},
+              "TODOvue is open source and we welcome contributions. Whether you want to:"
+            ],
+            [
+              "ul",
+              {},
+              [
+                "li",
+                {},
+                "Report bugs or suggest features"
+              ],
+              [
+                "li",
+                {},
+                "Contribute code or documentation"
+              ],
+              [
+                "li",
+                {},
+                "Share your use cases"
+              ],
+              [
+                "li",
+                {},
+                "Simply follow the progress"
+              ]
+            ],
+            [
+              "p",
+              {},
+              "All forms of participation are welcome!"
+            ],
+            [
+              "h2",
+              {
+                "id": "next-steps"
+              },
+              "Next Steps"
+            ],
+            [
+              "p",
+              {},
+              "In the following posts we will explore:"
+            ],
+            [
+              "ol",
+              {},
+              [
+                "li",
+                {},
+                "The internal architecture of TvArticle"
+              ],
+              [
+                "li",
+                {},
+                "How we handle SSR and style injection"
+              ],
+              [
+                "li",
+                {},
+                "The localization and i18n system"
+              ],
+              [
+                "li",
+                {},
+                "Helper components: TvLabel and TvRelativeTime"
+              ],
+              [
+                "li",
+                {},
+                "Plans for new components"
+              ]
+            ],
+            [
+              "hr",
+              {}
+            ],
+            [
+              "p",
+              {},
+              "Do you have any questions or comments? We would love to hear them! Follow us on ",
+              [
+                "a",
+                {
+                  "href": "https://github.com/TODOvue",
+                  "rel": [
+                    "nofollow"
+                  ]
+                },
+                "GitHub"
+              ],
+              " to stay up to date with the latest news."
+            ],
+            [
+              "style",
+              {},
+              "html pre.shiki code .sVt8B, html code.shiki .sVt8B{--shiki-default:#24292E;--shiki-dark:#E1E4E8}html pre.shiki code .s9eBZ, html code.shiki .s9eBZ{--shiki-default:#22863A;--shiki-dark:#85E89D}html pre.shiki code .sScJk, html code.shiki .sScJk{--shiki-default:#6F42C1;--shiki-dark:#B392F0}html pre.shiki code .szBVR, html code.shiki .szBVR{--shiki-default:#D73A49;--shiki-dark:#F97583}html pre.shiki code .sZZnC, html code.shiki .sZZnC{--shiki-default:#032F62;--shiki-dark:#9ECBFF}html pre.shiki code .sj4cs, html code.shiki .sj4cs{--shiki-default:#005CC5;--shiki-dark:#79B8FF}html .default .shiki span {color: var(--shiki-default);background: var(--shiki-default-bg);font-style: var(--shiki-default-font-style);font-weight: var(--shiki-default-font-weight);text-decoration: var(--shiki-default-text-decoration);}html .shiki span {color: var(--shiki-default);background: var(--shiki-default-bg);font-style: var(--shiki-default-font-style);font-weight: var(--shiki-default-font-weight);text-decoration: var(--shiki-default-text-decoration);}html .dark .shiki span {color: var(--shiki-dark);background: var(--shiki-dark-bg);font-style: var(--shiki-dark-font-style);font-weight: var(--shiki-dark-font-weight);text-decoration: var(--shiki-dark-text-decoration);}html.dark .shiki span {color: var(--shiki-dark);background: var(--shiki-dark-bg);font-style: var(--shiki-dark-font-style);font-weight: var(--shiki-dark-font-weight);text-decoration: var(--shiki-dark-text-decoration);}"
+            ]
+          ],
+          "toc": {
+            "title": "",
+            "searchDepth": 2,
+            "depth": 2,
+            "links": [
+              {
+                "id": "what-is-todovue",
+                "depth": 2,
+                "text": "What is TODOvue?"
+              },
+              {
+                "id": "the-first-component-tvarticle",
+                "depth": 2,
+                "text": "The First Component: TvArticle",
+                "children": [
+                  {
+                    "id": "key-features",
+                    "depth": 3,
+                    "text": "Key Features"
+                  },
+                  {
+                    "id": "usage-example",
+                    "depth": 3,
+                    "text": "Usage Example"
+                  }
+                ]
+              },
+              {
+                "id": "why-another-component-library",
+                "depth": 2,
+                "text": "Why Another Component Library?",
+                "children": [
+                  {
+                    "id": "different-philosophy",
+                    "depth": 3,
+                    "text": "Different Philosophy"
+                  }
+                ]
+              },
+              {
+                "id": "the-road-ahead",
+                "depth": 2,
+                "text": "The Road Ahead"
+              },
+              {
+                "id": "join-the-journey",
+                "depth": 2,
+                "text": "Join the Journey"
+              },
+              {
+                "id": "next-steps",
+                "depth": 2,
+                "text": "Next Steps"
+              }
+            ]
+          }
+        }
       },
       ui: {
         center: true,
