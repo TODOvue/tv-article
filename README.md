@@ -4,9 +4,15 @@
 A Vue 3 component to display rich article content with polished typography, optional cover image, metadata (date, reading time, tags), and copyable heading anchors. Works in SPA and SSR (e.g., Nuxt 4) and injects styles automatically.
 
 [![npm](https://img.shields.io/npm/v/@todovue/tv-article.svg)](https://www.npmjs.com/package/@todovue/tv-article)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/fd404c24-0238-4fa8-9f44-2d53ea939930/deploy-status)](https://app.netlify.com/projects/tv-article/deploys)
 [![npm downloads](https://img.shields.io/npm/dm/@todovue/tv-article.svg)](https://www.npmjs.com/package/@todovue/tv-article)
+[![npm total downloads](https://img.shields.io/npm/dt/@todovue/tv-article.svg)](https://www.npmjs.com/package/@todovue/tv-article)
 ![License](https://img.shields.io/github/license/TODOvue/tv-article)
-
+![Release Date](https://img.shields.io/github/release-date/TODOvue/tv-article)
+![Bundle Size](https://img.shields.io/bundlephobia/minzip/@todovue/tv-article)
+![Node Version](https://img.shields.io/node/v/@todovue/tv-article)
+![Last Commit](https://img.shields.io/github/last-commit/TODOvue/tv-article)
+![Stars](https://img.shields.io/github/stars/TODOvue/tv-article?style=social)
 > Demo: https://tv-article.netlify.app
 
 ---
@@ -58,20 +64,25 @@ Peer: Vue ^3.
 
 ---
 ## Quick Start (SPA)
+**Important**: You must explicitly import the stylesheet in your application.
+
 Global registration (main.js / main.ts):
 ```js
 import { createApp } from 'vue'
 import App from './App.vue'
-import TvArticle from '@todovue/tv-article'
 
-createApp(App)
-  .use(TvArticle) // enables <TvArticle /> globally
-  .mount('#app')
+import '@todovue/tv-article/style.css'
+import { TvArticle } from '@todovue/tv-article'
+
+const app = createApp(App)
+app.component('TvArticle', TvArticle)
+app.mount('#app')
 ```
 Local import inside a component:
 ```vue
 <script setup>
 import { TvArticle } from '@todovue/tv-article'
+import '@todovue/tv-article/style.css'
 
 const article = {
   title: 'Introduction to Vue 3',
@@ -250,7 +261,7 @@ npm run dev      # demo playground with Vite
 npm run build    # library build (ESM/CJS + d.ts)
 npm run build:demo  # demo site build (dist-demo)
 ```
-The library marks `vue` as external and generates `dist/tv-article.es.js`, `dist/tv-article.cjs.js`, and type definitions. Styles are injected via `vite-plugin-css-injected-by-js`.
+The library marks `vue` as external and generates `dist/tv-article.es.js`, `dist/tv-article.cjs.js`, `dist/tv-article.css`, and type definitions.
 
 ---
 ### Notes
