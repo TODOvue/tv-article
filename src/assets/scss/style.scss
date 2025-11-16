@@ -85,36 +85,25 @@
   &--xl  { max-width: 90ch; }
   &--full{ max-width: 100%; }
 
-  :deep(h1),
-  :deep(h2) {
+  h1,
+  h2 {
     margin: variables.$tv-article-spacing-xl 0 variables.$tv-article-spacing-md;
     font-weight: 700;
     color: variables.$tv-article-text;
     scroll-margin-top: 6rem;
   }
 
-  :deep(h1) {
-    font-size: 2rem;
-  }
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.75rem; }
+  h3 { font-size: 1.5rem; }
+  h4 { font-size: 1.25rem; }
 
-  :deep(h2) {
-    font-size: 1.75rem;
-  }
-
-  :deep(h3) {
-    font-size: 1.5rem;
-  }
-
-  :deep(h4) {
-    font-size: 1.25rem;
-  }
-
-  :deep(p) {
+  p {
     margin: 0 0 variables.$tv-article-spacing-lg;
     color: variables.$tv-article-text;
   }
 
-  :deep(a) {
+  a {
     color: variables.$tv-article-primary;
     text-decoration: underline;
     text-underline-offset: 2px;
@@ -125,14 +114,14 @@
     }
   }
 
-  :deep(code) {
+  code {
     font-family: variables.$tv-article-font-family-mono;
     background-color: variables.$tv-article-bg-code;
     padding: 0.125rem 0.375rem;
     border-radius: variables.$tv-article-radius-sm;
   }
 
-  :deep(pre) {
+  pre {
     margin: variables.$tv-article-spacing-xl 0;
     background-color: variables.$tv-article-bg-code;
     padding: variables.$tv-article-spacing-lg;
@@ -145,7 +134,7 @@
     }
   }
 
-  :deep(table) {
+  table {
     width: 100%;
     border-collapse: collapse;
     margin: variables.$tv-article-spacing-xl 0;
@@ -158,22 +147,18 @@
       vertical-align: top;
     }
 
-    thead {
-      background-color: variables.$tv-article-bg-table-alt;
-    }
+    thead { background-color: variables.$tv-article-bg-table-alt; }
 
-    tbody tr:nth-child(even) {
-      background-color: variables.$tv-article-bg-table-alt;
-    }
+    tbody tr:nth-child(even) { background-color: variables.$tv-article-bg-table-alt; }
   }
 
-  :deep(ul),
-  :deep(ol) {
+  ul,
+  ol {
     padding-left: 1.5rem;
     margin: variables.$tv-article-spacing-lg 0;
   }
 
-  :deep(blockquote) {
+  blockquote {
     margin: variables.$tv-article-spacing-xl 0;
     padding: variables.$tv-article-spacing-md variables.$tv-article-spacing-lg;
     border-left: 4px solid variables.$tv-article-primary;
@@ -181,7 +166,7 @@
     color: variables.$tv-article-text;
   }
 
-  :deep(figure) {
+  figure {
     margin: variables.$tv-article-spacing-xl 0;
     text-align: center;
 
@@ -192,7 +177,7 @@
     }
   }
 
-  :deep(kbd) {
+  kbd {
     font-family: variables.$tv-article-font-family-mono;
     background: variables.$tv-article-bg-code;
     border: 1px solid variables.$tv-article-border;
@@ -200,7 +185,7 @@
     border-radius: variables.$tv-article-radius-sm;
   }
 
-  :deep(details) {
+  details {
     margin: variables.$tv-article-spacing-lg 0;
     background: variables.$tv-article-bg-code;
     border: 1px solid variables.$tv-article-border;
@@ -212,14 +197,12 @@
       opacity: 0.95;
       transition: variables.$tv-article-transition;
 
-      &:hover {
-        filter: brightness(1.02);
-      }
+      &:hover { filter: brightness(1.02); }
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    :deep(*) {
+    & * {
       transition: none !important;
       animation: none !important;
       scroll-behavior: auto !important;
@@ -249,13 +232,9 @@
   cursor: pointer;
   transition: variables.$tv-article-transition;
 
-  &:hover {
-    filter: brightness(1.02);
-  }
+  &:hover { filter: brightness(1.02); }
 
-  &.is-copied::after {
-    content: "Copied!";
-  }
+  &.is-copied::after { content: "Copied!"; }
 
   &::after {
     content: "Copy";
@@ -278,18 +257,16 @@
 
   &:hover::after,
   &:focus-visible::after,
-  &.is-copied::after {
-    opacity: 1;
-  }
+  &.is-copied::after { opacity: 1; }
 }
 
-:deep(a[data-external="true"]) {
+.tv-prose a[data-external="true"] {
   position: relative;
   padding-right: 0.9em;
 }
 
-:deep(a[data-external="true"]::after) {
-  content: "↗";
+.tv-prose a[data-external="true"]::after {
+  content: "\2197";
   position: absolute;
   right: 0;
   top: 0.05em;
@@ -322,11 +299,11 @@
   pointer-events: auto;
 }
 
-:deep(.tv-heading-anchor) {
+.tv-prose .tv-heading-anchor {
   position: relative;
 }
 
-:deep(.tv-heading-anchor .tv-anchor-btn) {
+.tv-prose .tv-heading-anchor .tv-anchor-btn {
   position: absolute;
   left: -1.75rem;
   top: 50%;
@@ -345,16 +322,16 @@
   transition: variables.$tv-article-transition;
 }
 
-:deep(.tv-heading-anchor:hover .tv-anchor-btn),
-:deep(.tv-heading-anchor:focus-within .tv-anchor-btn) {
+.tv-prose .tv-heading-anchor:hover .tv-anchor-btn,
+.tv-prose .tv-heading-anchor:focus-within .tv-anchor-btn {
   opacity: 1;
 }
 
-:deep(.tv-codeblock) {
+.tv-prose .tv-codeblock {
   position: relative;
 }
 
-:deep(.tv-code-copy) {
+.tv-prose .tv-code-copy {
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
@@ -373,8 +350,8 @@
   transition: variables.$tv-article-transition;
 }
 
-:deep(.tv-codeblock:hover .tv-code-copy),
-:deep(.tv-code-copy:focus-visible) {
+.tv-prose .tv-codeblock:hover .tv-code-copy,
+.tv-prose .tv-code-copy:focus-visible {
   opacity: 1;
   pointer-events: auto;
 }
