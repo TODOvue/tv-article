@@ -7,6 +7,7 @@ export const demos = [
   {
     id: 1,
     title: "TvArticle - Basic",
+    description: "Basic usage of TvArticle with common props and content structure.",
     propsData: {
       lang: "es",
       content: {
@@ -1060,7 +1061,7 @@ export const demos = [
       },
       ui: {
         center: true,
-        proseSize: 'md',
+        proseSize: 'full',
         showCopy: true
       }
     },
@@ -1070,6 +1071,7 @@ export const demos = [
   {
     id: 2,
     title: "TvArticle - With Cover",
+    description: "TvArticle example showcasing a cover image with custom aspect ratio and loading options.",
     propsData: {
       lang: "en",
       content: {
@@ -1108,6 +1110,7 @@ export const demos = [
   {
     id: 3,
     title: "TvArticle - Custom UI",
+    description: "Demonstration of TvArticle with customized UI options like prose size and metadata visibility.",
     propsData: {
       lang: "es",
       content: {
@@ -1137,6 +1140,7 @@ export const demos = [
   {
     id: 4,
     title: "TvArticle - Minimalist",
+    description: "A minimalist TvArticle example focusing solely on content without metadata or cover image.",
     propsData: {
       lang: "en",
       content: {
@@ -1162,6 +1166,7 @@ export const demos = [
   {
     id: 5,
     title: "TvArticle - Anchors & External Links",
+    description: "Testing internal anchors and external links within the TvArticle component.",
     propsData: {
       lang: "es",
       content: {
@@ -1185,6 +1190,7 @@ export const demos = [
   {
     id: 6,
     title: "TvArticle - Auto Reading Time",
+    description: "An article example that tests the automatic reading time estimation feature.",
     propsData: {
       lang: "en",
       content: {
@@ -1203,6 +1209,7 @@ export const demos = [
   {
     id: 7,
     title: "TvArticle - PT + Slugify",
+    description: "Demonstration of TvArticle in Portuguese with accented characters and emoji in titles for slug stability.",
     propsData: {
       lang: "pt",
       content: {
@@ -1222,6 +1229,7 @@ export const demos = [
   {
     id: 8,
     title: "TvArticle - RTL Arabic",
+    description: "Testing TvArticle with right-to-left (RTL) content in Arabic, including headings and links.",
     propsData: {
       lang: "ar",
       content: {
@@ -1242,6 +1250,7 @@ export const demos = [
   {
     id: 9,
     title: "TvArticle - Portrait Cover",
+    description: "TvArticle example with a portrait-oriented cover image to test aspect ratio handling.",
     propsData: {
       lang: "en",
       content: {
@@ -1271,6 +1280,7 @@ export const demos = [
   {
     id: 10,
     title: "TvArticle - Custom Header Slot",
+    description: "Demo of TvArticle with a custom header slot while retaining the copy button functionality.",
     propsData: {
       lang: "es",
       content: {
