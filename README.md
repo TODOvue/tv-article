@@ -1,4 +1,4 @@
-<p align="center"><img width="150" src="https://firebasestorage.googleapis.com/v0/b/todovue-blog.appspot.com/o/logo.png?alt=media&token=d8eb592f-e4a9-4b02-8aff-62d337745f41" alt="TODOvue logo"></p>
+<p align="center"><img width="150" src="https://res.cloudinary.com/dcdfhi8qz/image/upload/v1763663056/uqqtkgp1lg3xdplutpga.png" alt="TODOvue logo"></p>
 
 # TODOvue Article (TvArticle)
 A Vue 3 component to display rich article content with polished typography, optional cover image, metadata (date, reading time, tags), and copyable heading anchors. Works in SPA and SSR (e.g., Nuxt 4) and injects styles automatically.
@@ -71,8 +71,9 @@ Global registration (main.js / main.ts):
 import { createApp } from 'vue'
 import App from './App.vue'
 
-import '@todovue/tv-article/style.css'
 import { TvArticle } from '@todovue/tv-article'
+import '@todovue/tv-article/style.css' // import styles
+import '@todovue/tv-label/style.css' // tv-article depends on tv-label
 
 const app = createApp(App)
 app.component('TvArticle', TvArticle)
@@ -106,31 +107,25 @@ const article = {
 ## Nuxt 3 / SSR Usage
 Create a plugin file: `plugins/tv-article.client.ts` (or without suffix; SSR-safe since DOM access happens in `onMounted`):
 ```ts
-import { defineNuxtPlugin } from '#app'
-import TvArticle from '@todovue/tv-article'
-
-export default defineNuxtPlugin(nuxtApp => {
-  nuxtApp.vueApp.use(TvArticle)
+// nuxt.config.ts
+export default defineNuxtConfig({
+  modules: [
+    '@todovue/tv-card/nuxt'
+  ]
 })
 ```
 Use anywhere:
 ```vue
 <TvArticle :content="{ title: 'Post', body: '<p>Hello</p>' }"></TvArticle>
 ```
-Optional direct import (no plugin):
-```vue
-<script setup>
-import { TvArticle } from '@todovue/tv-article'
-</script>
-```
 
 ---
 ## Component Registration Options
-| Approach                                    | When to use                                   |
-|---------------------------------------------|-----------------------------------------------|
-| Global via `app.use(TvArticle)`             | Many usages across app / design system install |
-| Local named import `{ TvArticle }`          | Isolated or code-split contexts                |
-| Direct default import `import TvArticle`    | Single usage or manual registration            |
+| Approach                                 | When to use                                    |
+|------------------------------------------|------------------------------------------------|
+| Global via `app.use(TvArticle)`          | Many usages across app / design system install |
+| Local named import `{ TvArticle }`       | Isolated or code-split contexts                |
+| Direct default import `import TvArticle` | Single usage or manual registration            |
 
 ---
 ## Props

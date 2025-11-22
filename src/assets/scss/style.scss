@@ -1,6 +1,5 @@
 @use 'variables';
 @use 'mixins';
-@import "@todovue/tv-label/style.css";
 
 .tv-article {
   font-family: variables.$tv-article-font-family;
