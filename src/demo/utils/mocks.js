@@ -1060,7 +1060,7 @@ export const demos = [
       },
       ui: {
         center: true,
-        proseSize: 'md',
+        proseSize: 'full',
         showCopy: true
       }
     },
