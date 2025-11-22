@@ -1,5 +1,6 @@
 @use 'variables';
 @use 'mixins';
+@use "sass:color";
 
 .tv-article {
   font-family: variables.$tv-article-font-family;
@@ -442,7 +443,7 @@
       color: variables.$dark-button-text;
 
       &:hover {
-        color: lighten(variables.$dark-button-text, 10%);
+        color: color.adjust(variables.$dark-button-text, $lightness: 10%);
       }
     }
 
