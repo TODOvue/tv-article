@@ -198,7 +198,7 @@
       background: transparent;
       padding: 0;
       border: none;
-      color: inherit;
+      color: variables.$tv-article-text-code;
       font-size: 0.9rem;
       line-height: 1.7;
       font-family: variables.$tv-article-font-family-mono;
@@ -452,8 +452,8 @@
     }
 
     code {
-      background-color: variables.$tv-article-text-detail-dark;
-      color: variables.$dark-text;
+      background-color: variables.$tv-article-bg-code-dark;
+      color: variables.$tv-article-text-code-dark;
       border-color: variables.$tv-article-border-dark;
     }
 
@@ -462,7 +462,7 @@
       border-color: variables.$tv-article-border-dark;
 
       code {
-        color: variables.$dark-text;
+        color: variables.$tv-article-text-code-dark;
         background-color: variables.$tv-article-bg-code-dark;
       }
 
