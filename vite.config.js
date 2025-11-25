@@ -24,7 +24,7 @@ export default defineConfig({
         formats: ["es", "cjs"]
       },
       rollupOptions: {
-        external: ["vue", "@todovue/tv-label", "@todovue/tv-relative-time"],
+        external: ["vue", "@todovue/tv-label", "@todovue/tv-relative-time", "highlight.js", "markdown-it"],
         output: {
           globals: {
             vue: "Vue"

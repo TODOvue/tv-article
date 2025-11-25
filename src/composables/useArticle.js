@@ -1,7 +1,8 @@
 import { computed, ref, onMounted, nextTick, watch, unref } from 'vue'
 import MarkdownIt from 'markdown-it'
+import hljs from 'highlight.js'
 
-function slugify (str = '') {
+function slugify(str = '') {
   return (
     String(str)
       .toLowerCase()
@@ -22,13 +23,27 @@ function renderMinimarkNode(node) {
 
   const [tag, attrs, ...children] = node;
   const voidElements = new Set(['hr', 'br', 'img', 'input', 'meta', 'link']);
-  
+
   if (tag === 'style') {
     const renderedChildren = children.map(renderMinimarkNode).join('');
     return `<${tag}>${renderedChildren}</${tag}>`;
   }
 
   if (tag === 'pre') {
+    const code = attrs?.code;
+    let language = attrs?.language;
+
+    if (language === 'vue') {
+      language = 'xml';
+    }
+
+    if (code && language && hljs.getLanguage(language)) {
+      try {
+        const highlighted = hljs.highlight(code, { language, ignoreIllegals: true }).value;
+        return `<pre class="tv-codeblock"><code class="hljs language-${language}">${highlighted}</code></pre>`;
+      } catch (e) { }
+    }
+
     const attributes = Object.entries(attrs || {})
       .map(([key, value]) => {
         if (key === '__ignoreMap' || key === 'code' || key === 'language' || key === 'meta' || key === 'style') return '';
@@ -37,7 +52,7 @@ function renderMinimarkNode(node) {
       })
       .filter(Boolean)
       .join(' ');
-    
+
     const renderedChildren = children.map(renderMinimarkNode).join('');
     return `<${tag}${attributes ? ' ' + attributes : ''}>${renderedChildren}</${tag}>`;
   }
@@ -51,7 +66,7 @@ function renderMinimarkNode(node) {
         return 'emptyLinePlaceholder="true"';
       }
       if (key === '__ignoreMap' || key === 'code' || key === 'language' || key === 'meta' || key === 'style') return '';
-      
+
       const attrKey = key === 'className' ? 'class' : key;
       if (Array.isArray(value)) {
         return `${attrKey}="${value.join(' ')}"`;
@@ -70,8 +85,20 @@ function renderMinimarkNode(node) {
   return `<${tag}${attributes ? ' ' + attributes : ''}>${renderedChildren}</${tag}>`;
 }
 
-export function useArticle (articleContent, ui = {}, language = 'en', emit) {
-  const md = new MarkdownIt()
+export function useArticle(articleContent, ui = {}, language = 'en', emit) {
+  const md = new MarkdownIt({
+    highlight: function (str, lang) {
+      if (lang && hljs.getLanguage(lang)) {
+        try {
+          return '<pre class="hljs"><code>' +
+            hljs.highlight(str, { language: lang, ignoreIllegals: true }).value +
+            '</code></pre>';
+        } catch (__) { }
+      }
+
+      return '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + '</code></pre>';
+    }
+  })
   const contentState = computed(() => {
     const raw = unref(articleContent) || {}
     return {
@@ -82,8 +109,8 @@ export function useArticle (articleContent, ui = {}, language = 'en', emit) {
       readingTime: raw.readingTime || raw.meta?.readingTime
     }
   })
-  const uiState      = computed(() => unref(ui) || {})
-  const langState    = computed(() => {
+  const uiState = computed(() => unref(ui) || {})
+  const langState = computed(() => {
     const raw = unref(language)
     return typeof raw === 'string' ? raw : 'en'
   })
@@ -103,15 +130,15 @@ export function useArticle (articleContent, ui = {}, language = 'en', emit) {
     if (typeof body === 'string') {
       return body
     }
-    
+
     return ''
   })
-  
+
   const defaultUiOptions = {
     showTitle: true,
-    showMeta:  true,
+    showMeta: true,
     showCover: true,
-    showCopy:  true,
+    showCopy: true,
     center: true,
     proseSize: 'full',
     coverLoading: 'lazy',
@@ -119,24 +146,24 @@ export function useArticle (articleContent, ui = {}, language = 'en', emit) {
     coverFetchPriority: 'auto',
     coverAspect: null
   }
-  
+
   const uiOptions = computed(() => {
     const merged = { ...defaultUiOptions, ...uiState.value }
-    const allowedProse = new Set(['sm','md','lg','xl','full'])
+    const allowedProse = new Set(['sm', 'md', 'lg', 'xl', 'full'])
     if (!allowedProse.has(merged.proseSize)) merged.proseSize = 'full'
     return merged
   })
-  
+
   const hasMeta = computed(() => {
     const { date, readingTime } = contentState.value
     return Boolean(date || readingTime)
   })
-  
+
   const hasTags = computed(() => {
     const tags = contentState.value.tags
     return Array.isArray(tags) && tags.length > 0
   })
-  
+
   const wordsCountFromHtml = (html) => {
     if (!html || typeof html !== 'string') return 0
     const tmp = document.createElement('div')
@@ -145,7 +172,7 @@ export function useArticle (articleContent, ui = {}, language = 'en', emit) {
     const words = text.trim().split(/\s+/).filter(Boolean)
     return words.length
   }
-  
+
   const estimatedMinutes = computed(() => {
     const { readingTime } = contentState.value
     if (readingTime != null && !Number.isNaN(Number(readingTime))) {
@@ -155,10 +182,10 @@ export function useArticle (articleContent, ui = {}, language = 'en', emit) {
     if (!wc) return null
     return Math.max(1, Math.ceil(wc / 200))
   })
-  
+
   const normalizeLang = (value) =>
     typeof value === 'string' ? value.slice(0, 2).toLowerCase() : 'en'
-  
+
   const formatReadingTime = computed(() => {
     const minutes = estimatedMinutes.value
     if (!minutes) return null
@@ -166,31 +193,31 @@ export function useArticle (articleContent, ui = {}, language = 'en', emit) {
       case 'es': return `${minutes} min de lectura`
       case 'fr': return `${minutes} min de lecture`
       case 'pt': return `${minutes} min de leitura`
-      default:   return `${minutes} min read`
+      default: return `${minutes} min read`
     }
   })
-  
+
   const proseClass = computed(() => `tv-prose tv-prose--${uiOptions.value.proseSize}`)
-  
+
   const containerClass = computed(() => ({
     'tv-article': true,
     'tv-article--centered': Boolean(uiOptions.value.center)
   }))
-  
+
   const titleId = computed(() => {
     const { title } = contentState.value
     return title ? slugify(title) : 'tv-article-title'
   })
-  
+
   const bodyEl = ref(null)
-  
+
   const isBrowser = () => typeof window !== 'undefined' && typeof document !== 'undefined'
-  
+
   const enhanceAnchors = () => {
     if (!isBrowser()) return
     const el = bodyEl.value
     if (!el) return
-    
+
     const headingSelector = 'h1, h2, h3, h4, h5, h6'
     const headings = el.querySelectorAll(headingSelector)
     headings.forEach((h) => {
@@ -221,13 +248,13 @@ export function useArticle (articleContent, ui = {}, language = 'en', emit) {
             document.execCommand('copy')
             document.body.removeChild(ta)
           }
-        } catch {}
+        } catch { }
         btn.classList.add('is-copied')
         setTimeout(() => btn.classList.remove('is-copied'), 1200)
       })
       h.appendChild(btn)
     })
-    
+
     const pres = el.querySelectorAll('pre')
     pres.forEach((pre) => {
       if (pre.classList.contains('tv-codeblock')) return
@@ -254,19 +281,19 @@ export function useArticle (articleContent, ui = {}, language = 'en', emit) {
             document.execCommand('copy')
             document.body.removeChild(ta)
           }
-        } catch {}
+        } catch { }
         btn.classList.add('is-copied')
         setTimeout(() => btn.classList.remove('is-copied'), 1200)
       })
       pre.appendChild(btn)
     })
-    
+
     const anchors = el.querySelectorAll('a[href]')
     anchors.forEach(a => {
       const href = a.getAttribute('href') || ''
       const isAbsolute = /^https?:\/\//i.test(href)
-      const isHash     = href.startsWith('#')
-      
+      const isHash = href.startsWith('#')
+
       if (isAbsolute) {
         try {
           const url = new URL(href, window.location.href)
@@ -275,9 +302,9 @@ export function useArticle (articleContent, ui = {}, language = 'en', emit) {
             a.setAttribute('rel', 'noopener noreferrer')
             a.dataset.external = 'true'
           }
-        } catch {}
+        } catch { }
       }
-      
+
       if (isHash) {
         a.addEventListener('click', (ev) => {
           const id = href.slice(1)

@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.1] - 2025-11-24
+
+### Added
+- Added `highlight.js` for syntax highlighting.
+
+### Changed
+- Updated background and text colors for dark and light themes to improve readability and visual comfort.
+- Changed render pre to `highlight.js`
+
+### Dependencies
+- Updated the `@todovue/tv-demo` dependency to `^1.2.2` to ensure compatibility with the latest changes.
+
 ## [1.2.0] - 2025-11-21
 
 ### Added
@@ -102,6 +114,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Build artifacts: ESM/CJS bundles and type definitions in `dist/`.
 - Integrations: `@todovue/tv-label` for tags and `@todovue/tv-relative-time` for dates.
 
+[1.2.1]: https://github.com/TODOvue/tv-article/pull/8/files
 [1.2.0]: https://github.com/TODOvue/tv-article/pull/7/files
 [1.1.1]: https://github.com/TODOvue/tv-article/pull/6/files
 [1.1.0]: https://github.com/TODOvue/tv-article/pull/5/files
