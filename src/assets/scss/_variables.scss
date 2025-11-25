@@ -5,17 +5,18 @@ $dark-body-bg: #7A7D7D;
 $dark-button-bg: #EF233C;
 $dark-card-bg: #0E131F;
 $dark-button-text: #AFDEDC;
-$dark-text: #F4FAFF;
+$dark-text: #CBD5E1;
 
 /* ☀️ Light Theme */
 $light-body-bg: #E0E1E1;
 $light-button-bg: #EF233C;
 $light-card-bg: #B9C4DF;
 $light-button-text: #F1F9F9;
-$light-text: #000B14;
+$light-text: #1E293B;
 
 $tv-article-primary: $light-button-bg;
 $tv-article-text: $light-text;
+$tv-article-text-dark: $dark-text;
 $tv-article-text-secondary: color.adjust($light-body-bg, $lightness: -40%);
 $tv-article-border: color.adjust($light-body-bg, $lightness: -15%);
 $tv-article-bg-code: #F3F4F6;

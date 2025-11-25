@@ -415,6 +415,10 @@
 }
 
 .dark-mode {
+  .tv-article {
+    color: variables.$tv-article-text-dark;
+  }
+
   .tv-article__title,
   .tv-article__description,
   .tv-prose h1,
@@ -425,7 +429,7 @@
   .tv-prose li,
   .tv-prose th,
   .tv-prose td {
-    color: variables.$tv-article-text;
+    color: variables.$tv-article-text-dark;
   }
 
   .tv-article__meta {
