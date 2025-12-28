@@ -61,6 +61,7 @@
   },
   "devDependencies": {
     "@todovue/tv-demo": "^1.2.7",
+    "@types/dompurify": "^3.0.5",
     "@vitejs/plugin-vue": "^6.0.3",
     "sass": "^1.97.1",
     "vite": "^7.3.0",
@@ -70,6 +71,7 @@
     "@todovue/tv-alert": "^1.1.1",
     "@todovue/tv-label": "^1.1.2",
     "@todovue/tv-relative-time": "^1.2.1",
+    "dompurify": "^3.3.1",
     "highlight.js": "^11.11.1",
     "markdown-it": "^13.0.2"
   }
