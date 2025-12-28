@@ -221,6 +221,15 @@ export function useArticle(articleContent, ui = {}, language = 'en', emit) {
     if (!isBrowser()) return
     const el = bodyEl.value
     if (!el) return
+    
+    const tables = el.querySelectorAll('table')
+    tables.forEach((table) => {
+      if (table.parentElement?.classList.contains('tv-table-wrapper')) return
+      const wrapper = document.createElement('div')
+      wrapper.className = 'tv-table-wrapper'
+      table.parentNode.insertBefore(wrapper, table)
+      wrapper.appendChild(table)
+    })
 
     const headingSelector = 'h1, h2, h3, h4, h5, h6'
     const headings = el.querySelectorAll(headingSelector)

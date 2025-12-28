@@ -10,6 +10,10 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
+  @media (max-width: 768px) {
+    padding: variables.$tv-article-spacing-lg variables.$tv-article-spacing-md;
+  }
+
   &--centered {
     max-width: 100%;
     margin: 0 auto;
@@ -570,6 +574,14 @@
 
       tbody tr:hover {
         background-color: variables.$tv-article-bg-table-alt-dark;
+      }
+    }
+
+    .tv-table-wrapper {
+      border-color: variables.$tv-article-border-dark;
+
+      &::-webkit-scrollbar-thumb {
+        background-color: variables.$tv-article-border-dark;
       }
     }
 
