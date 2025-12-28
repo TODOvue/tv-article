@@ -1,6 +1,10 @@
 import { computed, ref, onMounted, nextTick, watch, unref } from 'vue'
 import MarkdownIt from 'markdown-it'
 import hljs from 'highlight.js'
+import { useAlert } from '@todovue/tv-alert';
+
+const { api } = useAlert()
+const alert = api()
 
 function slugify(str = '') {
   return (
@@ -251,6 +255,11 @@ export function useArticle(articleContent, ui = {}, language = 'en', emit) {
         } catch { }
         btn.classList.add('is-copied')
         setTimeout(() => btn.classList.remove('is-copied'), 1200)
+        const message = language.value === 'es' ? 'Enlace copiado al portapapeles.' : 'Link copied to clipboard.'
+        alert.success(message, {
+          position: 'top-right',
+          duration: 4000
+        })
       })
       h.appendChild(btn)
     })

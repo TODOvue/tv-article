@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Dependencies
 - Updated dependency versions in `package.json` to maintain compatibility and benefit from improvements and bug fixes in the used libraries.
+- Added `@todovue/tv-alert` dependency to `package.json` for enhanced alert functionalities.
 
 ## [1.2.1] - 2025-11-24
 

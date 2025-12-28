@@ -8,6 +8,7 @@ export default defineNuxtModule({
   setup(_options, nuxt) {
     const articleCss = '@todovue/tv-article/style.css';
     const labelCss = '@todovue/tv-label/style.css';
+    const alertCss = '@todovue/tv-alert/style.css';
     
     const pushUnique = (path) => {
       if (!nuxt.options.css.includes(path)) {
@@ -17,5 +18,6 @@ export default defineNuxtModule({
     
     pushUnique(articleCss);
     pushUnique(labelCss);
+    pushUnique(alertCss);
   }
 })

@@ -67,6 +67,7 @@
     "vite-plugin-dts": "^4.5.4"
   },
   "dependencies": {
+    "@todovue/tv-alert": "^1.1.1",
     "@todovue/tv-label": "^1.1.2",
     "@todovue/tv-relative-time": "^1.2.1",
     "highlight.js": "^11.11.1",
