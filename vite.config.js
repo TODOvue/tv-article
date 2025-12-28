@@ -4,6 +4,7 @@ import dts from "vite-plugin-dts";
 const isDemo = process.env.VITE_BUILD_TARGET === "demo";
 
 export default defineConfig({
+  base: isDemo ? './' : undefined,
   plugins: [
     vue(),
     dts({

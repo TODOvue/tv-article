@@ -4,7 +4,6 @@
 A Vue 3 component to display rich article content with polished typography, optional cover image, metadata (date, reading time, tags), and copyable heading anchors. Works in SPA and SSR (e.g., Nuxt 4) and injects styles automatically.
 
 [![npm](https://img.shields.io/npm/v/@todovue/tv-article.svg)](https://www.npmjs.com/package/@todovue/tv-article)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/fd404c24-0238-4fa8-9f44-2d53ea939930/deploy-status)](https://app.netlify.com/projects/tv-article/deploys)
 [![npm downloads](https://img.shields.io/npm/dm/@todovue/tv-article.svg)](https://www.npmjs.com/package/@todovue/tv-article)
 [![npm total downloads](https://img.shields.io/npm/dt/@todovue/tv-article.svg)](https://www.npmjs.com/package/@todovue/tv-article)
 ![License](https://img.shields.io/github/license/TODOvue/tv-article)
@@ -13,7 +12,7 @@ A Vue 3 component to display rich article content with polished typography, opti
 ![Node Version](https://img.shields.io/node/v/@todovue/tv-article)
 ![Last Commit](https://img.shields.io/github/last-commit/TODOvue/tv-article)
 ![Stars](https://img.shields.io/github/stars/TODOvue/tv-article?style=social)
-> Demo: https://tv-article.netlify.app
+> Demo: https://ui.todovue.blog/article
 
 ---
 ## Table of Contents
