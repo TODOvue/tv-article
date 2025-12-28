@@ -6,9 +6,10 @@
   "license": "MIT",
   "version": "1.2.1",
   "type": "module",
+  "homepage": "https://ui.todovue.blog/article",
   "repository": {
     "type": "git",
-    "url": "https://github.com/TODOvue/tv-article.git"
+    "url": "git+https://github.com/TODOvue/tv-article.git"
   },
   "bugs": {
     "url": "https://github.com/TODOvue/tv-article/issues"
@@ -56,19 +57,22 @@
     "build:demo": "cp README.md public/ && cp CHANGELOG.md public/ && VITE_BUILD_TARGET=demo vite build"
   },
   "peerDependencies": {
-    "vue": "^3.0.0"
+    "vue": "^3.5.26"
   },
   "devDependencies": {
-    "@todovue/tv-demo": "^1.2.2",
-    "@vitejs/plugin-vue": "^6.0.0",
-    "sass": "^1.0.0",
-    "vite": "^7.0.0",
-    "vite-plugin-dts": "^4.0.0"
+    "@todovue/tv-demo": "^1.2.7",
+    "@types/dompurify": "^3.0.5",
+    "@vitejs/plugin-vue": "^6.0.3",
+    "sass": "^1.97.1",
+    "vite": "^7.3.0",
+    "vite-plugin-dts": "^4.5.4"
   },
   "dependencies": {
-    "@todovue/tv-label": "^1.1.1",
-    "@todovue/tv-relative-time": "^1.2.0",
+    "@todovue/tv-alert": "^1.1.1",
+    "@todovue/tv-label": "^1.1.2",
+    "@todovue/tv-relative-time": "^1.2.1",
+    "dompurify": "^3.3.1",
     "highlight.js": "^11.11.1",
-    "markdown-it": "^13.0.0"
+    "markdown-it": "^13.0.2"
   }
 }

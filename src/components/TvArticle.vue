@@ -1,6 +1,7 @@
 <script setup>
 import { TvLabel } from '@todovue/tv-label';
 import { TvRelativeTime } from '@todovue/tv-relative-time';
+import { TvAlert } from '@todovue/tv-alert';
 import { useArticle } from '../composables/useArticle.js';
 import { toRefs, ref } from 'vue';
 
@@ -23,7 +24,7 @@ const props = defineProps({
   }
 });
 
-const emit = defineEmits(['copy']);
+const emit = defineEmits(['copy' , 'label-click']);
 const { content, ui, lang } = toRefs(props);
 
 const {
@@ -43,9 +44,11 @@ const {
 const contentProxy = contentComputed
 const copyMsg = ref('')
 const handleCopyClick = async () => {
-  const ok = await copyTitleLink()
-  copyMsg.value = ok ? 'Link copiado' : 'No se pudo copiar'
-  setTimeout(() => { copyMsg.value = '' }, 1500)
+  await copyTitleLink()
+}
+
+const handleLabelClick = (tag) => {
+  emit('label-click', tag)
 }
 </script>
 
@@ -83,7 +86,7 @@ const handleCopyClick = async () => {
 
         <p v-if="uiOptions.showMeta && hasMeta" class="tv-article__meta">
           <template v-if="contentProxy.date">
-            <TvRelativeTime :date="contentProxy.date" :lang="lang" class="tv-article__date" />
+            <TvRelativeTime :date="contentProxy.date" :lang="lang" show-full-date class="tv-article__date" />
             <span v-if="formatReadingTime"> • </span>
           </template>
           <span v-if="formatReadingTime" class="tv-article__reading-time">
@@ -96,6 +99,7 @@ const handleCopyClick = async () => {
             v-for="tag in contentProxy.tags"
             :key="typeof tag === 'object' ? tag.tag : tag"
             :color="typeof tag === 'object' ? tag.color : '#4FC08D'"
+            @click="handleLabelClick(tag)"
           >
             {{ typeof tag === 'object' ? tag.tag : tag }}
           </TvLabel>
@@ -133,6 +137,7 @@ const handleCopyClick = async () => {
       v-html="renderedBody"
     />
   </article>
+  <TvAlert />
 </template>
 
 <style></style>

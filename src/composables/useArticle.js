@@ -1,6 +1,11 @@
 import { computed, ref, onMounted, nextTick, watch, unref } from 'vue'
 import MarkdownIt from 'markdown-it'
 import hljs from 'highlight.js'
+import { useAlert } from '@todovue/tv-alert'
+import DOMPurify from 'dompurify'
+
+const { api } = useAlert()
+const alert = api()
 
 function slugify(str = '') {
   return (
@@ -14,7 +19,12 @@ function slugify(str = '') {
 
 function renderMinimarkNode(node) {
   if (typeof node === 'string') {
-    return node;
+    return node
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
   }
 
   if (!Array.isArray(node) || node.length === 0) {
@@ -117,21 +127,52 @@ export function useArticle(articleContent, ui = {}, language = 'en', emit) {
 
   const renderedBody = computed(() => {
     const body = contentState.value.body || ''
+    let htmlContent = ''
+    
     if (typeof body === 'object' && body !== null) {
       if (body.type === 'minimark' && Array.isArray(body.value)) {
-        return body.value.map(renderMinimarkNode).join('');
+        htmlContent = body.value.map(renderMinimarkNode).join('');
+      } else {
+        console.warn('TvArticle: body es un objeto no reconocido:', body);
+        return ''
       }
-      console.warn('TvArticle: body es un objeto no reconocido:', body);
+    } else if (typeof body === 'string' && !/<\/?[a-z][\s\S]*>/i.test(body)) {
+      htmlContent = md.render(body)
+    } else if (typeof body === 'string') {
+      htmlContent = body
+    } else {
       return ''
     }
-    if (typeof body === 'string' && !/<\/?[a-z][\s\S]*>/i.test(body)) {
-      return md.render(body)
-    }
-    if (typeof body === 'string') {
-      return body
-    }
 
-    return ''
+    if (typeof window !== 'undefined') {
+      return DOMPurify.sanitize(htmlContent, {
+        ALLOWED_TAGS: [
+          'p', 'br', 'strong', 'em', 'u', 'strike', 'del', 'ins', 'mark',
+          'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+          'ul', 'ol', 'li',
+          'blockquote', 'pre', 'code',
+          'a', 'img',
+          'table', 'thead', 'tbody', 'tfoot', 'tr', 'th', 'td',
+          'div', 'span', 'section', 'article', 'header', 'footer', 'nav', 'aside',
+          'figure', 'figcaption',
+          'hr',
+          'abbr', 'cite', 'q', 'sub', 'sup', 'small',
+          'dl', 'dt', 'dd',
+          'button'
+        ],
+        ALLOWED_ATTR: [
+          'href', 'target', 'rel', 'src', 'alt', 'title', 'width', 'height',
+          'class', 'id', 'style', 'data-*', 'aria-*',
+          'type', 'aria-label', 'aria-hidden', 'aria-live',
+          'loading', 'decoding', 'fetchpriority',
+          '__ignoreMap', 'emptyLinePlaceholder'
+        ],
+        ALLOW_DATA_ATTR: true,
+        ALLOW_ARIA_ATTR: true
+      });
+    }
+    
+    return htmlContent
   })
 
   const defaultUiOptions = {
@@ -217,6 +258,15 @@ export function useArticle(articleContent, ui = {}, language = 'en', emit) {
     if (!isBrowser()) return
     const el = bodyEl.value
     if (!el) return
+    
+    const tables = el.querySelectorAll('table')
+    tables.forEach((table) => {
+      if (table.parentElement?.classList.contains('tv-table-wrapper')) return
+      const wrapper = document.createElement('div')
+      wrapper.className = 'tv-table-wrapper'
+      table.parentNode.insertBefore(wrapper, table)
+      wrapper.appendChild(table)
+    })
 
     const headingSelector = 'h1, h2, h3, h4, h5, h6'
     const headings = el.querySelectorAll(headingSelector)
@@ -251,6 +301,11 @@ export function useArticle(articleContent, ui = {}, language = 'en', emit) {
         } catch { }
         btn.classList.add('is-copied')
         setTimeout(() => btn.classList.remove('is-copied'), 1200)
+        const message = language.value === 'es' ? 'Enlace copiado al portapapeles.' : 'Link copied to clipboard.'
+        alert.success(message, {
+          position: 'top-right',
+          duration: 4000
+        })
       })
       h.appendChild(btn)
     })
