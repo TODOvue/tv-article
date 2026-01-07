@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fixed responsive behavior for tables.
 - Fixed the copy button in code blocks.
+- Fixed text breaking when there are very long words without spaces.
 
 ## [1.2.2] - 2025-12-27
 

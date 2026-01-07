@@ -98,6 +98,8 @@
 .tv-prose {
   max-width: 72ch;
   margin: 0 auto;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 
   @media (min-width: 1024px) {
     max-width: 76ch;
@@ -164,6 +166,8 @@
     color: variables.$tv-article-text;
     line-height: 1.75;
     font-size: 1.125rem;
+    word-break: keep-all;
+    overflow-wrap: break-word;
   }
 
   a {
@@ -186,6 +190,9 @@
     border-radius: variables.$tv-article-radius-sm;
     font-size: 0.875em;
     border: 1px solid variables.$tv-article-border;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    white-space: nowrap;
   }
 
   pre {
@@ -197,6 +204,8 @@
     border: 1px solid variables.$tv-article-border;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
     position: relative;
+    word-break: keep-all;
+    overflow-wrap: normal;
 
     code {
       background: transparent;
@@ -206,6 +215,8 @@
       font-size: 0.9rem;
       line-height: 1.7;
       font-family: variables.$tv-article-font-family-mono;
+      word-break: keep-all;
+      white-space: pre;
     }
 
     .hljs-keyword,
