@@ -261,14 +261,34 @@
     }
   }
 
+  .tv-table-wrapper {
+    overflow-x: auto;
+    margin: variables.$tv-article-spacing-xl 0;
+    border-radius: variables.$tv-article-radius-md;
+    border: 1px solid variables.$tv-article-border;
+    -webkit-overflow-scrolling: touch;
+
+    &::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: variables.$tv-article-border;
+      border-radius: 4px;
+    }
+  }
+
   table {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
-    margin: variables.$tv-article-spacing-xl 0;
+    margin: 0;
     background-color: variables.$tv-article-bg-table;
     border-radius: variables.$tv-article-radius-md;
-    border: 1px solid variables.$tv-article-border;
     overflow: hidden;
 
     th,
@@ -277,6 +297,16 @@
       text-align: left;
       vertical-align: top;
       border-bottom: 1px solid variables.$tv-article-border;
+
+      @media (max-width: 768px) {
+        padding: variables.$tv-article-spacing-sm;
+        font-size: 0.875rem;
+      }
+
+      code {
+        white-space: normal;
+        word-break: break-word;
+      }
     }
 
     th {
@@ -292,6 +322,11 @@
     tbody tr:hover {
       background-color: variables.$tv-article-bg-table-alt;
     }
+  }
+
+  table:not(.tv-table-wrapper table) {
+    border: 1px solid variables.$tv-article-border;
+    margin: variables.$tv-article-spacing-xl 0;
   }
 
   ul,
@@ -558,9 +593,16 @@
       border-left-color: variables.$dark-button-bg;
     }
 
+    .tv-table-wrapper {
+      border-color: variables.$tv-article-border-dark;
+
+      &::-webkit-scrollbar-thumb {
+        background-color: variables.$tv-article-border-dark;
+      }
+    }
+
     table {
       background-color: variables.$tv-article-bg-table-dark;
-      border-color: variables.$tv-article-border-dark;
 
       th,
       td {
@@ -577,12 +619,8 @@
       }
     }
 
-    .tv-table-wrapper {
+    table:not(.tv-table-wrapper table) {
       border-color: variables.$tv-article-border-dark;
-
-      &::-webkit-scrollbar-thumb {
-        background-color: variables.$tv-article-border-dark;
-      }
     }
 
     hr {

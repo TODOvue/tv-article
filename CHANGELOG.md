@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.3] - 2026-01-06
+
+### Fixed
+- Fixed responsive behavior for tables.
+
 ## [1.2.2] - 2025-12-27
 
 ### Added
@@ -131,6 +136,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Build artifacts: ESM/CJS bundles and type definitions in `dist/`.
 - Integrations: `@todovue/tv-label` for tags and `@todovue/tv-relative-time` for dates.
 
+[1.2.3]: https://github.com/TODOvue/tv-article/pull/10/files
 [1.2.2]: https://github.com/TODOvue/tv-article/pull/9/files
 [1.2.1]: https://github.com/TODOvue/tv-article/pull/8/files
 [1.2.0]: https://github.com/TODOvue/tv-article/pull/7/files
