@@ -312,7 +312,7 @@ export function useArticle(articleContent, ui = {}, language = 'en', emit) {
 
     const pres = el.querySelectorAll('pre')
     pres.forEach((pre) => {
-      if (pre.classList.contains('tv-codeblock')) return
+      if (pre.querySelector('.tv-code-copy')) return
       pre.classList.add('tv-codeblock')
       const btn = document.createElement('button')
       btn.type = 'button'
@@ -339,6 +339,11 @@ export function useArticle(articleContent, ui = {}, language = 'en', emit) {
         } catch { }
         btn.classList.add('is-copied')
         setTimeout(() => btn.classList.remove('is-copied'), 1200)
+        const message = langState.value === 'es' ? 'Código copiado al portapapeles.' : 'Code copied to clipboard.'
+        alert.success(message, {
+          position: 'top-right',
+          duration: 4000
+        })
       })
       pre.appendChild(btn)
     })

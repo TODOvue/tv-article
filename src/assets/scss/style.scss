@@ -98,6 +98,8 @@
 .tv-prose {
   max-width: 72ch;
   margin: 0 auto;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 
   @media (min-width: 1024px) {
     max-width: 76ch;
@@ -164,6 +166,8 @@
     color: variables.$tv-article-text;
     line-height: 1.75;
     font-size: 1.125rem;
+    word-break: keep-all;
+    overflow-wrap: break-word;
   }
 
   a {
@@ -186,6 +190,9 @@
     border-radius: variables.$tv-article-radius-sm;
     font-size: 0.875em;
     border: 1px solid variables.$tv-article-border;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    white-space: nowrap;
   }
 
   pre {
@@ -197,6 +204,8 @@
     border: 1px solid variables.$tv-article-border;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
     position: relative;
+    word-break: keep-all;
+    overflow-wrap: normal;
 
     code {
       background: transparent;
@@ -206,6 +215,8 @@
       font-size: 0.9rem;
       line-height: 1.7;
       font-family: variables.$tv-article-font-family-mono;
+      word-break: keep-all;
+      white-space: pre;
     }
 
     .hljs-keyword,
@@ -261,14 +272,34 @@
     }
   }
 
+  .tv-table-wrapper {
+    overflow-x: auto;
+    margin: variables.$tv-article-spacing-xl 0;
+    border-radius: variables.$tv-article-radius-md;
+    border: 1px solid variables.$tv-article-border;
+    -webkit-overflow-scrolling: touch;
+
+    &::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: variables.$tv-article-border;
+      border-radius: 4px;
+    }
+  }
+
   table {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
-    margin: variables.$tv-article-spacing-xl 0;
+    margin: 0;
     background-color: variables.$tv-article-bg-table;
     border-radius: variables.$tv-article-radius-md;
-    border: 1px solid variables.$tv-article-border;
     overflow: hidden;
 
     th,
@@ -277,6 +308,16 @@
       text-align: left;
       vertical-align: top;
       border-bottom: 1px solid variables.$tv-article-border;
+
+      @media (max-width: 768px) {
+        padding: variables.$tv-article-spacing-sm;
+        font-size: 0.875rem;
+      }
+
+      code {
+        white-space: normal;
+        word-break: break-word;
+      }
     }
 
     th {
@@ -292,6 +333,11 @@
     tbody tr:hover {
       background-color: variables.$tv-article-bg-table-alt;
     }
+  }
+
+  table:not(.tv-table-wrapper table) {
+    border: 1px solid variables.$tv-article-border;
+    margin: variables.$tv-article-spacing-xl 0;
   }
 
   ul,
@@ -558,9 +604,16 @@
       border-left-color: variables.$dark-button-bg;
     }
 
+    .tv-table-wrapper {
+      border-color: variables.$tv-article-border-dark;
+
+      &::-webkit-scrollbar-thumb {
+        background-color: variables.$tv-article-border-dark;
+      }
+    }
+
     table {
       background-color: variables.$tv-article-bg-table-dark;
-      border-color: variables.$tv-article-border-dark;
 
       th,
       td {
@@ -577,12 +630,8 @@
       }
     }
 
-    .tv-table-wrapper {
+    table:not(.tv-table-wrapper table) {
       border-color: variables.$tv-article-border-dark;
-
-      &::-webkit-scrollbar-thumb {
-        background-color: variables.$tv-article-border-dark;
-      }
     }
 
     hr {
@@ -662,6 +711,7 @@
   pointer-events: none;
   transition: variables.$tv-article-transition;
   z-index: 10;
+  cursor: pointer;
 }
 
 .tv-prose .tv-codeblock:hover .tv-code-copy,
