@@ -700,6 +700,7 @@
   pointer-events: none;
   transition: variables.$tv-article-transition;
   z-index: 10;
+  cursor: pointer;
 }
 
 .tv-prose .tv-codeblock:hover .tv-code-copy,
