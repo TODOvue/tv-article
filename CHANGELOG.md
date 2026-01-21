@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Dependencies
+- Updated the `@todovue/tv-demo` dependency to `^1.4.4`.
+- Updated the `@todovue/tv-alert` dependency to `^1.2.0`.
+- Updated the `@todovue/tv-label` dependency to `^1.2.1`.
+- Updated the `@todovue/tv-relative-time` dependency to `^1.3.0`.
+- Updated the `sass` dependency to `^1.97.2`.
+- Updated the `vite` dependency to `^7.3.1`.
+
 ## [1.2.3] - 2026-01-06
 
 ### Fixed
