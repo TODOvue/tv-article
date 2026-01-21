@@ -18,8 +18,8 @@ function slugify(str = '') {
 }
 
 const ICON_MAP = {
-  js: 'javascript',
-  javascript: 'javascript',
+  js: 'js',
+  javascript: 'js',
   ts: 'typescript',
   typescript: 'typescript',
   vue: 'vue',
@@ -30,10 +30,10 @@ const ICON_MAP = {
   html: 'html',
   xml: 'xml',
   json: 'json',
-  bash: 'terminal',
-  sh: 'terminal',
-  shell: 'terminal',
-  zsh: 'terminal',
+  bash: 'shell',
+  sh: 'shell',
+  shell: 'shell',
+  zsh: 'shell',
   md: 'markdown',
   markdown: 'markdown',
   npm: 'npm',
@@ -62,7 +62,7 @@ const ICON_MAP = {
 function getIconClass(lang) {
   const key = lang?.toLowerCase().trim() || ''
   const icon = ICON_MAP[key]
-  return icon ? `icon-${icon}` : 'icon-code'
+  return icon ? `tv-icon-${icon}` : 'tv-icon-code'
 }
 
 function parseInfo(info) {
@@ -253,14 +253,16 @@ function preprocessMinimark(nodes) {
   return newNodes;
 }
 
+const escapeHtml = (str) => str
+  .replace(/&/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;')
+  .replace(/'/g, '&#039;')
+
 function renderMinimarkNode(node) {
   if (typeof node === 'string') {
-    return node
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;');
+    return escapeHtml(node)
   }
 
   if (!Array.isArray(node) || node.length === 0) {
@@ -297,7 +299,7 @@ function renderMinimarkNode(node) {
          <span class="tv-filename">${fileName}</span>
        </div>`
     }
-    
+
     const validLang = cleanLangStr && hljs.getLanguage(cleanLangStr) ? cleanLangStr : ''
 
     let codeContent = ''
@@ -306,14 +308,10 @@ function renderMinimarkNode(node) {
         const highlighted = hljs.highlight(code, { language: validLang, ignoreIllegals: true }).value;
         codeContent = wrapLines(highlighted, highlighLines)
       } catch (e) {
-        codeContent = wrapLines(md.utils.escapeHtml(code), highlighLines)
+        codeContent = wrapLines(escapeHtml(code), highlighLines)
       }
     } else if (code) {
       codeContent = wrapLines(escapeHtml(code), highlighLines)
-
-      if (!validLang) {
-        codeContent = wrapLines(code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'), highlighLines)
-      }
     }
 
     if (codeContent) {

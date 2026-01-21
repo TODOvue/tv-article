@@ -244,21 +244,21 @@ export const demos = [
             [
               "pre",
               {
-                "language": "bash [npm]",
+                "language": "npm [npm]",
                 "code": "npm install @todovue/tv-article"
               }
             ],
             [
               "pre",
               {
-                "language": "bash [yarn]",
+                "language": "yarn [yarn]",
                 "code": "yarn add @todovue/tv-article"
               }
             ],
             [
               "pre",
               {
-                "language": "bash [pnpm]",
+                "language": "pnpm [pnpm]",
                 "code": "pnpm add @todovue/tv-article"
               }
             ],

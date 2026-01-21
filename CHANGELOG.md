@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Adjusted the spacing for article headers to ensure consistent layout alignment.
 - Updated mixins to utilize medium spacing constants across the stylesheet.
 - Enhanced code block styling to improve readability and visual clarity.
+- Updated the icon mapping logic to ensure correct file type associations in code blocks.
+- Enhanced the visual styling of icons within code blocks for better integration and visibility.
 
 ### Dependencies
 - Updated the `@todovue/tv-demo` dependency to `^1.4.4`.
