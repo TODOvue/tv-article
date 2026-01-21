@@ -773,4 +773,47 @@ export const demos = [
     },
     html: ArticleCustomUI,
   },
+
+  {
+    id: 11,
+    title: "TvArticle - Code Features",
+    description: "Testing line highlighting, file headers with icons, and code groups.",
+    propsData: {
+      lang: "en",
+      content: {
+        title: "Code Features Demo",
+        date: "2026-01-21",
+        readingTime: 3,
+        tags: ["Code", "DX"],
+        body: {
+          type: "minimark",
+          value: [
+            ["p", {}, "Testing code block line highlighting and icons."],
+            ["h2", { id: "single-block" }, "Single Block with Highlight"],
+            ["p", {}, "Block below: js [utils.js]{1,3-5}. Should have JS icon, filename, and highlight lines 1, 3, 4, 5."],
+            ["pre", {
+              language: "js [utils.js]{1,3-5}",
+              code: "export const add = (a, b) => a + b;\n\n// TODO: Implement subtract\nexport const sub = (a, b) => {\n  return a - b;\n};\n\nconsole.log(add(1, 2));"
+            }],
+            ["h2", { id: "groups" }, "Code Groups"],
+            ["pre", {
+              language: "bash [install]",
+              code: "npm install @todovue/tv-article"
+            }],
+            ["pre", {
+              language: "ts [config.ts]{3}",
+              code: "import { defineConfig } from 'vite';\n\nexport default defineConfig({\n  plugins: []\n});"
+            }],
+            ["p", {}, "Above group: Tab 1 (install, bash icon), Tab 2 (config.ts, TS icon, line 2 highlighted)."]
+          ]
+        }
+      },
+      ui: {
+        showCopy: true,
+        proseSize: 'lg',
+        center: true
+      }
+    },
+    html: ArticleBasic,
+  },
 ];

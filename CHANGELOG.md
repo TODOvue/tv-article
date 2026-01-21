@@ -10,10 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Implemented code grouping functionality to allow toggling between different programming language examples.
 - Introduced a tabbed interface for code blocks to improve documentation readability and organization.
+- Added support for file type icons within code blocks to provide better context for different programming languages and formats.
 
 ### Changed
 - Adjusted the spacing for article headers to ensure consistent layout alignment.
 - Updated mixins to utilize medium spacing constants across the stylesheet.
+- Enhanced code block styling to improve readability and visual clarity.
 
 ### Dependencies
 - Updated the `@todovue/tv-demo` dependency to `^1.4.4`.

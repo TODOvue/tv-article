@@ -17,13 +17,126 @@ function slugify(str = '') {
   )
 }
 
-function parseCodeLabel(info) {
-  const match = info?.match(/\[(.*?)\]/);
-  return match ? match[1] : null;
+const ICON_MAP = {
+  js: 'javascript',
+  javascript: 'javascript',
+  ts: 'typescript',
+  typescript: 'typescript',
+  vue: 'vue',
+  css: 'css',
+  scss: 'sass',
+  sass: 'sass',
+  less: 'less',
+  html: 'html',
+  xml: 'xml',
+  json: 'json',
+  bash: 'terminal',
+  sh: 'terminal',
+  shell: 'terminal',
+  zsh: 'terminal',
+  md: 'markdown',
+  markdown: 'markdown',
+  npm: 'npm',
+  pnpm: 'pnpm',
+  yarn: 'yarn',
+  bun: 'bun',
+  docker: 'docker',
+  dockerfile: 'docker',
+  nginx: 'nginx',
+  go: 'go',
+  python: 'python',
+  py: 'python',
+  c: 'c',
+  cpp: 'cpp',
+  csharp: 'csharp',
+  cs: 'csharp',
+  java: 'java',
+  php: 'php',
+  ruby: 'ruby',
+  rb: 'ruby',
+  rust: 'rust',
+  rs: 'rust',
+  sql: 'database',
 }
 
-function cleanLang(lang) {
-  return lang?.replace(/\[.*?\]/, '').trim();
+function getIconClass(lang) {
+  const key = lang?.toLowerCase().trim() || ''
+  const icon = ICON_MAP[key]
+  return icon ? `icon-${icon}` : 'icon-code'
+}
+
+function parseInfo(info) {
+  if (!info) return { lang: '', fileName: null, highlighLines: new Set() }
+
+  const langMatch = info.match(/^(\S+)/)
+  const lang = langMatch ? langMatch[1] : ''
+
+  const fileMatch = info.match(/\[(.*?)\]/)
+  const fileName = fileMatch ? fileMatch[1] : null
+
+  const linesMatch = info.match(/\{([\d,-]+)\}/)
+  const highlighLines = new Set()
+
+  if (linesMatch) {
+    const rangeStr = linesMatch[1]
+    const ranges = rangeStr.split(',')
+    ranges.forEach(range => {
+      if (range.includes('-')) {
+        const [start, end] = range.split('-').map(Number)
+        for (let i = start; i <= end; i++) {
+          highlighLines.add(i)
+        }
+      } else {
+        highlighLines.add(Number(range))
+      }
+    })
+  }
+  const cleanLang = lang.replace(/\[.*?\]/, '').replace(/\{.*?\}/, '')
+
+  return { lang: cleanLang, fileName, highlighLines }
+}
+
+function wrapLines(html, highlightedLines = new Set()) {
+  if (!html) return ''
+  const lines = html.split(/\r?\n/)
+  if (lines.length > 0 && lines[lines.length - 1] === '') {
+    lines.pop()
+  }
+
+  const openTags = []
+  const result = []
+
+  lines.forEach((line, index) => {
+    const lineNumber = index + 1
+    const isHighlighted = highlightedLines.has(lineNumber)
+    const lineClass = isHighlighted ? 'tv-line tv-line--highlighted' : 'tv-line'
+
+    let lineContent = openTags.map(t => t.full).join('') + line
+
+    const tagRegex = /<\/?([a-zA-Z0-9-]+)(?:\s+[^>]*?)?>/g
+    let match
+    while ((match = tagRegex.exec(line)) !== null) {
+      const fullTag = match[0]
+      const tagName = match[1]
+
+      if (fullTag.startsWith('</')) {
+        const idx = openTags.map(t => t.name).lastIndexOf(tagName)
+        if (idx !== -1) {
+          openTags.splice(idx, 1)
+        }
+      } else if (!fullTag.endsWith('/>')) {
+        openTags.push({ name: tagName, full: fullTag })
+      }
+    }
+    const closingTags = [...openTags].reverse().map(t => `</${t.name}>`).join('')
+    lineContent += closingTags
+
+    if (!lineContent) lineContent = ' '
+
+    result.push(`<span class="${lineClass}">${lineContent}</span>`)
+  })
+
+  return result.join('\n')
 }
 
 function codeGroupPlugin(md) {
@@ -32,14 +145,16 @@ function codeGroupPlugin(md) {
     for (let i = 0; i < tokens.length; i++) {
       if (tokens[i].type !== 'fence') continue;
 
-      const label = parseCodeLabel(tokens[i].info);
-      if (!label) continue;
+      const info = tokens[i].info
+      const { fileName } = parseInfo(info)
+      if (!fileName) continue;
 
       const group = [tokens[i]];
       let nextIndex = i + 1;
       while (nextIndex < tokens.length) {
         const t = tokens[nextIndex];
-        if (t.type === 'fence' && parseCodeLabel(t.info)) {
+        const nextInfo = parseInfo(t.info)
+        if (t.type === 'fence' && nextInfo.fileName) {
           group.push(t);
           nextIndex++;
         } else {
@@ -53,10 +168,15 @@ function codeGroupPlugin(md) {
 
         let headerHtml = '<div class="tv-code-group__header">';
         group.forEach((t, index) => {
-          const l = parseCodeLabel(t.info);
+          const { fileName, lang } = parseInfo(t.info);
           const activeClass = index === 0 ? ' active' : '';
-          headerHtml += `<button class="tv-code-group__tab${activeClass}" data-index="${index}">${l}</button>`;
-          t.info = cleanLang(t.info) + (index > 0 ? ' tv-hidden' : '');
+          const iconClass = getIconClass(lang);
+
+          headerHtml += `<button class="tv-code-group__tab${activeClass}" data-index="${index}">`;
+          headerHtml += `<span class="tv-icon ${iconClass}"></span>`;
+          headerHtml += `<span>${fileName}</span>`;
+          headerHtml += `</button>`;
+          t.info = t.info.replace(/\[.*?\]/, '').trim() + (index > 0 ? ' tv-hidden' : '');
         });
         headerHtml += '</div><div class="tv-code-group__content">';
         opening.content += headerHtml;
@@ -77,12 +197,16 @@ function preprocessMinimark(nodes) {
   const newNodes = [];
   for (let i = 0; i < nodes.length; i++) {
     const node = nodes[i];
-    if (Array.isArray(node) && node[0] === 'pre' && parseCodeLabel(node[1]?.language)) {
+    const initialInfo = node[1]?.language
+    const { fileName } = parseInfo(initialInfo)
+
+    if (Array.isArray(node) && node[0] === 'pre' && fileName) {
       const group = [node];
       let j = i + 1;
       while (j < nodes.length) {
         const nextNode = nodes[j];
-        if (Array.isArray(nextNode) && nextNode[0] === 'pre' && parseCodeLabel(nextNode[1]?.language)) {
+        const nextInfo = parseInfo(nextNode[1]?.language)
+        if (Array.isArray(nextNode) && nextNode[0] === 'pre' && nextInfo.fileName) {
           group.push(nextNode);
           j++;
         } else {
@@ -97,16 +221,20 @@ function preprocessMinimark(nodes) {
         });
 
         const buttons = clonedGroup.map((n, idx) => {
-          const lang = n[1]?.language || '';
-          const label = parseCodeLabel(lang);
-          n[1].language = cleanLang(lang);
+          const rawLang = n[1]?.language || '';
+          const { fileName, lang } = parseInfo(rawLang);
+          const iconClass = getIconClass(lang);
+
+          n[1].language = rawLang.replace(/\[.*?\]/, '').trim();
+
           if (idx > 0) {
             n[1].class = (n[1].class || '') + ' tv-hidden';
           }
+
           return ['button', {
             class: `tv-code-group__tab${idx === 0 ? ' active' : ''}`,
             'data-index': idx
-          }, label];
+          }, ['span', { class: `tv-icon ${iconClass}` }], ['span', {}, fileName]];
         });
 
         const groupNode = ['div', { class: 'tv-code-group' },
@@ -158,11 +286,43 @@ function renderMinimarkNode(node) {
     const extraClass = attrs?.class || '';
     const style = attrs?.style ? ` style="${attrs.style}"` : '';
 
-    if (code && language && hljs.getLanguage(language)) {
+    const { lang: cleanLangStr, fileName, highlighLines } = parseInfo(language)
+
+    let headerHtml = ''
+    if (fileName) {
+      const iconClass = getIconClass(cleanLangStr)
+      headerHtml = `
+       <div class="tv-code-block__header">
+         <span class="tv-icon ${iconClass}"></span>
+         <span class="tv-filename">${fileName}</span>
+       </div>`
+    }
+    
+    const validLang = cleanLangStr && hljs.getLanguage(cleanLangStr) ? cleanLangStr : ''
+
+    let codeContent = ''
+    if (validLang && code) {
       try {
-        const highlighted = hljs.highlight(code, { language, ignoreIllegals: true }).value;
-        return `<pre class="tv-codeblock ${extraClass}"${style}><code class="hljs language-${language}">${highlighted}</code></pre>`;
-      } catch (e) { }
+        const highlighted = hljs.highlight(code, { language: validLang, ignoreIllegals: true }).value;
+        codeContent = wrapLines(highlighted, highlighLines)
+      } catch (e) {
+        codeContent = wrapLines(md.utils.escapeHtml(code), highlighLines)
+      }
+    } else if (code) {
+      codeContent = wrapLines(escapeHtml(code), highlighLines)
+
+      if (!validLang) {
+        codeContent = wrapLines(code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'), highlighLines)
+      }
+    }
+
+    if (codeContent) {
+      const preHtml = `<pre class="tv-codeblock ${extraClass}"${style}><code class="hljs language-${validLang || 'text'}">${codeContent}</code></pre>`
+
+      if (headerHtml) {
+        return `<div class="tv-code-block-wrapper">${headerHtml}${preHtml}</div>`
+      }
+      return preHtml
     }
 
     const attributes = Object.entries(attrs || {})
@@ -210,21 +370,39 @@ export function useArticle(articleContent, ui = {}, language = 'en', emit) {
   const md = new MarkdownIt({
     html: true,
     highlight: function (str, lang) {
-      let clean = lang || '';
-      const isHidden = clean.includes('tv-hidden');
-      clean = clean.replace('tv-hidden', '').trim();
+      let rawLang = lang || '';
+      const isHidden = rawLang.includes('tv-hidden');
+      rawLang = rawLang.replace('tv-hidden', '').trim();
+
+      const { lang: clean, fileName, highlighLines } = parseInfo(rawLang);
+
       const style = isHidden ? ' style="display: none;"' : '';
       const extraClass = isHidden ? ' tv-hidden' : '';
 
+      let content = '';
       if (clean && hljs.getLanguage(clean)) {
         try {
-          return `<pre class="hljs${extraClass}"${style}><code>` +
-            hljs.highlight(str, { language: clean, ignoreIllegals: true }).value +
-            '</code></pre>';
-        } catch (__) { }
+          const highlighted = hljs.highlight(str, { language: clean, ignoreIllegals: true }).value;
+          content = wrapLines(highlighted, highlighLines);
+        } catch (__) {
+          content = wrapLines(md.utils.escapeHtml(str), highlighLines);
+        }
+      } else {
+        content = wrapLines(md.utils.escapeHtml(str), highlighLines);
       }
 
-      return `<pre class="hljs${extraClass}"${style}><code>` + md.utils.escapeHtml(str) + '</code></pre>';
+      const preHtml = `<pre class="hljs${extraClass}"${style}><code>${content}</code></pre>`;
+      if (fileName && !isHidden) {
+        const iconClass = getIconClass(clean);
+        return preHtml;
+      }
+
+      if (fileName) {
+        const iconClass = getIconClass(clean);
+        return `<div class="tv-code-block-wrapper"><div class="tv-code-block__header"><span class="tv-icon ${iconClass}"></span><span class="tv-filename">${fileName}</span></div>${preHtml}</div>`;
+      }
+
+      return preHtml;
     }
   })
   md.use(codeGroupPlugin);
