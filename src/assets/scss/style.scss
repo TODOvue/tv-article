@@ -877,22 +877,26 @@ details {
 }
 
 .tv-prose .tv-heading-anchor .tv-anchor-btn {
-  position: absolute;
-  left: -1.75rem;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 1.5rem;
-  height: 1.5rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-left: variables.$tv-article-spacing-xs;
+  vertical-align: middle;
+
   border: 1px solid variables.$tv-article-border;
   border-radius: variables.$tv-article-radius-sm;
   background: variables.$tv-article-bg-code;
   color: variables.$tv-article-primary;
+
   opacity: 0;
   cursor: pointer;
   transition: variables.$tv-article-transition;
+
+  @media (max-width: 768px) {
+    opacity: 1;
+  }
 }
 
 .tv-prose .tv-heading-anchor:hover .tv-anchor-btn,

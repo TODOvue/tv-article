@@ -18,6 +18,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enhanced code block styling to improve readability and visual clarity.
 - Updated the icon mapping logic to ensure correct file type associations in code blocks.
 - Enhanced the visual styling of icons within code blocks for better integration and visibility.
+- Adjusted the positioning of heading anchor buttons to improve accessibility and responsiveness on smaller screens.
+- Enhanced the visibility of heading anchor buttons to ensure they are easily discoverable across various viewport sizes.
 
 ### Dependencies
 - Updated the `@todovue/tv-demo` dependency to `^1.4.4`.
