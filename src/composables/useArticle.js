@@ -17,6 +17,114 @@ function slugify(str = '') {
   )
 }
 
+function parseCodeLabel(info) {
+  const match = info?.match(/\[(.*?)\]/);
+  return match ? match[1] : null;
+}
+
+function cleanLang(lang) {
+  return lang?.replace(/\[.*?\]/, '').trim();
+}
+
+function codeGroupPlugin(md) {
+  md.core.ruler.push('code_group', (state) => {
+    const tokens = state.tokens;
+    for (let i = 0; i < tokens.length; i++) {
+      if (tokens[i].type !== 'fence') continue;
+
+      const label = parseCodeLabel(tokens[i].info);
+      if (!label) continue;
+
+      const group = [tokens[i]];
+      let nextIndex = i + 1;
+      while (nextIndex < tokens.length) {
+        const t = tokens[nextIndex];
+        if (t.type === 'fence' && parseCodeLabel(t.info)) {
+          group.push(t);
+          nextIndex++;
+        } else {
+          break;
+        }
+      }
+
+      if (group.length > 1) {
+        const opening = new state.Token('html_block', '', 0);
+        opening.content = '<div class="tv-code-group">';
+
+        let headerHtml = '<div class="tv-code-group__header">';
+        group.forEach((t, index) => {
+          const l = parseCodeLabel(t.info);
+          const activeClass = index === 0 ? ' active' : '';
+          headerHtml += `<button class="tv-code-group__tab${activeClass}" data-index="${index}">${l}</button>`;
+          t.info = cleanLang(t.info) + (index > 0 ? ' tv-hidden' : '');
+        });
+        headerHtml += '</div><div class="tv-code-group__content">';
+        opening.content += headerHtml;
+
+        const closing = new state.Token('html_block', '', 0);
+        closing.content = '</div></div>';
+
+        tokens.splice(i, 0, opening);
+        tokens.splice(i + group.length + 1, 0, closing);
+
+        i += group.length + 1;
+      }
+    }
+  });
+}
+
+function preprocessMinimark(nodes) {
+  const newNodes = [];
+  for (let i = 0; i < nodes.length; i++) {
+    const node = nodes[i];
+    if (Array.isArray(node) && node[0] === 'pre' && parseCodeLabel(node[1]?.language)) {
+      const group = [node];
+      let j = i + 1;
+      while (j < nodes.length) {
+        const nextNode = nodes[j];
+        if (Array.isArray(nextNode) && nextNode[0] === 'pre' && parseCodeLabel(nextNode[1]?.language)) {
+          group.push(nextNode);
+          j++;
+        } else {
+          break;
+        }
+      }
+
+      if (group.length > 1) {
+        const clonedGroup = group.map(n => {
+          const [tag, attrs, ...rest] = n;
+          return [tag, { ...attrs }, ...rest];
+        });
+
+        const buttons = clonedGroup.map((n, idx) => {
+          const lang = n[1]?.language || '';
+          const label = parseCodeLabel(lang);
+          n[1].language = cleanLang(lang);
+          if (idx > 0) {
+            n[1].class = (n[1].class || '') + ' tv-hidden';
+          }
+          return ['button', {
+            class: `tv-code-group__tab${idx === 0 ? ' active' : ''}`,
+            'data-index': idx
+          }, label];
+        });
+
+        const groupNode = ['div', { class: 'tv-code-group' },
+          ['div', { class: 'tv-code-group__header' }, ...buttons],
+          ['div', { class: 'tv-code-group__content' }, ...clonedGroup]
+        ];
+        newNodes.push(groupNode);
+        i = j - 1;
+      } else {
+        newNodes.push(node);
+      }
+    } else {
+      newNodes.push(node);
+    }
+  }
+  return newNodes;
+}
+
 function renderMinimarkNode(node) {
   if (typeof node === 'string') {
     return node
@@ -47,10 +155,13 @@ function renderMinimarkNode(node) {
       language = 'xml';
     }
 
+    const extraClass = attrs?.class || '';
+    const style = attrs?.style ? ` style="${attrs.style}"` : '';
+
     if (code && language && hljs.getLanguage(language)) {
       try {
         const highlighted = hljs.highlight(code, { language, ignoreIllegals: true }).value;
-        return `<pre class="tv-codeblock"><code class="hljs language-${language}">${highlighted}</code></pre>`;
+        return `<pre class="tv-codeblock ${extraClass}"${style}><code class="hljs language-${language}">${highlighted}</code></pre>`;
       } catch (e) { }
     }
 
@@ -97,18 +208,26 @@ function renderMinimarkNode(node) {
 
 export function useArticle(articleContent, ui = {}, language = 'en', emit) {
   const md = new MarkdownIt({
+    html: true,
     highlight: function (str, lang) {
-      if (lang && hljs.getLanguage(lang)) {
+      let clean = lang || '';
+      const isHidden = clean.includes('tv-hidden');
+      clean = clean.replace('tv-hidden', '').trim();
+      const style = isHidden ? ' style="display: none;"' : '';
+      const extraClass = isHidden ? ' tv-hidden' : '';
+
+      if (clean && hljs.getLanguage(clean)) {
         try {
-          return '<pre class="hljs"><code>' +
-            hljs.highlight(str, { language: lang, ignoreIllegals: true }).value +
+          return `<pre class="hljs${extraClass}"${style}><code>` +
+            hljs.highlight(str, { language: clean, ignoreIllegals: true }).value +
             '</code></pre>';
         } catch (__) { }
       }
 
-      return '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + '</code></pre>';
+      return `<pre class="hljs${extraClass}"${style}><code>` + md.utils.escapeHtml(str) + '</code></pre>';
     }
   })
+  md.use(codeGroupPlugin);
   const contentState = computed(() => {
     const raw = unref(articleContent) || {}
     return {
@@ -128,10 +247,11 @@ export function useArticle(articleContent, ui = {}, language = 'en', emit) {
   const renderedBody = computed(() => {
     const body = contentState.value.body || ''
     let htmlContent = ''
-    
+
     if (typeof body === 'object' && body !== null) {
       if (body.type === 'minimark' && Array.isArray(body.value)) {
-        htmlContent = body.value.map(renderMinimarkNode).join('');
+        const processedValue = preprocessMinimark(body.value);
+        htmlContent = processedValue.map(renderMinimarkNode).join('');
       } else {
         console.warn('TvArticle: body es un objeto no reconocido:', body);
         return ''
@@ -171,7 +291,7 @@ export function useArticle(articleContent, ui = {}, language = 'en', emit) {
         ALLOW_ARIA_ATTR: true
       });
     }
-    
+
     return htmlContent
   })
 
@@ -258,7 +378,7 @@ export function useArticle(articleContent, ui = {}, language = 'en', emit) {
     if (!isBrowser()) return
     const el = bodyEl.value
     if (!el) return
-    
+
     const tables = el.querySelectorAll('table')
     tables.forEach((table) => {
       if (table.parentElement?.classList.contains('tv-table-wrapper')) return
@@ -308,6 +428,36 @@ export function useArticle(articleContent, ui = {}, language = 'en', emit) {
         })
       })
       h.appendChild(btn)
+    })
+
+    const groups = el.querySelectorAll('.tv-code-group')
+    groups.forEach((group) => {
+      const header = group.querySelector('.tv-code-group__header')
+      if (!header) return
+
+      header.addEventListener('click', (ev) => {
+        const btn = ev.target.closest('.tv-code-group__tab')
+        if (!btn) return
+
+        ev.stopPropagation()
+        const index = btn.dataset.index
+
+        header.querySelectorAll('.tv-code-group__tab').forEach(b => b.classList.remove('active'))
+        btn.classList.add('active')
+
+        const content = group.querySelector('.tv-code-group__content')
+        if (content) {
+          const blocks = content.querySelectorAll('pre')
+          blocks.forEach((block, i) => {
+            if (String(i) === String(index)) {
+              block.style.display = ''
+              block.classList.remove('tv-hidden')
+            } else {
+              block.style.display = 'none'
+            }
+          })
+        }
+      })
     })
 
     const pres = el.querySelectorAll('pre')
@@ -362,7 +512,7 @@ export function useArticle(articleContent, ui = {}, language = 'en', emit) {
             a.setAttribute('rel', 'noopener noreferrer')
             a.dataset.external = 'true'
           }
-        } catch { }
+        } catch (e) { }
       }
 
       if (isHash) {

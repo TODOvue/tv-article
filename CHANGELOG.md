@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Implemented code grouping functionality to allow toggling between different programming language examples.
+- Introduced a tabbed interface for code blocks to improve documentation readability and organization.
+
 ### Dependencies
 - Updated the `@todovue/tv-demo` dependency to `^1.4.4`.
 - Updated the `@todovue/tv-alert` dependency to `^1.2.0`.

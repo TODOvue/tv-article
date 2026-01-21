@@ -218,571 +218,49 @@ export const demos = [
             [
               "pre",
               {
-                "className": "language-vue shiki shiki-themes github-light github-dark",
-                "code": "<script setup>\nimport { TvArticle } from '@todovue/tv-article'\n\nconst article = {\n  title: 'My First Article',\n  description: 'An introduction to the TODOvue ecosystem',\n  date: '2025-11-12',\n  readingTime: 5,\n  tags: ['Vue', { tag: 'JavaScript', color: '#F7DF1E' }],\n  body: `\n    <h2 id=\"introduction\">Introduction</h2>\n    <p>Article content...</p>\n  `\n}\n</script>\n\n<template>\n  <TvArticle :content=\"article\" lang=\"en\" />\n</template>\n",
-                "language": "vue",
-                "meta": "",
-                "style": ""
+                "language": "vue [Composition API]",
+                "code": "<script setup>\nimport { TvArticle } from '@todovue/tv-article'\n\nconst article = {\n  title: 'Composition API',\n  description: 'Using Vue 3 script setup',\n  // ...\n}\n</script>\n"
+              }
+            ],
+            [
+              "pre",
+              {
+                "language": "vue [Options API]",
+                "code": "<script>\nimport { TvArticle } from '@todovue/tv-article'\n\nexport default {\n  components: { TvArticle },\n  data() {\n    return {\n      article: {\n        title: 'Options API',\n        description: 'Using Vue 2 style options',\n        // ...\n      }\n    }\n  }\n}\n</script>\n"
+              }
+            ],
+            [
+              "h3",
+              {
+                "id": "installation"
               },
-              [
-                "code",
-                {
-                  "__ignoreMap": ""
-                },
-                [
-                  "span",
-                  {
-                    "class": "line",
-                    "line": 1
-                  },
-                  [
-                    "span",
-                    {
-                      "class": "sVt8B"
-                    },
-                    "<"
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "s9eBZ"
-                    },
-                    "script"
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "sScJk"
-                    },
-                    " setup"
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "sVt8B"
-                    },
-                    ">\n"
-                  ]
-                ],
-                [
-                  "span",
-                  {
-                    "class": "line",
-                    "line": 2
-                  },
-                  [
-                    "span",
-                    {
-                      "class": "szBVR"
-                    },
-                    "import"
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "sVt8B"
-                    },
-                    " { TvArticle } "
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "szBVR"
-                    },
-                    "from"
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "sZZnC"
-                    },
-                    " '@todovue/tv-article'\n"
-                  ]
-                ],
-                [
-                  "span",
-                  {
-                    "class": "line",
-                    "line": 3
-                  },
-                  [
-                    "span",
-                    {
-                      "emptyLinePlaceholder": true
-                    },
-                    "\n"
-                  ]
-                ],
-                [
-                  "span",
-                  {
-                    "class": "line",
-                    "line": 4
-                  },
-                  [
-                    "span",
-                    {
-                      "class": "szBVR"
-                    },
-                    "const"
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "sj4cs"
-                    },
-                    " article"
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "szBVR"
-                    },
-                    " ="
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "sVt8B"
-                    },
-                    " {\n"
-                  ]
-                ],
-                [
-                  "span",
-                  {
-                    "class": "line",
-                    "line": 5
-                  },
-                  [
-                    "span",
-                    {
-                      "class": "sVt8B"
-                    },
-                    "  title: "
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "sZZnC"
-                    },
-                    "'My First Article'"
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "sVt8B"
-                    },
-                    ",\n"
-                  ]
-                ],
-                [
-                  "span",
-                  {
-                    "class": "line",
-                    "line": 6
-                  },
-                  [
-                    "span",
-                    {
-                      "class": "sVt8B"
-                    },
-                    "  description: "
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "sZZnC"
-                    },
-                    "'An introduction to the TODOvue ecosystem'"
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "sVt8B"
-                    },
-                    ",\n"
-                  ]
-                ],
-                [
-                  "span",
-                  {
-                    "class": "line",
-                    "line": 7
-                  },
-                  [
-                    "span",
-                    {
-                      "class": "sVt8B"
-                    },
-                    "  date: "
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "sZZnC"
-                    },
-                    "'2025-11-12'"
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "sVt8B"
-                    },
-                    ",\n"
-                  ]
-                ],
-                [
-                  "span",
-                  {
-                    "class": "line",
-                    "line": 8
-                  },
-                  [
-                    "span",
-                    {
-                      "class": "sVt8B"
-                    },
-                    "  readingTime: "
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "sj4cs"
-                    },
-                    "5"
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "sVt8B"
-                    },
-                    ",\n"
-                  ]
-                ],
-                [
-                  "span",
-                  {
-                    "class": "line",
-                    "line": 9
-                  },
-                  [
-                    "span",
-                    {
-                      "class": "sVt8B"
-                    },
-                    "  tags: ["
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "sZZnC"
-                    },
-                    "'Vue'"
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "sVt8B"
-                    },
-                    ", { tag: "
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "sZZnC"
-                    },
-                    "'JavaScript'"
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "sVt8B"
-                    },
-                    ", color: "
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "sZZnC"
-                    },
-                    "'#F7DF1E'"
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "sVt8B"
-                    },
-                    " }],\n"
-                  ]
-                ],
-                [
-                  "span",
-                  {
-                    "class": "line",
-                    "line": 10
-                  },
-                  [
-                    "span",
-                    {
-                      "class": "sVt8B"
-                    },
-                    "  body: "
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "sZZnC"
-                    },
-                    "`\n"
-                  ]
-                ],
-                [
-                  "span",
-                  {
-                    "class": "line",
-                    "line": 11
-                  },
-                  [
-                    "span",
-                    {
-                      "class": "sZZnC"
-                    },
-                    "    <h2 id=\"introduction\">Introduction</h2>\n"
-                  ]
-                ],
-                [
-                  "span",
-                  {
-                    "class": "line",
-                    "line": 12
-                  },
-                  [
-                    "span",
-                    {
-                      "class": "sZZnC"
-                    },
-                    "    <p>Article content...</p>\n"
-                  ]
-                ],
-                [
-                  "span",
-                  {
-                    "class": "line",
-                    "line": 13
-                  },
-                  [
-                    "span",
-                    {
-                      "class": "sZZnC"
-                    },
-                    "  `\n"
-                  ]
-                ],
-                [
-                  "span",
-                  {
-                    "class": "line",
-                    "line": 14
-                  },
-                  [
-                    "span",
-                    {
-                      "class": "sVt8B"
-                    },
-                    "}\n"
-                  ]
-                ],
-                [
-                  "span",
-                  {
-                    "class": "line",
-                    "line": 15
-                  },
-                  [
-                    "span",
-                    {
-                      "class": "sVt8B"
-                    },
-                    "</"
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "s9eBZ"
-                    },
-                    "script"
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "sVt8B"
-                    },
-                    ">\n"
-                  ]
-                ],
-                [
-                  "span",
-                  {
-                    "class": "line",
-                    "line": 16
-                  },
-                  [
-                    "span",
-                    {
-                      "emptyLinePlaceholder": true
-                    },
-                    "\n"
-                  ]
-                ],
-                [
-                  "span",
-                  {
-                    "class": "line",
-                    "line": 17
-                  },
-                  [
-                    "span",
-                    {
-                      "class": "sVt8B"
-                    },
-                    "<"
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "s9eBZ"
-                    },
-                    "template"
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "sVt8B"
-                    },
-                    ">\n"
-                  ]
-                ],
-                [
-                  "span",
-                  {
-                    "class": "line",
-                    "line": 18
-                  },
-                  [
-                    "span",
-                    {
-                      "class": "sVt8B"
-                    },
-                    "  <"
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "s9eBZ"
-                    },
-                    "TvArticle"
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "sVt8B"
-                    },
-                    " :"
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "sScJk"
-                    },
-                    "content"
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "sVt8B"
-                    },
-                    "="
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "sZZnC"
-                    },
-                    "\""
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "sVt8B"
-                    },
-                    "article"
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "sZZnC"
-                    },
-                    "\""
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "sScJk"
-                    },
-                    " lang"
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "sVt8B"
-                    },
-                    "="
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "sZZnC"
-                    },
-                    "\"en\""
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "sVt8B"
-                    },
-                    " />\n"
-                  ]
-                ],
-                [
-                  "span",
-                  {
-                    "class": "line",
-                    "line": 19
-                  },
-                  [
-                    "span",
-                    {
-                      "class": "sVt8B"
-                    },
-                    "</"
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "s9eBZ"
-                    },
-                    "template"
-                  ],
-                  [
-                    "span",
-                    {
-                      "class": "sVt8B"
-                    },
-                    ">\n"
-                  ]
-                ]
-              ]
+              "Installation"
+            ],
+            [
+              "p",
+              {},
+              "You can install the package using npm, yarn, or pnpm:"
+            ],
+            [
+              "pre",
+              {
+                "language": "bash [npm]",
+                "code": "npm install @todovue/tv-article"
+              }
+            ],
+            [
+              "pre",
+              {
+                "language": "bash [yarn]",
+                "code": "yarn add @todovue/tv-article"
+              }
+            ],
+            [
+              "pre",
+              {
+                "language": "bash [pnpm]",
+                "code": "pnpm add @todovue/tv-article"
+              }
             ],
             [
               "h2",
@@ -1067,7 +545,7 @@ export const demos = [
     },
     html: ArticleBasic,
   },
-  
+
   {
     id: 2,
     title: "TvArticle - With Cover",
@@ -1106,7 +584,7 @@ export const demos = [
     },
     html: ArticleWithCover,
   },
-  
+
   {
     id: 3,
     title: "TvArticle - Custom UI",
@@ -1136,7 +614,7 @@ export const demos = [
     },
     html: ArticleCustomUI,
   },
-  
+
   {
     id: 4,
     title: "TvArticle - Minimalist",
@@ -1162,7 +640,7 @@ export const demos = [
     },
     html: ArticleMinimal,
   },
-  
+
   {
     id: 5,
     title: "TvArticle - Anchors & External Links",
@@ -1186,7 +664,7 @@ export const demos = [
     },
     html: ArticleBasic,
   },
-  
+
   {
     id: 6,
     title: "TvArticle - Auto Reading Time",
@@ -1205,7 +683,7 @@ export const demos = [
     },
     html: ArticleMinimal,
   },
-  
+
   {
     id: 7,
     title: "TvArticle - PT + Slugify",
@@ -1225,7 +703,7 @@ export const demos = [
     },
     html: ArticleCustomUI,
   },
-  
+
   {
     id: 8,
     title: "TvArticle - RTL Arabic",
@@ -1246,7 +724,7 @@ export const demos = [
     },
     html: ArticleBasic,
   },
-  
+
   {
     id: 9,
     title: "TvArticle - Portrait Cover",
@@ -1276,7 +754,7 @@ export const demos = [
     },
     html: ArticleWithCover,
   },
-  
+
   {
     id: 10,
     title: "TvArticle - Custom Header Slot",
