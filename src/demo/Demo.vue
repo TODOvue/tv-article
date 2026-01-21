@@ -10,11 +10,12 @@ const TvArticle = defineAsyncComponent(/* webpackChunkName: "TvArticle" */() => 
     hide-background
     :component="TvArticle"
     :variants="demos"
+    :manual-emits="['copy', 'label-click']"
     component-name="TvArticle"
     npm-install="@todovue/tv-article"
     source-link="https://github.com/TODOvue/tv-article"
     url-clone="https://github.com/TODOvue/tv-article.git"
-    version="1.2.3"
+    version="1.3.0"
   />
 </template>
 

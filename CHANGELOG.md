@@ -5,6 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2026-01-21
+
+### Added
+- Implemented code grouping functionality to allow toggling between different programming language examples.
+- Introduced a tabbed interface for code blocks to improve documentation readability and organization.
+- Added support for file type icons within code blocks to provide better context for different programming languages and formats.
+
+### Changed
+- Adjusted the spacing for article headers to ensure consistent layout alignment.
+- Updated mixins to utilize medium spacing constants across the stylesheet.
+- Enhanced code block styling to improve readability and visual clarity.
+- Updated the icon mapping logic to ensure correct file type associations in code blocks.
+- Enhanced the visual styling of icons within code blocks for better integration and visibility.
+- Adjusted the positioning of heading anchor buttons to improve accessibility and responsiveness on smaller screens.
+- Enhanced the visibility of heading anchor buttons to ensure they are easily discoverable across various viewport sizes.
+
+### Dependencies
+- Updated the `@todovue/tv-demo` dependency to `^1.4.4`.
+- Updated the `@todovue/tv-alert` dependency to `^1.2.0`.
+- Updated the `@todovue/tv-label` dependency to `^1.2.1`.
+- Updated the `@todovue/tv-relative-time` dependency to `^1.3.0`.
+- Updated the `sass` dependency to `^1.97.2`.
+- Updated the `vite` dependency to `^7.3.1`.
+
 ## [1.2.3] - 2026-01-06
 
 ### Fixed
@@ -138,6 +162,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Build artifacts: ESM/CJS bundles and type definitions in `dist/`.
 - Integrations: `@todovue/tv-label` for tags and `@todovue/tv-relative-time` for dates.
 
+[1.3.0]: https://github.com/TODOvue/tv-article/pull/11/files
 [1.2.3]: https://github.com/TODOvue/tv-article/pull/10/files
 [1.2.2]: https://github.com/TODOvue/tv-article/pull/9/files
 [1.2.1]: https://github.com/TODOvue/tv-article/pull/8/files
