@@ -61,8 +61,14 @@ const ICON_MAP = {
 
 function getIconClass(lang, fileName) {
   const fileKey = fileName?.toLowerCase().trim()
-  if (fileKey && ICON_MAP[fileKey]) {
-    return `tv-icon-${ICON_MAP[fileKey]}`
+  if (fileKey) {
+    if (ICON_MAP[fileKey]) {
+      return `tv-icon-${ICON_MAP[fileKey]}`
+    }
+    const ext = fileKey.split('.').pop()
+    if (ext && ICON_MAP[ext]) {
+      return `tv-icon-${ICON_MAP[ext]}`
+    }
   }
 
   const key = lang?.toLowerCase().trim() || ''
@@ -309,10 +315,6 @@ function renderMinimarkNode(node) {
     const code = attrs?.code;
     let language = attrs?.language;
 
-    if (language === 'vue') {
-      language = 'xml';
-    }
-
     const extraClass = attrs?.class || attrs?.className || '';
     const style = attrs?.style ? ` style="${attrs.style}"` : '';
 
@@ -328,7 +330,10 @@ function renderMinimarkNode(node) {
        </div>`
     }
 
-    const validLang = cleanLangStr && hljs.getLanguage(cleanLangStr) ? cleanLangStr : ''
+    let highlightLang = cleanLangStr;
+    if (highlightLang === 'vue') highlightLang = 'xml';
+
+    const validLang = highlightLang && hljs.getLanguage(highlightLang) ? highlightLang : ''
 
     let codeContent = ''
     if (validLang && code) {
