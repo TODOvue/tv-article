@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.3.1] - 2026-01-21
 
+### Added
+- Introduced titles to success messages for copy actions, localized based on the user's language.
+
 ### Changed
 - Enhanced file name handling within the parseInfo function.
 - Improved logic for grouping code functionality.

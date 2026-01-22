@@ -623,7 +623,8 @@ export function useArticle(articleContent, ui = {}, language = 'en', emit) {
         const message = language.value === 'es' ? 'Enlace copiado al portapapeles.' : 'Link copied to clipboard.'
         alert.success(message, {
           position: 'top-right',
-          duration: 4000
+          duration: 4000,
+          title: language.value === 'es' ? 'Copiado' : 'Copied'
         })
       })
       h.appendChild(btn)
@@ -691,7 +692,8 @@ export function useArticle(articleContent, ui = {}, language = 'en', emit) {
         const message = langState.value === 'es' ? 'Código copiado al portapapeles.' : 'Code copied to clipboard.'
         alert.success(message, {
           position: 'top-right',
-          duration: 4000
+          duration: 4000,
+          title: langState.value === 'es' ? 'Copiado' : 'Copied'
         })
       })
       pre.appendChild(btn)
