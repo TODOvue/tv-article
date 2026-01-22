@@ -330,48 +330,48 @@
     mask-position: center;
     flex-shrink: 0;
 
-    $icons: (
-      'js',
-      'typescript',
-      'vue',
-      'css',
-      'sass',
-      'less',
-      'html',
+    $monochrome-icons: (
       'xml',
-      'json',
       'shell',
-      'markdown',
-      'docker',
-      'nginx',
-      'go',
-      'python',
-      'c',
-      'cpp',
-      'csharp',
-      'java',
-      'php',
-      'ruby',
-      'rust',
       'database',
       'code'
     );
 
-  @each $name in $icons {
+  @each $name in $monochrome-icons {
     &-#{$name} {
       -webkit-mask-image: url('https://api.iconify.design/vscode-icons:file-type-#{$name}.svg');
       mask-image: url('https://api.iconify.design/vscode-icons:file-type-#{$name}.svg');
     }
   }
 
-  $brands: (
+  $colored-icons: (
     'npm',
     'pnpm',
     'yarn',
-    'bun'
+    'bun',
+    'js',
+    'typescript',
+    'vue',
+    'css',
+    'sass',
+    'less',
+    'html',
+    'json',
+    'markdown',
+    'docker',
+    'nginx',
+    'go',
+    'python',
+    'c',
+    'cpp',
+    'csharp',
+    'java',
+    'php',
+    'ruby',
+    'rust'
   );
 
-@each $name in $brands {
+@each $name in $colored-icons {
   &-#{$name} {
     background-color: transparent;
     background-image: url('https://api.iconify.design/vscode-icons:file-type-#{$name}.svg');
@@ -607,7 +607,8 @@ details {
   }
 }
 
-.tv-tab-name, .tv-filename {
+.tv-tab-name,
+.tv-filename {
   color: inherit;
   font-family: inherit;
   font-size: inherit;
