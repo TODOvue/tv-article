@@ -59,7 +59,12 @@ const ICON_MAP = {
   sql: 'database',
 }
 
-function getIconClass(lang) {
+function getIconClass(lang, fileName) {
+  const fileKey = fileName?.toLowerCase().trim()
+  if (fileKey && ICON_MAP[fileKey]) {
+    return `tv-icon-${ICON_MAP[fileKey]}`
+  }
+
   const key = lang?.toLowerCase().trim() || ''
   const icon = ICON_MAP[key]
   return icon ? `tv-icon-${icon}` : 'tv-icon-code'
@@ -171,7 +176,7 @@ function codeGroupPlugin(md) {
         group.forEach((t, index) => {
           const { fileName, lang } = parseInfo(t.info);
           const activeClass = index === 0 ? ' active' : '';
-          const iconClass = getIconClass(lang);
+          const iconClass = getIconClass(lang, fileName);
 
           headerHtml += `<button class="tv-code-group__tab${activeClass}" data-index="${index}">`;
           headerHtml += `<span class="tv-icon ${iconClass}"></span>`;
@@ -235,7 +240,7 @@ function preprocessMinimark(nodes) {
           const rawFile = attrs.filename || null;
 
           const { fileName, lang } = parseInfo(rawLang, rawFile);
-          const iconClass = getIconClass(lang);
+          const iconClass = getIconClass(lang, fileName);
 
           if (attrs.language) {
             attrs.language = attrs.language.replace(/\[.*?\]/, '').trim();
@@ -315,7 +320,7 @@ function renderMinimarkNode(node) {
 
     let headerHtml = ''
     if (fileName) {
-      const iconClass = getIconClass(cleanLangStr)
+      const iconClass = getIconClass(cleanLangStr, fileName)
       headerHtml = `
        <div class="tv-code-block__header">
          <span class="tv-icon ${iconClass}"></span>
@@ -414,12 +419,12 @@ export function useArticle(articleContent, ui = {}, language = 'en', emit) {
 
       const preHtml = `<pre class="hljs${extraClass}"${style}><code>${content}</code></pre>`;
       if (fileName && !isHidden) {
-        const iconClass = getIconClass(clean);
+        const iconClass = getIconClass(clean, fileName);
         return preHtml;
       }
 
       if (fileName) {
-        const iconClass = getIconClass(clean);
+        const iconClass = getIconClass(clean, fileName);
         return `<div class="tv-code-block-wrapper"><div class="tv-code-block__header"><span class="tv-icon ${iconClass}"></span><span class="tv-filename">${fileName}</span></div>${preHtml}</div>`;
       }
 
