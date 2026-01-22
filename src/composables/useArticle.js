@@ -65,16 +65,17 @@ function getIconClass(lang) {
   return icon ? `tv-icon-${icon}` : 'tv-icon-code'
 }
 
-function parseInfo(info) {
-  if (!info) return { lang: '', fileName: null, highlighLines: new Set() }
+function parseInfo(info, explicitFileName = null) {
+  if (!info && !explicitFileName) return { lang: '', fileName: null, highlighLines: new Set() }
 
-  const langMatch = info.match(/^(\S+)/)
+  const infoStr = info || ''
+  const langMatch = infoStr.match(/^(\S+)/)
   const lang = langMatch ? langMatch[1] : ''
 
-  const fileMatch = info.match(/\[(.*?)\]/)
-  const fileName = fileMatch ? fileMatch[1] : null
+  const fileMatch = infoStr.match(/\[(.*?)\]/)
+  const fileName = explicitFileName || (fileMatch ? fileMatch[1] : null)
 
-  const linesMatch = info.match(/\{([\d,-]+)\}/)
+  const linesMatch = infoStr.match(/\{([\d,-]+)\}/)
   const highlighLines = new Set()
 
   if (linesMatch) {
@@ -153,8 +154,8 @@ function codeGroupPlugin(md) {
       let nextIndex = i + 1;
       while (nextIndex < tokens.length) {
         const t = tokens[nextIndex];
-        const nextInfo = parseInfo(t.info)
-        if (t.type === 'fence' && nextInfo.fileName) {
+        const { fileName: nextFileName } = parseInfo(t.info)
+        if (t.type === 'fence' && nextFileName) {
           group.push(t);
           nextIndex++;
         } else {
@@ -197,21 +198,29 @@ function preprocessMinimark(nodes) {
   const newNodes = [];
   for (let i = 0; i < nodes.length; i++) {
     const node = nodes[i];
-    const initialInfo = node[1]?.language
-    const { fileName } = parseInfo(initialInfo)
+    if (!Array.isArray(node) || node[0] !== 'pre') {
+      newNodes.push(node);
+      continue;
+    }
 
-    if (Array.isArray(node) && node[0] === 'pre' && fileName) {
+    const attrs = node[1] || {};
+    const { fileName } = parseInfo(attrs.language, attrs.filename);
+
+    if (fileName) {
       const group = [node];
       let j = i + 1;
       while (j < nodes.length) {
         const nextNode = nodes[j];
-        const nextInfo = parseInfo(nextNode[1]?.language)
-        if (Array.isArray(nextNode) && nextNode[0] === 'pre' && nextInfo.fileName) {
-          group.push(nextNode);
-          j++;
-        } else {
-          break;
+        if (Array.isArray(nextNode) && nextNode[0] === 'pre') {
+          const nextAttrs = nextNode[1] || {};
+          const { fileName: nextFileName } = parseInfo(nextAttrs.language, nextAttrs.filename);
+          if (nextFileName) {
+            group.push(nextNode);
+            j++;
+            continue;
+          }
         }
+        break;
       }
 
       if (group.length > 1) {
@@ -221,20 +230,34 @@ function preprocessMinimark(nodes) {
         });
 
         const buttons = clonedGroup.map((n, idx) => {
-          const rawLang = n[1]?.language || '';
-          const { fileName, lang } = parseInfo(rawLang);
+          const attrs = n[1] || {};
+          const rawLang = attrs.language || '';
+          const rawFile = attrs.filename || null;
+
+          const { fileName, lang } = parseInfo(rawLang, rawFile);
           const iconClass = getIconClass(lang);
 
-          n[1].language = rawLang.replace(/\[.*?\]/, '').trim();
+          if (attrs.language) {
+            attrs.language = attrs.language.replace(/\[.*?\]/, '').trim();
+          }
+          delete attrs.filename;
 
+          const hideClass = ' tv-hidden';
           if (idx > 0) {
-            n[1].class = (n[1].class || '') + ' tv-hidden';
+            if (attrs.className) {
+              attrs.className += hideClass;
+            } else {
+              attrs.class = (attrs.class || '') + hideClass;
+            }
           }
 
           return ['button', {
             class: `tv-code-group__tab${idx === 0 ? ' active' : ''}`,
             'data-index': idx
-          }, ['span', { class: `tv-icon ${iconClass}` }], ['span', {}, fileName]];
+          },
+            ['span', { class: `tv-icon ${iconClass}` }],
+            ['span', { class: 'tv-tab-name' }, fileName]
+          ];
         });
 
         const groupNode = ['div', { class: 'tv-code-group' },
@@ -285,10 +308,10 @@ function renderMinimarkNode(node) {
       language = 'xml';
     }
 
-    const extraClass = attrs?.class || '';
+    const extraClass = attrs?.class || attrs?.className || '';
     const style = attrs?.style ? ` style="${attrs.style}"` : '';
 
-    const { lang: cleanLangStr, fileName, highlighLines } = parseInfo(language)
+    const { lang: cleanLangStr, fileName, highlighLines } = parseInfo(language, attrs?.filename)
 
     let headerHtml = ''
     if (fileName) {
@@ -600,7 +623,8 @@ export function useArticle(articleContent, ui = {}, language = 'en', emit) {
         const message = language.value === 'es' ? 'Enlace copiado al portapapeles.' : 'Link copied to clipboard.'
         alert.success(message, {
           position: 'top-right',
-          duration: 4000
+          duration: 4000,
+          title: language.value === 'es' ? 'Copiado' : 'Copied'
         })
       })
       h.appendChild(btn)
@@ -668,7 +692,8 @@ export function useArticle(articleContent, ui = {}, language = 'en', emit) {
         const message = langState.value === 'es' ? 'Código copiado al portapapeles.' : 'Code copied to clipboard.'
         alert.success(message, {
           position: 'top-right',
-          duration: 4000
+          duration: 4000,
+          title: langState.value === 'es' ? 'Copiado' : 'Copied'
         })
       })
       pre.appendChild(btn)

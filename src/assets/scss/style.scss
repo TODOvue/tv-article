@@ -607,6 +607,12 @@ details {
   }
 }
 
+.tv-tab-name, .tv-filename {
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+}
+
 .tv-hidden {
   display: none !important;
 }

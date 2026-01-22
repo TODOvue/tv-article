@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.1] - 2026-01-21
+
+### Added
+- Introduced titles to success messages for copy actions, localized based on the user's language.
+
+### Changed
+- Enhanced file name handling within the parseInfo function.
+- Improved logic for grouping code functionality.
+
 ## [1.3.0] - 2026-01-21
 
 ### Added
@@ -162,6 +171,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Build artifacts: ESM/CJS bundles and type definitions in `dist/`.
 - Integrations: `@todovue/tv-label` for tags and `@todovue/tv-relative-time` for dates.
 
+[1.3.1]: https://github.com/TODOvue/tv-article/pull/12/files
 [1.3.0]: https://github.com/TODOvue/tv-article/pull/11/files
 [1.2.3]: https://github.com/TODOvue/tv-article/pull/10/files
 [1.2.2]: https://github.com/TODOvue/tv-article/pull/9/files
