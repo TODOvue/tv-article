@@ -14,12 +14,11 @@ A Vue 3 component to display rich article content with polished typography, opti
 ![Stars](https://img.shields.io/github/stars/TODOvue/tv-article?style=social)
 > Demo: https://ui.todovue.blog/article
 
----
 ## Table of Contents
 - [Features](#features)
 - [Installation](#installation)
 - [Quick Start (SPA)](#quick-start-spa)
-- [Nuxt 3 / SSR Usage](#nuxt-3--ssr-usage)
+- [Nuxt 4 / SSR Usage](#nuxt-4--ssr-usage)
 - [Component Registration Options](#component-registration-options)
 - [Props](#props)
 - [Events](#events)
@@ -32,7 +31,6 @@ A Vue 3 component to display rich article content with polished typography, opti
 - [Contributing](#contributing)
 - [License](#license)
 
----
 ## Features
 - Polished prose typography for long content (paragraphs, lists, tables, quotes, code, images, etc.).
 - H2–H4 headings get a “copy link” anchor button with localized feedback text.
@@ -45,7 +43,6 @@ A Vue 3 component to display rich article content with polished typography, opti
 
 Internal deps: uses `@todovue/tv-label` (tags) and `@todovue/tv-relative-time` (date). You only need to install `@todovue/tv-article`.
 
----
 ## Installation
 Using npm:
 ```bash
@@ -61,7 +58,6 @@ pnpm add @todovue/tv-article
 ```
 Peer: Vue ^3.
 
----
 ## Quick Start (SPA)
 **Important**: You must explicitly import the stylesheet in your application.
 
@@ -102,8 +98,7 @@ const article = {
 </template>
 ```
 
----
-## Nuxt 3 / SSR Usage
+## Nuxt 4 / SSR Usage
 Create a plugin file: `plugins/tv-article.client.ts` (or without suffix; SSR-safe since DOM access happens in `onMounted`):
 ```ts
 // nuxt.config.ts
@@ -118,7 +113,6 @@ Use anywhere:
 <TvArticle :content="{ title: 'Post', body: '<p>Hello</p>' }"></TvArticle>
 ```
 
----
 ## Component Registration Options
 | Approach                                 | When to use                                    |
 |------------------------------------------|------------------------------------------------|
@@ -126,7 +120,6 @@ Use anywhere:
 | Local named import `{ TvArticle }`       | Isolated or code-split contexts                |
 | Direct default import `import TvArticle` | Single usage or manual registration            |
 
----
 ## Props
 All content is expected to be safe HTML for `content.body` (it is rendered via `v-html`).
 
@@ -155,7 +148,6 @@ All content is expected to be safe HTML for `content.body` (it is rendered via `
 - Prop: `lang` (String) [default: 'en']
   - Affects reading time text and anchor button labels ('en', 'es', 'fr', 'pt').
 
----
 ## Events
 | Event (kebab)    | Payload             | Description                                |
 |------------------|---------------------|--------------------------------------------|
@@ -171,7 +163,6 @@ function onCopied(id) {
 }
 ```
 
----
 ## Slots
 - `header`: Replace the entire header (title, description, meta, cover). If not provided, TvArticle renders the header based on `ui` and `content`.
 - `before`: Content before the article body.
@@ -179,7 +170,6 @@ function onCopied(id) {
 - `footer`: Footer area (author, share, etc.).
 - default: When `content.body` is missing, the default slot is rendered inside the prose container.
 
----
 ## Customization (Styles / UI)
 - Styles: the package injects CSS automatically when you import the component (no extra CSS import needed).
 - Layout: control width with `ui.proseSize` and centering with `ui.center`.
@@ -187,18 +177,15 @@ function onCopied(id) {
 - Tags: `content.tags` accepts strings or `{ tag, color }` objects.
 - For deeper theming, override the `.tv-article*` classes in your app.
 
----
 ## Accessibility
 - `aria-labelledby` is applied to `<article>` when a title is present.
 - Anchor button on H2–H4 with localized `aria-label`/`title` and copied feedback.
 - External links are marked with `target="_blank"` and `rel="noopener noreferrer"` for safety.
 
----
 ## SSR Notes
 - No DOM access during `setup`; enhancements (anchors/links) happen in `onMounted`, making it SSR-safe.
 - Styles are injected on the client via JS; no need to import CSS manually.
 
----
 ## Examples
 Basic:
 ```vue
@@ -245,7 +232,6 @@ Minimal:
 <TvArticle :content="{ title: 'Minimal', body: '<p>Only content</p>' }" :ui="{ showMeta: false, showCover: false, proseSize: 'base' }"></TvArticle>
 ```
 
----
 ## Development
 ```bash
 git clone https://github.com/TODOvue/tv-article.git
@@ -257,20 +243,16 @@ npm run build:demo  # demo site build (dist-demo)
 ```
 The library marks `vue` as external and generates `dist/tv-article.es.js`, `dist/tv-article.cjs.js`, `dist/tv-article.css`, and type definitions.
 
----
 ### Notes
 - `content.body` is rendered with `v-html`: provide sanitized HTML if it comes from Markdown or external sources.
 - Reading time falls back to an estimation of ~200 wpm when `readingTime` is not provided.
 - Supported internal locales for UI text: `en`, `es`, `fr`, `pt`.
 
----
 ## Contributing
 PRs and issues welcome. See [CONTRIBUTING.md](./CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md).
 
----
 ## License
 MIT © TODOvue
 
----
 ### Attributions
 Crafted for the TODOvue component ecosystem
