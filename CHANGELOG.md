@@ -5,6 +5,13 @@ All notable changes to `@todovue/tv-article` will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.5] - 2026-01-30
+
+### Changed
+- Adjusted the article container to use full-width and inline-block display properties.
+- Removed the media query that adjusted button opacity on mobile devices.
+- Reduced the padding for code blocks within articles to use smaller spacing.
+
 ## [1.3.4] - 2026-01-27
 
 ### Changed
@@ -205,6 +212,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Build artifacts: ESM/CJS bundles and type definitions in `dist/`.
 - Integrations: `@todovue/tv-label` for tags and `@todovue/tv-relative-time` for dates.
 
+[1.3.5]: https://github.com/TODOvue/tv-article/pull/15/files
 [1.3.4]: https://github.com/TODOvue/tv-article/pull/14/files
 [1.3.3]: https://github.com/TODOvue/tv-article/pull/14/files
 [1.3.2]: https://github.com/TODOvue/tv-article/pull/13/files

@@ -104,7 +104,7 @@ Create a plugin file: `plugins/tv-article.client.ts` (or without suffix; SSR-saf
 // nuxt.config.ts
 export default defineNuxtConfig({
   modules: [
-    '@todovue/tv-card/nuxt'
+    '@todovue/tv-article/nuxt'
   ]
 })
 ```
