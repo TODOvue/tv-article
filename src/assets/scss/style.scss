@@ -902,10 +902,6 @@ details {
   opacity: 0;
   cursor: pointer;
   transition: variables.$tv-article-transition;
-
-  @media (max-width: 768px) {
-    opacity: 1;
-  }
 }
 
 .tv-prose .tv-heading-anchor:hover .tv-anchor-btn,
