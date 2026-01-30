@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Adjusted the article container to use full-width and inline-block display properties.
 - Removed the media query that adjusted button opacity on mobile devices.
+- Reduced the padding for code blocks within articles to use smaller spacing.
 
 ## [1.3.4] - 2026-01-27
 
