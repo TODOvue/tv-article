@@ -536,6 +536,7 @@ export function useArticle(articleContent, ui = {}, language = 'en', emit) {
 
   const wordsCountFromHtml = (html) => {
     if (!html || typeof html !== 'string') return 0
+    if (typeof document === 'undefined') return 0
     const tmp = document.createElement('div')
     tmp.innerHTML = html
     const text = tmp.textContent || tmp.innerText || ''
