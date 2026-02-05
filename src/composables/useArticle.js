@@ -319,6 +319,17 @@ function renderMinimarkNode(node) {
     const style = attrs?.style ? ` style="${attrs.style}"` : '';
 
     const { lang: cleanLangStr, fileName, highlighLines } = parseInfo(language, attrs?.filename)
+    if (Array.isArray(attrs?.highlights)) {
+      attrs.highlights.forEach((n) => {
+        const num = Number(n)
+        if (Number.isFinite(num)) {
+          highlighLines.add(num)
+        }
+      })
+    } else if (typeof attrs?.meta === 'string' && attrs.meta.includes('{')) {
+      const { highlighLines: metaLines } = parseInfo(String(attrs.meta))
+      metaLines.forEach(n => highlighLines.add(n))
+    }
 
     let headerHtml = ''
     if (fileName) {

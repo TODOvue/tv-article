@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Removed padding from code block and line elements to improve overall layout and readability.
 - Checked for `document` existence before accessing DOM APIs to support server-side rendering.
+- Enhanced highlight line parsing to correctly interpret highlight attributes and metadata tags.
 
 ## [1.3.5] - 2026-01-30
 
