@@ -5,6 +5,14 @@ All notable changes to `@todovue/tv-article` will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.6] - 2026-02-04
+
+### Changed
+- Removed padding from code block and line elements to improve overall layout and readability.
+- Checked for `document` existence before accessing DOM APIs to support server-side rendering.
+- Enhanced highlight line parsing to correctly interpret highlight attributes and metadata tags.
+- Removed left padding from highlighted elements to improve alignment.
+
 ## [1.3.5] - 2026-01-30
 
 ### Changed
@@ -212,6 +220,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Build artifacts: ESM/CJS bundles and type definitions in `dist/`.
 - Integrations: `@todovue/tv-label` for tags and `@todovue/tv-relative-time` for dates.
 
+[1.3.6]: https://github.com/TODOvue/tv-article/pull/17/files
 [1.3.5]: https://github.com/TODOvue/tv-article/pull/15/files
 [1.3.4]: https://github.com/TODOvue/tv-article/pull/14/files
 [1.3.3]: https://github.com/TODOvue/tv-article/pull/14/files

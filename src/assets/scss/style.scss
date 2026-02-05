@@ -198,7 +198,6 @@
   pre {
     margin: variables.$tv-article-spacing-xl 0;
     background-color: variables.$tv-article-bg-code;
-    padding: variables.$tv-article-spacing-sm 0;
     border-radius: variables.$tv-article-radius-md;
     overflow-x: auto;
     border: 1px solid variables.$tv-article-border;
@@ -275,13 +274,11 @@
   .tv-line {
     display: inline-block;
     min-width: 100%;
-    padding: 0 variables.$tv-article-spacing-lg;
     box-sizing: border-box;
 
     &--highlighted {
       background-color: rgba(variables.$tv-article-primary, 0.1);
       border-left: 3px solid variables.$tv-article-primary;
-      padding-left: calc(#{variables.$tv-article-spacing-lg} - 3px);
       width: 100%;
       display: inline-block;
     }
