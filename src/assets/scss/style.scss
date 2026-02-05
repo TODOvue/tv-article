@@ -279,7 +279,6 @@
     &--highlighted {
       background-color: rgba(variables.$tv-article-primary, 0.1);
       border-left: 3px solid variables.$tv-article-primary;
-      padding-left: calc(#{variables.$tv-article-spacing-lg} - 3px);
       width: 100%;
       display: inline-block;
     }
