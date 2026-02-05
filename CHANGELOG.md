@@ -5,6 +5,11 @@ All notable changes to `@todovue/tv-article` will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.6] - 2026-02-4
+
+### Changed
+- Removed padding from code block and line elements to improve overall layout and readability.
+
 ## [1.3.5] - 2026-01-30
 
 ### Changed
